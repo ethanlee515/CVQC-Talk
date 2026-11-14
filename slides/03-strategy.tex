@@ -1,0 +1,65 @@
+% Smaller copies of the message diagram from slides/02-cvqc.tex.
+% Arguments: vertical position, verifier label, protocol label.
+\newcommand{\strategyprotocol}[3]{%
+  \begin{scope}[shift={(0,#1)},scale=0.68,transform shape]
+    \node[party] at (-4.15,0) {#2};
+    \node[party] at (4.15,0) {Prover};
+    \node[font=\large,text=CVQCInk] at (0,1.60) {$#3$};
+
+    \draw[communication] (-2.35, 1.10) -- ( 2.35, 1.10);
+    \draw[communication] ( 2.35, 0.50) -- (-2.35, 0.50);
+    \draw[communication] (-2.35,-0.10) -- ( 2.35,-0.10);
+    \node[font=\large,text=CVQCTeal] at (0,-0.60) {$\vdots$};
+    \draw[communication] ( 2.35,-1.10) -- (-2.35,-1.10);
+  \end{scope}%
+}
+
+% outline.md, lines 37--45.
+\begin{frame}{CVQC Strategy}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=3mm]},
+      party/.style={circle,draw=CVQCInk,fill=CVQCFog,very thick,
+        minimum size=2.5cm,text width=2.1cm,inner sep=0pt,
+        align=center,font=\large\bfseries,text=CVQCInk},
+      communication/.style={->,line width=1.5pt,draw=CVQCTeal},
+      protocolbox/.style={draw=CVQCInk,thick,rounded corners=4mm},
+      modellabel/.style={fill=white,inner xsep=6pt,inner ysep=2pt,
+        font=\bfseries,text=CVQCInk}
+    ]
+    % Keep the first diagram in place when revealing the compiler below it.
+    \path[use as bounding box] (-6.5,-3.15) rectangle (6.5,3.15);
+
+    \draw[protocolbox] (-5.4,0.4) rectangle (5.4,2.9);
+    \node[modellabel] at (-4.25,2.9) {$\mathsf{QPIP}_1$};
+    \strategyprotocol{1.65}{Weak\\quantum\\verifier}{\pi}
+
+    \only<2>{
+      \draw[->,line width=1.5pt,draw=CVQCTeal] (0,0.30) -- (0,-0.30)
+        node[midway,right=8pt,font=\small\bfseries,text=CVQCTeal] {compile};
+
+      \draw[protocolbox] (-5.4,-2.9) rectangle (5.4,-0.4);
+      \node[modellabel] at (-4.25,-0.4) {$\mathsf{QPIP}_0$};
+      \strategyprotocol{-1.65}{Classical\\verifier}{\pi_{\mathrm{cl}}}
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    A common strategy is to begin with a verifier that has a small amount of
+    quantum capability, interacting with a full quantum prover. We refer to
+    this model as $\mathsf{QPIP}_1$. In our construction, the verifier only
+    prepares and sends individual qubits from a fixed finite set; the rest of
+    the interaction is classical. The arrows indicate interaction, not a
+    particular number of messages.
+  }
+  \note<2>{
+    \footnotesize
+    Next, compile the protocol to remove the verifier's quantum operations,
+    giving a fully classical verifier interacting with the quantum prover:
+    the $\mathsf{QPIP}_0$ model. The bottom protocol is the compiled version of
+    $\pi$. This is the overall strategy; the next slides show two paradigms
+    for implementing this compilation. In our prepare-and-send setting, the
+    quantum preparation is replaced with remote state preparation.
+  }
+\end{frame}
