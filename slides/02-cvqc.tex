@@ -1,0 +1,86 @@
+% outline.md, lines 9--35: one frame with five successive overlays.
+\begin{frame}{Classical Verification of Quantum Computation}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=3mm]},
+      party/.style={circle,draw=CVQCInk,fill=CVQCFog,very thick,
+        minimum size=2.5cm,text width=2.1cm,inner sep=0pt,
+        align=center,font=\large\bfseries,text=CVQCInk},
+      callout/.style={fill=CVQCPale,rounded corners=4mm,
+        minimum width=4.7cm,minimum height=0.95cm,
+        align=center,text=CVQCInk,inner sep=3mm},
+      communication/.style={->,line width=1.5pt,draw=CVQCTeal}
+    ]
+    % Reserve the same space on every overlay so the parties never move.
+    \path[use as bounding box] (-6.5,-2.85) rectangle (6.5,3.1);
+
+    \node[party] (verifier) at (-4.15,0) {Verifier};
+    \node[party] (prover) at (4.15,0) {Prover};
+
+    % Pale bubbles and angled tails follow Mending-Slides/diagrams/results.tex.
+    % Each annotation belongs only to its own stage of the interaction.
+    % Input and output share a raised bubble, giving its tail a gentler angle.
+    \only<2,4-5>{
+      \node[callout] (annotation) at (-3.15,2.45) {};
+      \path[fill=CVQCPale]
+        ($(annotation.south)+(-0.65,0.02)$) --
+        ($(verifier.north)+(-0.15,0.06)$) --
+        ($(annotation.south)+(-0.05,0.02)$) -- cycle;
+      \node[font=\large,text=CVQCInk] at (annotation.center) {%
+        \only<2>{$C(x)$: Quantum circuit}%
+        \only<4>{$y$: circuit output}%
+        \only<5>{$y \gets C(x)\;\text{or}\;\textcolor{CVQCCoral}{\mathsf{reject}}$}%
+      };
+    }
+
+    \only<3>{
+      % Leave a gap to both circles, even at their widest point.
+      \draw[communication] (-2.35, 1.10) -- ( 2.35, 1.10);
+      \draw[communication] ( 2.35, 0.50) -- (-2.35, 0.50);
+      \draw[communication] (-2.35,-0.10) -- ( 2.35,-0.10);
+      \node[font=\large,text=CVQCTeal] at (0,-0.60) {$\vdots$};
+      \draw[communication] ( 2.35,-1.10) -- (-2.35,-1.10);
+    }
+
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    Think of a classical client using a remote quantum server. The server can
+    perform computations beyond the client's reach, but how can the client
+    check that the computation was performed correctly? This is also a natural
+    question when demonstrating quantum advantage: the very separation that
+    makes the computation interesting makes its output difficult to verify.
+  }
+  \note<2>{
+    \footnotesize
+    The client has a description of a quantum circuit $C$ and a classical input
+    $x$. Here $C(x)$ denotes running that circuit and measuring its output to
+    obtain a classical sample. Knowing the circuit does not mean the client can
+    efficiently execute it.
+  }
+  \note<3>{
+    \footnotesize
+    The verifier and prover exchange classical messages. The alternating
+    arrows and ellipsis stand for an interactive protocol, potentially with
+    many rounds; the arrows are schematic, not an exact message count.
+    The verifier remains entirely classical; the prover does the quantum work.
+  }
+  \note<4>{
+    \footnotesize
+    At the end, the verifier produces a classical output $y$. The goal is to
+    verify this output through the interaction, without having to reproduce
+    the quantum computation locally.
+  }
+  \note<5>{
+    \footnotesize
+    This is shorthand for the desired sample-or-reject behavior, up to the
+    protocol's error. Completeness: an honest prover makes the verifier accept
+    and return a sample from $C(x)$ with high probability. Soundness: even an
+    efficient cheating prover cannot make the verifier's output distinguishable
+    from an ideal experiment that independently samples from $C(x)$ or rejects.
+    The ideal experiment has the same acceptance probability as the real one.
+    The guarantee concerns the entire output distribution, including rejection;
+    a single sample is not individually classified as correct or incorrect.
+  }
+\end{frame}
