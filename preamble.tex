@@ -1,0 +1,67 @@
+% Shared presentation style, adapted from reference-slides/.
+\usetheme[progressbar=frametitle,numbering=fraction]{metropolis}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{braket}
+\usepackage{microtype}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{pgfpages}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing,fit,positioning}
+
+% Notes stay in the source; `make notes` places them on a second screen.
+\ifdefined\showspeakernotes
+  \setbeameroption{show notes on second screen=right}
+  % Avoid duplicate PDF destinations when pgfpages composes the two screens.
+  \hypersetup{draft}
+\else
+  \setbeameroption{hide notes}
+\fi
+
+% Palette and typography match the reference presentation.
+\definecolor{CVQCInk}{HTML}{17324D}
+\definecolor{CVQCTeal}{HTML}{087E8B}
+\definecolor{CVQCPale}{HTML}{E8F3F4}
+\definecolor{CVQCGold}{HTML}{E5A23B}
+\definecolor{CVQCGoldPale}{HTML}{FFF2D8}
+\definecolor{CVQCCoral}{HTML}{C85151}
+\definecolor{CVQCCoralPale}{HTML}{F9E8E6}
+\definecolor{CVQCMuted}{HTML}{5E6D78}
+\definecolor{CVQCFog}{HTML}{F4F7F8}
+
+\setbeamercolor{normal text}{fg=CVQCInk,bg=white}
+\setbeamercolor{alerted text}{fg=CVQCCoral}
+\setbeamercolor{example text}{fg=CVQCTeal}
+\setbeamercolor{frametitle}{fg=white,bg=CVQCInk}
+\setbeamercolor{progress bar}{fg=CVQCTeal,bg=CVQCPale}
+\setbeamercolor{progress bar in head/foot}{fg=CVQCTeal,bg=CVQCPale}
+\setbeamercolor{title separator}{fg=CVQCTeal}
+\setbeamercolor{palette primary}{fg=white,bg=CVQCInk}
+\setbeamercolor{block title}{fg=white,bg=CVQCInk}
+\setbeamercolor{block body}{fg=CVQCInk,bg=CVQCFog}
+\setbeamercolor{block title alerted}{fg=white,bg=CVQCCoral}
+\setbeamercolor{block body alerted}{fg=CVQCInk,bg=CVQCCoralPale}
+\setbeamercolor{block title example}{fg=white,bg=CVQCTeal}
+\setbeamercolor{block body example}{fg=CVQCInk,bg=CVQCPale}
+\setbeamercolor{takeaway}{fg=CVQCInk,bg=CVQCPale}
+\setbeamercolor{question}{fg=CVQCInk,bg=CVQCGoldPale}
+
+\setbeamerfont{title}{series=\bfseries,size=\huge}
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamerfont{block title}{series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+\metroset{block=fill}
+
+% Reusable callouts for later slides.
+\newcommand{\takeaway}[1]{%
+  \begin{beamercolorbox}[wd=\textwidth,sep=0.85ex,rounded=true,center]{takeaway}
+    #1
+  \end{beamercolorbox}%
+}
+\newcommand{\questionbox}[1]{%
+  \begin{beamercolorbox}[wd=\textwidth,sep=1ex,rounded=true,center]{question}
+    #1
+  \end{beamercolorbox}%
+}
