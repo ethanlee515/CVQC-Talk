@@ -1,6 +1,6 @@
 [submodule "quantum-fair-exchange-talk"]
-	path = quantum-fair-exchange-talk
+	path = reference-slides
 	url = git@github.com:ethanlee515/quantum-fair-exchange-talk.git
 [submodule "Classical-Verification-of-Quantum-Sampling-with-Exponentially-Small-Error"]
-	path = Classical-Verification-of-Quantum-Sampling-with-Exponentially-Small-Error
+	path = CVQC-paper
 	url = git@github.com:ethanlee515/Classical-Verification-of-Quantum-Sampling-with-Exponentially-Small-Error.git
