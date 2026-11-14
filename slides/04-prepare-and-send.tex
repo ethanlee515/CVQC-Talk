@@ -1,0 +1,60 @@
+% Same geometry as the strategy slide, focusing on quantum preparation.
+% Arguments: vertical position, verifier label, arrow label.
+\newcommand{\preparesendprotocol}[3]{%
+  \begin{scope}[shift={(0,#1)},scale=0.68,transform shape]
+    \node[party] at (-4.15,0) {#2};
+    \node[party] at (4.15,0) {Prover};
+    \draw[communication] (-2.35,0) --
+      node[above=7pt,align=center,font=\large,text=CVQCInk] {#3}
+      (2.35,0);
+  \end{scope}%
+}
+
+% outline.md, lines 47--52.
+\begin{frame}{CVQC Strategy: Prepare-and-Send}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=3mm]},
+      party/.style={circle,draw=CVQCInk,fill=CVQCFog,very thick,
+        minimum size=2.5cm,text width=2.1cm,inner sep=0pt,
+        align=center,font=\large\bfseries,text=CVQCInk},
+      communication/.style={->,line width=1.5pt,draw=CVQCTeal},
+      protocolbox/.style={draw=CVQCInk,thick,rounded corners=4mm},
+      modellabel/.style={fill=white,inner xsep=6pt,inner ysep=2pt,
+        font=\bfseries,text=CVQCInk}
+    ]
+    \path[use as bounding box] (-6.5,-3.15) rectangle (6.5,3.15);
+
+    \draw[protocolbox] (-5.4,0.4) rectangle (5.4,2.9);
+    \node[modellabel] at (-4.25,2.9) {$\mathsf{QPIP}_1$};
+    \preparesendprotocol{1.65}{Weak\\quantum\\verifier}{$\ket{+_{\theta}}$}
+
+    \only<2>{
+      \draw[->,line width=1.5pt,draw=CVQCTeal] (0,0.30) -- (0,-0.30)
+        node[midway,right=8pt,font=\small\bfseries,text=CVQCTeal] {compile};
+
+      \draw[protocolbox] (-5.4,-2.9) rectangle (5.4,-0.4);
+      \node[modellabel] at (-4.25,-0.4) {$\mathsf{QPIP}_0$};
+      \preparesendprotocol{-1.65}{Classical\\verifier}{Remote state\\preparation}
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    In the prepare-and-send paradigm, the weak quantum verifier prepares
+    single-qubit states and sends them to the prover. For example,
+    $\ket{+_{\theta}}=(\ket{0}+e^{i\theta}\ket{1})/\sqrt{2}$, with the angle
+    chosen by the verifier. The picture focuses on these quantum messages;
+    the rest of the classical interaction is left implicit.
+  }
+  \note<2>{
+    \footnotesize
+    Replace the quantum preparation and transmission with remote state
+    preparation: a classical interaction that leaves the prover holding a
+    quantum state correlated with the verifier's classical information.
+    The lower arrow represents this interactive subprotocol, rather than a
+    single classical message. This gives the overall prepare-and-send route
+    to a fully classical verifier; we will discuss the required guarantees
+    and our particular construction later.
+  }
+\end{frame}
