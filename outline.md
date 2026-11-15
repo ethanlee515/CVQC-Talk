@@ -164,6 +164,8 @@ Recall the background counterexample: per-copy error p = 1/poly can come from a 
 
 ## MBQC Construction
 
+Current implementation: "MBQC" keeps the verifier-to-prover preparation figure visible and reveals four bullets one at a time. "Plaintext MBQC" shows the paper's gate-teleportation circuit with outputs labelled m and X^m HT^c |psi>; explain its action and correction in words, with details in speaker notes.
+
 Start with picture before, verifier sends `ket{+ theta}` to prover
 
 (somehow connect here?)
@@ -173,6 +175,8 @@ Gate teleportation circuit from the paper's intro
 Say we have this and CZ, it's universal.
 
 ## MBQC Trap copy?
+
+Current implementation: two motivation bullets, revealed one at a time, followed by the plaintext trap circuit. The second bullet copies the paper's FK17 comparison. The example uses |+> and |0> with c=0 (gate H), and labels the honest outputs m=0 and |0>. Explain why the trap must be hidden before the encrypted version.
 
 Gate teleportation again with different inputs
 

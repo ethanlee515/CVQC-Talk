@@ -1,0 +1,48 @@
+% Reuse the earlier single-qubit preparation picture, then introduce MBQC.
+\begin{frame}{MBQC}
+  \centering
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}[
+      >={Latex[length=3mm]},
+      party/.style={circle,draw=CVQCInk,fill=CVQCFog,very thick,
+        minimum size=2.5cm,text width=2.1cm,inner sep=0pt,
+        align=center,font=\large\bfseries,text=CVQCInk},
+      communication/.style={->,line width=1.5pt,draw=CVQCTeal}
+    ]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \preparesendprotocol{1.75}{Verifier}{$\ket{+_{\theta}}$}
+
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-5.35,0.30) {%
+      \begin{minipage}{11.2cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{0.65em}
+          \item<1-> Alternative to the circuit model.
+          \item<2-> Start with a highly entangled state.
+          \item<3-> Compute by adaptive single-qubit measurements.
+          \item<4-> Universal gates: $HT^c$ and $\mathsf{CZ}$.
+        \end{itemize}
+      \end{minipage}%
+    };
+  \end{tikzpicture}
+
+  \note{
+    \footnotesize
+    MBQC means measurement-based quantum computation. Return to the
+    prepare-and-send picture: the verifier supplies individual qubits,
+    for example $\ket{+_\theta}$ with theta a multiple of pi/4. The prover
+    entangles these qubits using CZ gates to form the graph state used
+    for the computation. The highly entangled starting state is therefore
+    on the prover's side; the verifier only prepares single qubits.
+    The computation proceeds through single-qubit measurements. Earlier
+    outcomes determine later measurement bases and the corrections tracked
+    by the verifier. The arrow shows the initial quantum messages; later
+    classical interaction is implicit. Our effective elementary operations
+    are $HT^c$, for $c\in\{0,\ldots,7\}$, and CZ. This family is universal:
+    c=0 gives H, composing H with HT gives T, and CZ is entangling.
+    MBQC alone does not establish blindness or verification; the encrypted
+    construction and tests come later. Next, show the plaintext
+    gate-teleportation example from the manuscript's Technical Overview.
+  }
+\end{frame}

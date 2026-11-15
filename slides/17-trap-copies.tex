@@ -1,0 +1,69 @@
+% The paper's plaintext trap example, specialized to c=0.
+\begin{frame}{MBQC: Trap Copies}
+  \centering
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.0,2.65) {%
+      \begin{minipage}{12cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{0.65em}
+          \item<1-> Use traps to catch a cheating prover.
+          \item<2-> Our construction relies on the trap idea from
+            \href{https://doi.org/10.1103/PhysRevA.96.012303}{[FK17]},
+            but instead places the tests in separate copies.
+        \end{itemize}
+      \end{minipage}%
+    };
+
+    \only<3>{
+      \node[inner sep=0pt,text=CVQCInk] at (0,-1.05) {%
+        \scalebox{1.8}{%
+          $\Qcircuit @C=1em @R=1em {
+            \lstick{\ket{+}} & \ctrl{1} & \gate{H} & \meter & \rstick{m=0}\cw \\
+            \lstick{\ket{0}} & \control \qw & \qw & \qw & \rstick{\ket{0}}\qw
+          }$%
+        }%
+      };
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    The preceding plaintext circuit explains honest computation, but a
+    malicious prover may perform a different computation or lie about a
+    measurement result. Introduce tests with predictable honest outcomes.
+    Such traps let the verifier check the prover's reports. This is the
+    motivation, not a claim that one trap detects every possible deviation.
+  }
+  \note<2>{
+    \footnotesize
+    The second bullet is copied from the manuscript's Technical Overview,
+    subsection Trap Copy and Cut-and-Choose. FK17 is Fitzsimons--Kashefi,
+    Unconditionally Verifiable Blind Quantum Computation (2017). Our
+    construction places the tests in separate MBQC copies, using the same
+    public graph and schedule as real copies. The verifier secretly chooses
+    which copies to test. A trap copy uses trap and dummy vertices, with
+    deterministic decoded outcomes at the checked measurements. We later
+    use hidden trap copies and cut-and-choose to control the number of
+    corrupted real copies; some errors can survive these tests.
+  }
+  \note<3>{
+    \footnotesize
+    This is the paper's Figure ``A plaintext trap,'' specialized to c=0.
+    In the general example the upper input is $T^{-c}\ket{+}$ and the lower
+    input is $\ket{0}$. Setting c=0 gives the displayed plus and zero inputs,
+    and the gate $HT^0$ is H. CZ does nothing because the lower input is zero.
+    H maps the upper plus state to zero, so its measurement deterministically
+    returns m=0. The lower wire stays in zero. A reported result of one
+    exposes a deviation. This is a test circuit with different inputs from
+    the computation gadget: the lower output formula from the real example
+    assumed a fresh plus state and should not be substituted here.
+    The plaintext example alone does not hide the trap. Next, one-time pad
+    the inputs and mask the measurement instructions, so the prover cannot
+    distinguish real and trap copies and selectively attack only the real
+    ones. The full trap-copy protocol uses plaintext exponent zero.
+  }
+\end{frame}

@@ -1,0 +1,35 @@
+% Paper's fig:plaintext-mbqc, with labels for the classical and quantum outputs.
+\begin{frame}{Plaintext MBQC}
+  \centering
+  \begin{tikzpicture}
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+    % Qcircuit's stick labels extend outside its measured matrix width.
+    \node[inner sep=0pt,text=CVQCInk] at (-1.25,0.15) {%
+      \scalebox{1.8}{%
+        $\Qcircuit @C=1em @R=1em {
+          \lstick{\ket{\psi}} & \ctrl{1} & \gate{HT^c} & \meter & \rstick{m}\cw \\
+          \lstick{\ket{+}} & \control \qw & \qw & \qw & \rstick{X^mHT^c\ket{\psi}}\qw
+        }$%
+      }%
+    };
+  \end{tikzpicture}
+
+  \note{
+    \footnotesize
+    This is the plaintext MBQC circuit from the manuscript's Technical
+    Overview, Figure ``Gate teleportation.'' The input is psi on the upper
+    wire and a fresh plus state on the lower wire. The two connected dots
+    implement CZ. Apply $HT^c$ to the upper wire, then measure it in the
+    computational basis. Equivalently, choose a measurement basis determined
+    by c. Here $T=\operatorname{diag}(1,e^{i\pi/4})$ and c ranges from 0 to 7.
+    If the outcome is m, the surviving lower wire holds
+    $X^m HT^c\ket{\psi}$. This is the intended gate up to a known X
+    correction; the upper output wire carries the classical measurement
+    outcome. Repeating this gadget lets us implement gates through
+    measurements, tracking corrections and adjusting later bases adaptively.
+    Together with CZ, these operations are universal. The labels identify
+    the classical outcome and the conditional state on the surviving wire.
+    Explain the corrections in words; key updates and the encrypted version
+    come later, when we introduce hiding and testing.
+  }
+\end{frame}
