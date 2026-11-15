@@ -1,0 +1,98 @@
+% Distillation with authenticated noise, then potentially corrupted codewords.
+\begin{frame}{Distillation Challenges}
+  \centering
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}[>={Latex[length=2.8mm]}]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.35,2.45) {%
+      \begin{minipage}{6.8cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{1.0em}
+          \item<1-> MPQC
+            \href{https://doi.org/10.1007/978-3-030-45727-3_25}{[DGJ+20]}:
+            modular distillation.
+          \item<2-> MBQC does not guarantee correct QAS.
+          \item<3-> $\Rightarrow$ Adversary can cheat during distillation.
+        \end{itemize}
+      \end{minipage}%
+    };
+
+    \begin{scope}[shift={(3.85,1.35)},scale=0.75,transform shape,
+        magic/.style={font=\small,text=CVQCInk},
+        flow/.style={->,very thick,draw=CVQCTeal}]
+      \node[magic] at (-2.65,0.90)
+        {$\mathsf{TEnc}(\ket{\mathrm{CCZ}})$};
+      \node[magic] at (-0.45,0.90)
+        {$\mathsf{TEnc}(\ket{\mathrm{CCZ}})$};
+      \node[font=\large,text=CVQCMuted] at (1.15,0.90) {$\cdots$};
+      \node[magic] at (2.65,0.90) {%
+        \alt<1>{%
+          $\mathsf{TEnc}(\textcolor{CVQCCoral}{\ket{\mathrm{CCZ}}})$%
+        }{%
+          $\textcolor{CVQCCoral}{\mathsf{TEnc}(\ket{\mathrm{CCZ}})}$%
+        }%
+      };
+
+      \draw[flow] (-2.65,0.60) -- (-2.20,0.15);
+      \draw[flow] (-0.45,0.60) -- (-0.45,0.15);
+      \draw[flow,draw=CVQCCoral] (2.65,0.60) -- (2.20,0.15);
+
+      \path[draw=CVQCInk,fill=CVQCInk,very thick,rounded corners=3pt]
+        (-3.00,0.15) -- (3.00,0.15) -- (1.10,-1.20) -- (-1.10,-1.20) -- cycle;
+      \node[font=\large\bfseries,text=white] at (0,-0.50)
+        {\only<3>{\color{CVQCCoral!55!white}}Distillation};
+      \draw[flow] (0,-1.20) -- (0,-1.65);
+      \only<1>{
+        \node[magic] at (0,-1.95)
+          {$\mathsf{TEnc}(\ket{\mathrm{CCZ}})\;\text{or}\;\mathsf{rej}$};
+      }
+      \only<2-3>{
+        \node[font=\large\bfseries,text=CVQCInk] at (0,-1.95) {?};
+      }
+    \end{scope}
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    Existing authenticated-distillation approaches in quantum multiparty
+    computation start with correctly authenticated states, though their
+    plaintexts may be noisy. The red CCZ inside a black TEnc marks that
+    distinction: the authentication is valid even for a bad plaintext.
+    Authentication then protects the prescribed distillation operations,
+    giving a modular analysis under the required joint input-quality
+    promise. CCZ is a schematic magic-state label here; the complete
+    construction first distills the other required authenticated magic
+    states and gadgets. Citation: Dulek, Grilo, Jeffery, Majenz, and
+    Schaffner, Secure Multi-party Quantum Computation with a Dishonest
+    Majority, EUROCRYPT 2020. The manuscript cites this authenticated
+    distillation strategy in its Technical Overview and Introduction.
+  }
+  \note<2>{
+    \footnotesize
+    Our MBQC preparation gives the factorizable output characterization,
+    including a ciphertext-level attack outside the pad. It does not simply
+    hand us an ideal QAS encoding of a noisy logical state. The red now
+    covers the whole TEnc expression to indicate that the authentication
+    codeword itself may have been altered. This does not claim that every
+    ciphertext is malformed or that no correct copies remain. The
+    preparation and testing analysis still establishes the required
+    structure and bounds on bad copies. The question mark records the
+    distillation analysis that remains to be proved; it is not yet a
+    clean-state-or-reject guarantee for arbitrary malformed inputs.
+  }
+  \note<3>{
+    \footnotesize
+    The authentication interface is not initially guaranteed to be clean,
+    so we cannot invoke the usual modular argument to rule out cheating
+    during distillation. The red process label marks this untrusted
+    execution. This is an a priori challenge, not an impossibility claim:
+    our analysis carries the outside attack and uses factorizability and
+    iterative twirling to control the effect of further deviations. The
+    eventual guarantee separates remaining ciphertext-level attacks from
+    the plaintext faults that distillation removes. Next, show the basic
+    four-to-one circuit on zero ancillas. Source: Technical Overview,
+    Security of the Distillation Sub-Protocol, and the distillation section.
+  }
+\end{frame}

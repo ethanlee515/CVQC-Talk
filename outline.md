@@ -164,7 +164,7 @@ Recall the background counterexample: per-copy error p = 1/poly can come from a 
 
 ## MBQC Construction
 
-Current implementation: "MBQC" keeps the verifier-to-prover preparation figure visible and reveals four bullets one at a time. "Plaintext MBQC" shows the paper's gate-teleportation circuit with outputs labelled m and X^m HT^c |psi>; explain its action and correction in words, with details in speaker notes.
+Current implementation: "Measurement-Based Quantum Computation" keeps the verifier-to-prover preparation figure visible and reveals four bullets one at a time. "Plaintext MBQC" shows the paper's gate-teleportation circuit with outputs labelled m and X^m HT^c |psi>; explain its action and correction in words, with details in speaker notes.
 
 Start with picture before, verifier sends `ket{+ theta}` to prover
 
@@ -195,6 +195,8 @@ Current implementation: one "Need trap approx real => encrypt everything" bullet
 
 ## MBQC Analysis: Iterative Pauli twirling
 
+Current implementation: five builds. Start with a Pauli OTP around an attack; a vertical "reduce" arrow leads to a single Pauli circuit, with the expansion and probability equations below it. Replace this with two wires and successive decryption rounds, expanding the first attack only on the outgoing qubit. The next build removes the first-wire pad pair and shows Q on that wire and B_Q on the still-encrypted second wire. Finally specialize to CNOT from wire 2 to wire 1, whose remaining coefficients are projectors. Omit wire-number labels and the outgoing measurement from this abstract picture. Explain one twirl per round and subnormalization verbally; details and the link to the MBQC pads are in speaker notes.
+
 Idea: *Iterative* twirling. Once per round of communication.
 
 Figure: two circuits with arrow between:
@@ -208,6 +210,8 @@ Challenge: `CNOT_21 = I otimes dyad{0} + X otimes dyad{1}`.
 Treat subnormalization carefully.
 
 ## MBQC Analysis:
+
+Current implementation: seven builds of the masked real-copy circuit with a joint attack A immediately before measurement. Start with pads in the input labels, then explicit pad gates before CZ. Commute them through CZ, then through HT^delta to expose HT^c and a consumed X-Z pad. Move the XOR-r decoder before measurement as the inverse Pauli pad. Twirl to X^aZ^b on the first wire and B_Q on the second, then label the final component B_Q X^{x'}T^{t'} X^a HT^c |psi>. Keep calculations and branch-weight conventions in speaker notes.
 
 Circuit mutation.
 * Start from real copy before
@@ -224,6 +228,8 @@ We call this *factorizable attack*
 * Subsumes blindness
 * Comparison with isometry: This is statistical, but ct-level attack looks like an isometry.
 
+Current implementation: the final MBQC output colors B_Q and X^a red. The following "Factorizable Attacks" slide uses a centered Beamer definition box for A_ct OTP_k A_pt |psi>, with both attacks independent of the pad key. Two builds add the blindness point and an informal statistical comparison with an "up to isometry" guarantee, explicitly labelled by red A_ct. Speaker notes specialize OTP_k to X^x T^t and |psi> to |+>: with A_pt = I, the correct |+_theta> is followed by a key-independent outside operation, analogous to GV19's accepted-state representation. Individual components can decrease norm; the isometry interpretation concerns a dilation of the complete operation.
+
 ## Distillation Challenges
 
 Don't know what is good figure here... hm.
@@ -234,11 +240,15 @@ Story:
 * ^ Maybe same trapezoid thing, but TEnc(ket(CCZ)) in and out, and only the ket(CCZ) is red?
 * In our setting, the entire TEnc is red.
 
+Current implementation: three builds alongside the distillation funnel. First, MPQC [DGJ+20] uses modular distillation, with only the bad plaintext in red. Second, MBQC does not guarantee correct QAS: the entire rightmost TEnc turns red and the output becomes a question mark. Third, the adversary can cheat during distillation, and the process label turns red too. The joint input-quality promise and the distinction between plaintext and ciphertext faults stay in the speaker notes.
+
 ## Distillation construction
 
 4-to-1 circuit (as in paper's intro)
 
 Speaker note: say this works for ancilla, this can extended to other states
+
+Current implementation: a static slide copies the paper's bare four-wire circuit: CNOTs 1-to-2 and 3-to-4, then 3-to-1, followed by Z/X/Z measurements on wires 2/3/4. Speaker notes explain the zero-ancilla example, acceptance of either X outcome, and extensions to other states. The recursive construction below is deferred.
 
 Say (maybe extra bullet point?), run recursively, `ket{0^{4^L}} \mapsto ket{0}`.
 

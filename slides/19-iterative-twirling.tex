@@ -1,0 +1,160 @@
+% Standard twirling, then partial twirls on successive outgoing qubits.
+\begin{frame}{Iterative Pauli Twirling}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=2.3mm]},
+      process/.style={draw=CVQCInk,fill=white,thick,minimum width=1.5cm,
+        minimum height=0.85cm,inner sep=3pt,font=\normalsize,text=CVQCInk},
+      pad/.style={process,draw=CVQCTeal,fill=CVQCPale},
+      attack/.style={process,draw=CVQCCoral,fill=CVQCCoralPale},
+      wire/.style={thick,draw=CVQCInk},
+      heading/.style={font=\normalsize\bfseries,text=CVQCInk},
+      equation/.style={font=\large,text=CVQCInk}
+    ]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \only<1-2>{
+      \node[heading] at (0,2.65) {Standard Pauli twirling};
+
+      \node[pad] (enc) at (-2.6,1.55) {$\operatorname{OTP}$};
+      \node[attack,minimum width=1.3cm] (attack) at (0,1.55) {$A$};
+      \node[pad,minimum width=1.7cm] (dec) at (2.6,1.55)
+        {$\operatorname{OTP}^{\dagger}$};
+      \draw[wire] (-4.3,1.55) -- (enc.west);
+      \draw[wire] (enc.east) -- (attack.west);
+      \draw[wire] (attack.east) -- (dec.west);
+      \draw[wire] (dec.east) -- (4.3,1.55);
+
+      \only<2>{
+        \draw[->,very thick,draw=CVQCTeal] (0,0.90) -- (0,-0.05)
+          node[midway,right=8pt,font=\small,text=CVQCInk] {reduce};
+        \node[attack,minimum width=1.3cm] (pauli) at (0,-0.80) {$Q$};
+        \draw[wire] (-2.4,-0.80) -- (pauli.west);
+        \draw[wire] (pauli.east) -- (2.4,-0.80);
+        \node[equation] at (0,-2.15)
+          {$A=\sum_Q\alpha_Q Q,\qquad \Pr[Q]=|\alpha_Q|^2$};
+      }
+    }
+
+    \only<3-5>{
+      \begin{scope}[yshift=0.30cm]
+
+      \node[attack,minimum width=1.15cm] (secondattack) at (2.9,-0.65)
+        {$A_2$};
+      \node[pad,minimum width=1.7cm] (decsecond) at (5.0,-0.65)
+        {$\operatorname{OTP}_2^{\dagger}$};
+
+      \draw[wire] (secondattack.east) -- (decsecond.west);
+      \draw[wire] (decsecond.east) -- (6.20,-0.65);
+
+      \only<3,5>{
+        \node[pad,minimum height=2.5cm] (encboth) at (-4.85,0.20)
+          {$\operatorname{OTP}$};
+        \node[attack,minimum width=1.6cm,minimum height=2.5cm,font=\small]
+          (firstattack) at (-2.6,0.20)
+          {$\alt<3>{A_1}{\mathrm{CNOT}_{2\to1}}$};
+        \node[pad,minimum width=1.7cm] (decfirst) at (-0.15,1.05)
+          {$\operatorname{OTP}_1^{\dagger}$};
+        \foreach \y in {1.05,-0.65} {
+          \draw[wire] (-6.15,\y) -- (encboth.west |- 0,\y);
+          \draw[wire] (encboth.east |- 0,\y) -- (firstattack.west |- 0,\y);
+        }
+        \draw[wire] (firstattack.east |- 0,1.05) -- (decfirst.west);
+        \draw[wire] (decfirst.east) -- (2.65,1.05);
+        \draw[wire] (firstattack.east |- 0,-0.65) -- (secondattack.west);
+      }
+      \only<4>{
+        \node[pad] (encremaining) at (-4.85,-0.65) {$\operatorname{OTP}_2$};
+        \node[attack,minimum width=1.6cm] (firstpauli) at (-2.6,1.05) {$Q$};
+        \node[attack,minimum width=1.6cm] (coefficient) at (-2.6,-0.65) {$B_Q$};
+        \draw[wire] (-6.15,1.05) -- (firstpauli.west);
+        \draw[wire] (firstpauli.east) -- (2.65,1.05);
+        \draw[wire] (-6.15,-0.65) -- (encremaining.west);
+        \draw[wire] (encremaining.east) -- (coefficient.west);
+        \draw[wire] (coefficient.east) -- (secondattack.west);
+      }
+      \only<3-4>{
+        \node[equation] at (0,-2.0) {$A_1=\sum_Q Q\otimes B_Q$};
+      }
+      \only<5>{
+        \node[equation] at (0,-1.85)
+          {$\mathrm{CNOT}_{2\to1}
+            =I\otimes\ket{0}\!\bra{0}+X\otimes\ket{1}\!\bra{1}$};
+      }
+      \end{scope}
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    Start with the standard Pauli-twirling identity. In this first toy
+    picture, OTP means a uniform secret Pauli pad, X to the u times Z to
+    the v, and A is a key-independent unitary attack. This differs from
+    the X-to-the-x T-to-the-t notation for the MBQC input pads: the actual
+    MBQC analysis first uses the uniformity-preserving change of keys to
+    expose the consumed Pauli pad bits. Expand A in the Pauli basis,
+    with scalar coefficients alpha indexed by the Paulis Q. The wire may
+    represent a register, and the identity also preserves an external
+    reference. The decryption is part of an analysis experiment; the
+    picture is not assigning extra quantum operations to our verifier.
+  }
+  \note<2>{
+    \footnotesize
+    Average over the hidden Pauli key. Conjugation multiplies each Pauli
+    term by a key-dependent sign; the cross terms between distinct Paulis
+    vanish in the density operator. The decrypted channel is therefore
+    the classical mixture that applies Q with probability absolute alpha-Q
+    squared. This is an equality after averaging the key, not equality
+    between A and a single Pauli as operators or for each fixed key.
+    The scalar probabilities here describe the unitary toy example. With
+    arbitrary private memory, expansion coefficients can themselves be
+    operators on that memory. This leads to the partial twirl next.
+    Source: the manuscript's Technical Overview, Pauli-twirling discussion.
+  }
+  \note<3>{
+    \footnotesize
+    Now peel off the pad on one outgoing qubit per round, keeping the
+    other qubit encrypted. The initial box pads both qubits independently.
+    A1 acts jointly; decrypt and release the first outgoing qubit, then allow A2 to act on
+    the remaining ciphertext before its later decryption. The picture is
+    a two-qubit toy; additional qubits, private memory, and transcript
+    dependence are implicit. Its later measurement in MBQC is suppressed
+    here. Expand only on the first qubit as
+    $A_1=\sum_Q Q\otimes B_Q$, where Q ranges over I,X,Y,Z. The $B_Q$
+    coefficients are operators on the remaining system. Twirling removes
+    interference between different Q labels, while their coefficient
+    operators and branch weights must be carried through later rounds.
+    In MBQC, this averaging is justified by the consumed hidden pad
+    coordinates. The full proof also retains the prover's memory and live
+    verifier keys. These labels are analysis indices, not public outcomes.
+  }
+  \note<4>{
+    \footnotesize
+    Average over the consumed first-qubit Pauli key. Its encryption and
+    decryption disappear, leaving Q on the first wire and the corresponding
+    coefficient $B_Q$ on the second. The second qubit remains encrypted;
+    its pad is consumed in the later round. The figure displays one term
+    of the resulting Kraus sum. Sum over Q to obtain the complete map;
+    $B_Q$ carries the branch weight, so this is not a uniform choice among
+    normalized operators. Keep the state subnormalized through A2 and the
+    remaining decryption. Q is an analysis index; it is not revealed to the
+    prover or the verifier. Next, instantiate A1 with CNOT to see why its
+    coefficient operators need not be unitary.
+  }
+  \note<5>{
+    \footnotesize
+    The paper's counterexample is CNOT from qubit 2 to qubit 1. Its partial
+    expansion on the first qubit has I and X there, but the coefficients
+    on the second qubit are the projectors onto zero and one. Those
+    projectors can shrink a vector's norm. After a partial twirl, we must
+    therefore carry subnormalized branch states through A2 and the later
+    twirl, rather than normalizing each branch and losing its weight.
+    A later expansion can decompose the remaining projector, for example
+    $\ket{0}\!\bra{0}=(I+Z)/2$. Even a globally unitary attack thus
+    generates nonunitary coefficient operators during the iteration.
+    Track the sum of branch traces throughout the iteration.
+    Source: the Technical Overview and Real-Copy Protocol,
+    partial-twirl lemma and iterative analysis. Next, apply this mechanism
+    to the actual MBQC measurement gadget.
+  }
+\end{frame}

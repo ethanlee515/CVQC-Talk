@@ -1,0 +1,39 @@
+% Bare circuit copied from the paper's fig:distill-overview-bare-intro.
+\begin{frame}{Distillation: The 4-to-1 Circuit}
+  \centering
+  \begin{tikzpicture}
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+    \node[inner sep=0pt,text=CVQCInk] at (0,0.05) {%
+      \scalebox{1.5}{%
+        % qcircuit's meterB uses a text-size command inside math mode.
+        \let\tiny\scriptstyle
+        $\Qcircuit @C=1.4em @R=1.2em {
+          & \qw & \ctrl{1} & \targ & \qw & \qw \\
+          & \qw & \targ & \qw & \meter & \cw \\
+          & \qw & \ctrl{1} & \ctrl{-2} & \meterB{X} & \cw \\
+          & \qw & \targ & \qw & \meter & \cw
+        }$%
+      }%
+    };
+  \end{tikzpicture}
+
+  \note{
+    \footnotesize
+    This is the paper's basic 4-to-1 distillation circuit. The first wire
+    survives; wires two, three, and four are measured in the Z, X, and Z
+    bases, respectively. C-dist denotes the three-CNOT unitary part,
+    excluding these measurements: CNOT from one to two, from three to
+    four, and from three to one.
+    Begin with the plaintext ancilla example. On four zero inputs the
+    CNOTs preserve the inputs. Check that the two Z-basis outcomes are
+    zero; either X-basis outcome is accepted, since that measurement is
+    random on a zero state. Honest execution then accepts and leaves zero
+    on the first wire. With at most one bad input, the routine either
+    rejects or leaves the intended surviving zero state. This statement
+    concerns honest execution of the circuit. Handling deviations during
+    authenticated execution is the next task. The manuscript also extends
+    the pattern to EPR pairs and Hadamard magic states.
+    Source: Technical Overview, basic 4-to-1 circuit; Distillation section,
+    accepted measurement results and correctness analysis.
+  }
+\end{frame}

@@ -1,0 +1,216 @@
+% Move pads through the honest gates, expose the consumed Pauli pair, and twirl.
+\newcommand{\mbqcpadgate}[1]{\gate{\textcolor{CVQCTeal}{#1}}}
+\newcommand{\mbqcjointattack}{\multigate{1}{\textcolor{CVQCCoral}{A}}}
+\newcommand{\mbqcattackghost}{\ghost{\textcolor{CVQCCoral}{A}}}
+\begin{frame}{MBQC Analysis}
+  \centering
+  \begin{tikzpicture}
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \only<1>{
+      \node[inner sep=0pt,text=CVQCInk] at (0,0.10) {%
+        \resizebox{12.5cm}{!}{%
+          \hspace*{2.1cm}%
+          $\Qcircuit @C=1em @R=1em {
+            \lstick{X^{x_1}T^{t_1}\ket{\psi}} & \ctrl{1} & \gate{HT^\delta}
+              & \multigate{1}{\textcolor{CVQCCoral}{A}} & \meter
+              & \cgate{\oplus r} & \cw \\
+            \lstick{X^{x_2}T^{t_2}\ket{+}} & \control\qw & \qw
+              & \ghost{\textcolor{CVQCCoral}{A}} & \qw
+              & \qw & \qw
+          }$\hspace*{0.4cm}%
+        }%
+      };
+    }
+    \only<2>{
+      \node[inner sep=0pt,text=CVQCInk] at (0,0.10) {%
+        \resizebox{12.5cm}{!}{%
+          \hspace*{0.6cm}%
+          $\Qcircuit @C=1em @R=1em {
+            \lstick{\ket{\psi}} & \gate{\textcolor{CVQCTeal}{X^{x_1}T^{t_1}}}
+              & \ctrl{1} & \gate{HT^\delta}
+              & \multigate{1}{\textcolor{CVQCCoral}{A}} & \meter
+              & \cgate{\oplus r} & \cw \\
+            \lstick{\ket{+}} & \gate{\textcolor{CVQCTeal}{X^{x_2}T^{t_2}}}
+              & \control\qw & \qw
+              & \ghost{\textcolor{CVQCCoral}{A}} & \qw
+              & \qw & \qw
+          }$\hspace*{0.4cm}%
+        }%
+      };
+    }
+    \only<3>{
+      \node[inner sep=0pt,text=CVQCInk] at (0,0.10) {%
+        \resizebox{12.5cm}{!}{%
+          \hspace*{0.6cm}%
+          $\Qcircuit @C=1em @R=1em {
+            \lstick{\ket{\psi}} & \ctrl{1} & \mbqcpadgate{X^{x_1'}T^{t_1'}}
+              & \gate{HT^\delta} & \mbqcjointattack & \meter
+              & \cgate{\oplus r} & \cw \\
+            \lstick{\ket{+}} & \control\qw & \mbqcpadgate{X^{x_2'}T^{t_2'}}
+              & \qw & \mbqcattackghost & \qw & \qw & \qw
+          }$\hspace*{0.4cm}%
+        }%
+      };
+    }
+    \only<4>{
+      \node[inner sep=0pt,text=CVQCInk] at (0,0.10) {%
+        \resizebox{12.5cm}{!}{%
+          \hspace*{0.6cm}%
+          $\Qcircuit @C=1em @R=1em {
+            \lstick{\ket{\psi}} & \ctrl{1} & \gate{HT^c}
+              & \mbqcpadgate{X^rZ^z} & \mbqcjointattack & \meter
+              & \cgate{\oplus r} & \cw \\
+            \lstick{\ket{+}} & \control\qw & \mbqcpadgate{X^xT^t}
+              & \qw & \mbqcattackghost & \qw & \qw & \qw
+          }$\hspace*{0.4cm}%
+        }%
+      };
+    }
+    \only<5>{
+      \node[inner sep=0pt,text=CVQCInk] at (0,0.10) {%
+        \resizebox{12.5cm}{!}{%
+          \hspace*{0.6cm}%
+          $\Qcircuit @C=1em @R=1em {
+            \lstick{\ket{\psi}} & \ctrl{1} & \gate{HT^c}
+              & \mbqcpadgate{X^rZ^z} & \mbqcjointattack
+              & \mbqcpadgate{(X^rZ^z)^\dagger} & \meter & \cw \\
+            \lstick{\ket{+}} & \control\qw & \mbqcpadgate{X^xT^t}
+              & \qw & \mbqcattackghost & \qw & \qw & \qw
+          }$\hspace*{0.4cm}%
+        }%
+      };
+    }
+    \only<6>{
+      \node[inner sep=0pt,text=CVQCInk] at (0,0.10) {%
+        \resizebox{12.5cm}{!}{%
+          \hspace*{0.6cm}%
+          $\Qcircuit @C=1em @R=1em {
+            \lstick{\ket{\psi}} & \ctrl{1} & \gate{HT^c}
+              & \qw & \gate{\textcolor{CVQCCoral}{X^aZ^b}}
+              & \qw & \meter & \cw \\
+            \lstick{\ket{+}} & \control\qw & \mbqcpadgate{X^xT^t}
+              & \qw & \gate{\textcolor{CVQCCoral}{B_Q}}
+              & \qw & \qw & \qw
+          }$\hspace*{0.4cm}%
+        }%
+      };
+    }
+    \only<7>{
+      \node[inner sep=0pt,text=CVQCInk] at (0,0.10) {%
+        \resizebox{12.5cm}{!}{%
+          \hspace*{0.6cm}%
+          $\Qcircuit @C=1em @R=1em {
+            \lstick{\ket{\psi}} & \ctrl{1} & \gate{HT^c}
+              & \qw & \gate{\textcolor{CVQCCoral}{X^aZ^b}}
+              & \qw & \meter & \cw \\
+            \lstick{\ket{+}} & \control\qw & \mbqcpadgate{X^xT^t}
+              & \qw & \gate{\textcolor{CVQCCoral}{B_Q}}
+              & \qw & \qw & \rstick{\textcolor{CVQCCoral}{B_Q}X^{x'}T^{t'}\textcolor{CVQCCoral}{X^a}HT^c\ket{\psi}}\qw
+          }$\hspace*{3.4cm}%
+        }%
+      };
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    Return to the encrypted real-copy gadget. The prover may deviate
+    arbitrarily. For the analysis, represent its behavior as the prescribed
+    unitary followed by a joint attack A immediately before measurement.
+    This attack acts on both drawn qubits and can also act on private
+    memory, which is omitted from the picture. It may depend on the public
+    masked instruction and prior transcript. The manuscript's Honest
+    Unitary Before the Attack lemma justifies this placement by absorbing
+    earlier deviations into A.
+    The verifier still unmasks the report as $\beta=b\oplus r$ and runs
+    the key updates from the preceding encrypted-MBQC slide. The surviving
+    state may be attacked and correlated with private memory. Keep output
+    labels and bookkeeping formulas off this analysis picture.
+    Next, commute the pads and apply a partial Pauli twirl to this attack.
+    Source: CVQC-paper/4\_Real\_Copy.tex, Honest Unitary Before the Attack
+    and Characterization of the State lemmas.
+  }
+  \note<2>{
+    \footnotesize
+    Pull each input pad out of the state label and draw it as the first
+    gate on its wire. The inputs now read psi and plus, with explicit
+    $X^{x_1}T^{t_1}$ and $X^{x_2}T^{t_2}$ pad gates before CZ. This is the
+    same circuit as the previous build, with the encryption made visible
+    as an operation. The keys are unchanged because the pad gates remain
+    before CZ. The coral joint attack, masked measurement, and classical
+    XOR correction stay in place. This prepares the next step of commuting
+    the pads through CZ and the masked gate for the twirling analysis.
+  }
+  \note<3>{
+    \footnotesize
+    Commute the two pad gates to the right of CZ. This is the paper's
+    CZ key-update identity, up to global phase. The x bits are unchanged,
+    while $t_1'=t_1+4x_2$ and $t_2'=t_2+4x_1$ modulo 8.
+    The primes on the pad gates denote these post-CZ keys. The masked
+    instruction delta was computed using the post-CZ first-qubit key,
+    so its value and the attack A are unchanged. This build exposes the
+    plaintext CZ before the updated pads. Explain the algebra verbally.
+    Source: Real-Copy Protocol, Update Correctness lemma.
+  }
+  \note<4>{
+    \footnotesize
+    Commute the first pad through the masked gate, using the identity
+    $HT^\delta X^{x_1'}T^{t_1'}=X^rZ^{x_1'}HT^c$ up to global phase.
+    Write z for $x_1'$ and relabel the surviving premeasurement key
+    $(x_2',t_2')$ as (x,t). The logical gate is now HT to the c, and the
+    measured qubit has a Pauli pad rather than an X-T pad. The lower
+    pad remains X to the x times T to the t.
+    The Uniformity Preserving lemma supplies independent uniform reference
+    coordinates r,z,x,t,delta. In particular, for fixed public delta the
+    consumed bits r,z can be averaged without changing the live key
+    coordinates. A can depend on delta and the prior transcript; private
+    memory remains implicit. Keep carried branch weights throughout.
+  }
+  \note<5>{
+    \footnotesize
+    Move the classical XOR-r decoder before measurement as a quantum X-r
+    correction. Insert Z-z as well: it changes only a measurement-branch
+    phase, leaving the retained density operator unchanged. The result is
+    the inverse Pauli pad $(X^rZ^z)^\dagger$ before measurement.
+    Thus the joint attack is now between a Pauli pad and its inverse on
+    the outgoing qubit. This is the twirling pattern from the previous
+    slide. Equality here concerns the surviving ciphertext, prover memory,
+    and live verifier keys after the raw report and consumed coordinates
+    are discarded. Any raw-outcome copy retained by the prover is included
+    in its private memory inside A. Source: Real-Copy Protocol, the
+    premeasurement attack decomposition preceding the partial-twirl lemma.
+  }
+  \note<6>{
+    \footnotesize
+    Expand the joint attack on the outgoing qubit as
+    $A=\sum_Q Q\otimes B_Q$, with $Q=X^aZ^b$. The phase bit b in Q
+    is distinct from the raw measurement report, which we call m here.
+    Averaging the consumed Pauli key (r,z) removes cross terms between
+    different Q labels. The pad and inverse pad disappear from the first
+    wire, leaving a Pauli there and its coefficient operator on the
+    remaining ciphertext and private memory. The picture is one Kraus
+    term in a sum, not a uniformly sampled normalized branch. The lower
+    X-T pad stays in place. The possibly nonunitary BQ carries the branch
+    weight, as in the CNOT example. No additional scalar probability
+    should be assigned to a normalized version of this operator.
+  }
+  \note<7>{
+    \footnotesize
+    Reading the teleportation identity with $Q=X^aZ^b$, the X-a component
+    flips the decoded outcome; Z-b contributes a branch phase. With decoded
+    bit $\beta=m\oplus r$, the lower vector before the final key update
+    is proportional to $B_QX^xT^tX^{\beta\oplus a}HT^c\ket{\psi}$.
+    Absorb X-beta into the live pad: $x'=x\oplus\beta$ and
+    $t'=(-1)^\beta t$ modulo 8. This gives the displayed component
+    $B_QX^{x'}T^{t'}X^aHT^c\ket{\psi}$.
+    The label uses the paper's positive-state decomposition after summing
+    the decoded measurement branches and relabeling the uniform surviving
+    keys. Their common factor of one-half is absorbed by that sum; BQ's
+    weight remains. For an individual fixed measurement branch, retain
+    its one-over-square-root-two amplitude and branch phase. Sum over Q
+    and average the reference keys to recover the full joint state.
+    Private memory and dependence of BQ on public delta are suppressed.
+    Source: Characterization of the State lemma and its proof.
+  }
+\end{frame}

@@ -1,0 +1,91 @@
+% Informal single-component picture; technical qualifications stay in the notes.
+\begin{frame}{Factorizable Attacks}
+  \centering
+  \setbeamertemplate{theorems}[normal font]
+  \setbeamercolor{block title}{fg=white,bg=CVQCInk}
+  \setbeamercolor{block body}{fg=CVQCInk,bg=CVQCFog}
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \node[inner sep=0pt] at (0,1.05) {%
+      \begin{minipage}{11.4cm}
+        \raggedright
+        \begin{definition}[Informal]
+          \par\vspace{0.5em}\noindent
+          An attack is \textbf{factorizable} if it splits across the pad:
+          {\large
+          \[
+            \textcolor{CVQCCoral}{A_{\mathrm{ct}}}\,
+            \operatorname{OTP}_k\,
+            \textcolor{CVQCCoral}{A_{\mathrm{pt}}}\ket{\psi}.
+          \]
+          }
+          \noindent Both attacks are independent of the pad key $k$.
+        \end{definition}
+      \end{minipage}%
+    };
+
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-5.5,-0.95) {%
+      \begin{minipage}{11cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{0.75em}
+          \item<2-> Subsumes blindness.
+          \item<3-> $\textcolor{CVQCCoral}{A_{\mathrm{ct}}}$:
+            Statistical analogue of an ``up to isometry'' guarantee.
+        \end{itemize}
+      \end{minipage}%
+    };
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    The previous output had BQ outside the pad and X-a inside. Name those
+    pieces ciphertext-level and plaintext-level attacks. Psi here denotes
+    the intended plaintext, including the honest target computation.
+    The displayed product is one component in the attack decomposition;
+    the complete state sums components and averages uniform reference keys.
+    Private auxiliary registers and their initially key-independent state
+    are implicit. The outside attack may act globally, including on the
+    prover's memory. Both attack operators are independent of the one-time
+    pad key, although they may depend on public instructions and analysis
+    indices. The verifier keeps the prescribed key bookkeeping. In the
+    MBQC characterization the plaintext modification is unitary; later
+    distillation uses the formal copywise attack-map definition, with its
+    subnormalization and aggregate trace bounds. Source: Technical Overview,
+    Factorization of attacks; Real-Copy Protocol, output characterization.
+  }
+  \note<2>{
+    \footnotesize
+    Explain the blindness point in the setting of our complete MBQC
+    characterization. The reference pad is uniform, the plaintext
+    modifications are unitary, and the residual ciphertext operators do
+    not depend on that key. Averaging the pad hides the modified plaintext;
+    the ciphertext attack then acts on a hidden state. The proof tracks
+    the transcript, memory, and normalization jointly. This is stronger
+    structural information than a game asserting privacy alone. An isolated
+    arbitrary trace-decreasing plaintext operator is not by itself a
+    general blindness theorem. The formal statement and its normalization
+    conditions supply the guarantee. This structure is what prevents the
+    later distillation input from carrying the secret key in private garbage.
+  }
+  \note<3>{
+    \footnotesize
+    For the RSP analogy, take $\operatorname{OTP}_k=X^xT^t$ and
+    $\ket{\psi}=\ket{+}$. If $A_{\mathrm{pt}}=I$, the intended state is
+    $X^xT^t\ket{+}=\ket{+_\theta}$ up to global phase, with
+    $\theta=(-1)^x t\pi/4$ modulo $2\pi$. Only the key-independent outside
+    operation remains. This resembles GV19's accepted-state representation:
+    an angle-independent isometry acting on the ideal RSP state and an
+    auxiliary state (Section 4, Eq. 32,
+    \href{https://arxiv.org/pdf/1904.06320}{arXiv:1904.06320}).
+    Our MBQC characterization is statistical, even against an unbounded
+    prover. An individual $A_{\mathrm{ct}}$ can decrease norm, so it need
+    not itself be an isometry. The complete trace-preserving operation,
+    including any rejection flag, admits an isometric dilation when its
+    environment is retained. This is an analogy between state forms;
+    it does not by itself establish the same composable RSP functionality.
+    Next, explain why distilling these attacked ciphertexts is a challenge.
+  }
+\end{frame}
