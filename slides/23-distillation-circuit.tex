@@ -7,11 +7,12 @@
       \scalebox{1.5}{%
         % qcircuit's meterB uses a text-size command inside math mode.
         \let\tiny\scriptstyle
+        \hspace*{0.55cm}% Include the input labels in the visual bounds.
         $\Qcircuit @C=1.4em @R=1.2em {
-          & \qw & \ctrl{1} & \targ & \qw & \qw \\
-          & \qw & \targ & \qw & \meter & \cw \\
-          & \qw & \ctrl{1} & \ctrl{-2} & \meterB{X} & \cw \\
-          & \qw & \targ & \qw & \meter & \cw
+          \lstick{\ket{0}} & \qw & \ctrl{1} & \targ & \qw & \qw \\
+          \lstick{\ket{0}} & \qw & \targ & \qw & \meter & \cw \\
+          \lstick{\ket{0}} & \qw & \ctrl{1} & \ctrl{-2} & \meterB{X} & \cw \\
+          \lstick{\ket{0}} & \qw & \targ & \qw & \meter & \cw
         }$%
       }%
     };

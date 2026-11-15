@@ -244,27 +244,42 @@ Current implementation: three builds alongside the distillation funnel. First, M
 
 ## Distillation construction
 
-4-to-1 circuit (as in paper's intro)
+4-to-1 circuit (as in paper's intro), with all four inputs labelled `ket(0)`.
 
-Speaker note: say this works for ancilla, this can extended to other states
+Current implementation: a static slide copies the paper's bare four-wire circuit: CNOTs 1-to-2 and 3-to-4, then 3-to-1, followed by Z/X/Z measurements on wires 2/3/4. Speaker notes explain acceptance of either X outcome; the deterministic Z outcomes must both be zero.
 
-Current implementation: a static slide copies the paper's bare four-wire circuit: CNOTs 1-to-2 and 3-to-4, then 3-to-1, followed by Z/X/Z measurements on wires 2/3/4. Speaker notes explain the zero-ancilla example, acceptance of either X outcome, and extensions to other states. The recursive construction below is deferred.
+## Distillation observations
 
-Say (maybe extra bullet point?), run recursively, `ket{0^{4^L}} \mapsto ket{0}`.
+Same circuit, smaller and in the upper right. Bullet points appear one by one:
 
-## Distillation construction cont.
+* Correctness: `ket(0)^4 -> ket(0)`.
+* Soundness: one wrong input -> `ket(0)` or reject.
+* Can be nested recursively: `ket{0^{4^L}} -> ket(0)`.
+* Generalizes to EPR pairs.
 
-Change the inputs from ket(0) to TEnc(ket(0))
+Speaker notes: these are plaintext guarantees under honest execution. State the generalization without proof, referring to the paper. The recursive map on the slide is honest correctness; noisy-input analysis uses the joint bad-support promise and the fact that every bad parent needs at least two bad children.
 
-## Distillation Analysis/Challenges (?)
+## Distillation over the trap code
 
-* No "good" TEnc => Adversary *can* cheat a priori during distillation
-* Side note: privacy matters, adversary cannot learn secret key. Factorizability subsumes blindness
-* Verification: In general, can't say output is always "good". At best up to isometry.
-* => Only correct up to ciphertext-level attack.
-* Guarantees:
-  * 3x ct-level + 1x factorizable `mapsto` 1x ct-level
-  * 4x factorizable `mapsto` factorizable
+* Compatible with TEnc; replace the circuit's inputs and surviving output by `TEnc(ket(0))`.
+* Each wire is a ciphertext block, marked by a bundle slash.
+* Reject if (one check per build):
+  * Any trap check fails.
+  * Any QEC syndrome is nonzero.
+  * Any decoded measurement outcome is unexpected.
+
+Speaker notes: transversal CNOTs and Pauli measurements implement the logical circuit; the verifier updates keys, unmasks outcomes, and undoes the permutation before checking. Check only traps deterministic in the measured basis. The data decoder is a strict codeword check. For zero-state distillation, the Z outcomes on copies two and four must be zero; either X outcome on copy three is allowed. The circuit shows honest correctness, with no attack-closure claim on this slide.
+
+## Distillation Analysis: Setting the stage
+
+* Notation: `TEnc_{pi,x,z}(|psi>) = X^x Z^z pTEnc_pi(|psi>)`.
+* `pTEnc_pi` includes the QEC encoding, traps, and permutation, before the Pauli pad.
+* Work with one component having one plaintext-bad copy `i`, under a potentially global ciphertext attack:
+  `A_ct X^x Z^z A_{pt,i} (pTEnc_pi(|0>))^{tensor 4}`.
+
+Current implementation: two builds, introducing the encoding/pad notation first and then the one-bad-copy input component. Both attack operators are red. The output characterization is deferred until after the calculations.
+
+Speaker notes: the pad strings concatenate the four blocks. Auxiliary registers, uniform reference keys, and mixture/Kraus labels are suppressed on the slide; preserve subnormalization and the joint invariant in the analysis. The outside operation is independent of the secret keys; the plaintext operator is pad-independent and may depend on the hidden permutation as in the paper.
 
 ## Distillation Analysis Intuitions
 
@@ -278,6 +293,8 @@ Maybe more circuits
 * => Final attack = Q4
 
 Key observation, final attack can be written in terms of just attacked wire + ct-level attacks
+
+After deriving the one-bad-input calculation, state its conclusion: 3x ct-level + 1x factorizable => ct-level (on acceptance). Then explain closure for several bad copies: 4x factorizable => factorizable. Keep these conclusions after the calculations rather than announcing them on the construction or setting-the-stage slide.
 
 ## QPIP0: RSP construction
 

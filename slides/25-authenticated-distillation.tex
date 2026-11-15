@@ -1,0 +1,99 @@
+% Transversal construction and the verifier's three kinds of checks.
+\begin{frame}{Distillation over the Trap Code}
+  \centering
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.35,2.45) {%
+      \begin{minipage}{6.4cm}
+        \raggedright
+        \begin{itemize}
+          \item Compatible with $\mathsf{TEnc}$.
+        \end{itemize}
+      \end{minipage}%
+    };
+
+    \node[anchor=north east,inner sep=0pt,text=CVQCInk] at (6.35,2.65) {%
+      \resizebox{5.6cm}{!}{%
+        \let\tiny\scriptstyle
+        \hspace*{1.7cm}% Include both ciphertext labels in the visual bounds.
+        $\Qcircuit @C=1.4em @R=1.2em {
+          \lstick{\mathsf{TEnc}(\ket{0})} & \push{\makebox[0pt]{$/$}}\qw & \ctrl{1} & \targ & \qw
+            & \rstick{\mathsf{TEnc}(\ket{0})}\qw \\
+          \lstick{\mathsf{TEnc}(\ket{0})} & \push{\makebox[0pt]{$/$}}\qw & \targ & \qw & \meter & \cw \\
+          \lstick{\mathsf{TEnc}(\ket{0})} & \push{\makebox[0pt]{$/$}}\qw & \ctrl{1} & \ctrl{-2} & \meterB{X} & \cw \\
+          \lstick{\mathsf{TEnc}(\ket{0})} & \push{\makebox[0pt]{$/$}}\qw & \targ & \qw & \meter & \cw
+        }$\hspace*{1.7cm}%
+      }%
+    };
+
+    \uncover<2->{
+      \node[anchor=north west,fill=CVQCFog,rounded corners=3pt,
+          inner xsep=0.3cm,inner ysep=0.25cm,text=CVQCInk] at (-5.8,-0.65) {%
+        \begin{minipage}{11cm}
+          \raggedright
+          \textbf{Reject if:}
+          \par\vspace{0.35em}
+          \begin{itemize}
+            \setlength{\itemsep}{0.15em}
+            \item<2-> Any trap check fails.
+            \item<3-> Any QEC syndrome is nonzero.
+            \item<4-> Any decoded measurement outcome is unexpected.
+          \end{itemize}
+        \end{minipage}%
+      };
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    The circuit uses only CNOTs and Pauli measurements, which have
+    transversal implementations over the trap code. Each drawn wire is
+    now a logical ciphertext block, indicated by a slash. Apply the C-dist
+    CNOTs to every aligned
+    physical coordinate; perform physical measurements and let the verifier
+    remove the masks, decode, and check the traps and logical outcomes.
+    The verifier updates the keys, and all blocks share the hidden
+    permutation. The figure shows the honest case and suppresses these
+    physical details. Correct encodings give a correct output encoding.
+    Next, spell out the verifier's rejection checks. The analysis of
+    malformed ciphertexts and malicious execution starts on the next slide.
+  }
+  \note<2>{
+    \footnotesize
+    Before these checks, the verifier updates the Pauli keys through the
+    Clifford circuit, removes the resulting masks from the reported
+    measurement strings, and undoes the hidden permutation. It separates
+    the data outcomes from the two trap types. In a Z-basis measurement,
+    check the zero traps; in an X-basis measurement, check the plus traps.
+    Reject if any of these deterministic trap outcomes is wrong. The
+    complementary trap type has random outcomes and is not required to
+    have a fixed value. Source: 4-to-1 Distillation Protocol, trap checks.
+  }
+  \note<3>{
+    \footnotesize
+    Check the measured QEC data block in the measurement basis. The
+    strict codeword-checking decoder rejects a nonzero syndrome rather
+    than correcting it. In the paper's protocol, this is the condition
+    that the basis-dependent decoder returns bottom. This check is
+    distinct from the traps and from the decoded logical outcome.
+    Source: CSS code convention and 4-to-1 Distillation Protocol, data
+    decoding step.
+  }
+  \note<4>{
+    \footnotesize
+    Finally, compare the decoded outcomes with the accepted logical
+    measurement set. For zero-state distillation, the Z outcomes on
+    copies two and four must be zero. Either X outcome on copy three
+    is accepted; there is no deterministic logical check on that copy.
+    EPR and Hadamard magic states use the corresponding stabilizer
+    parity checks from the paper. If all three kinds of checks pass,
+    keep the first ciphertext with its updated key. The output label
+    in the figure depicts honest execution; it does not yet assert
+    a security guarantee on arbitrary attacked inputs. Next, introduce
+    the notation for an input with one plaintext-bad copy, then derive
+    its output behavior. Source: 4-to-1 measurement accepted results and
+    the 4-to-1 Distillation Protocol.
+  }
+\end{frame}

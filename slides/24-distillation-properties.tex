@@ -1,0 +1,82 @@
+% The plaintext guarantees; execution attacks are treated on the next slide.
+\begin{frame}{Distillation: Observations}
+  \centering
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.35,2.45) {%
+      \begin{minipage}{6.8cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{0.75em}
+          \item<1-> \textbf{Correctness:}\\[0.15em]
+            $\ket{0}^{\otimes 4}\;\longmapsto\;\ket{0}$.
+          \item<2-> \textbf{Soundness:} one wrong input\\[0.15em]
+            $\longmapsto\;\ket{0}$ or reject.
+          \item<3-> Can be nested recursively:\\[0.15em]
+            $\ket{0^{4^L}}\;\longmapsto\;\ket{0}$.
+          \item<4-> Generalizes to EPR pairs.
+        \end{itemize}
+      \end{minipage}%
+    };
+
+    \node[anchor=north east,inner sep=0pt,text=CVQCInk] at (6.35,2.65) {%
+      \resizebox{5.2cm}{!}{%
+        \let\tiny\scriptstyle
+        \hspace*{0.55cm}% qcircuit does not measure stick labels.
+        $\Qcircuit @C=1.4em @R=1.2em {
+          \lstick{\ket{0}} & \qw & \ctrl{1} & \targ & \qw & \rstick{\ket{0}}\qw \\
+          \lstick{\ket{0}} & \qw & \targ & \qw & \meter & \cw \\
+          \lstick{\ket{0}} & \qw & \ctrl{1} & \ctrl{-2} & \meterB{X} & \cw \\
+          \lstick{\ket{0}} & \qw & \targ & \qw & \meter & \cw
+        }$\hspace*{0.55cm}%
+      }%
+    };
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    First consider honest execution on plaintext states. C-dist denotes
+    the three CNOTs; the full routine includes measurements and checks.
+    Four zero inputs remain four zeros after these CNOTs. The Z outcomes
+    on wires two and four must both be zero. The X outcome on wire three
+    is random, and either value is accepted. Thus honest execution accepts
+    with certainty and leaves zero on the first wire. The small diagram
+    depicts this honest case throughout the slide.
+  }
+  \note<2>{
+    \footnotesize
+    Assume at most one input is wrong and the other three are ideal zeros.
+    The exceptional input may be an arbitrary state, including one
+    entangled with an external reference. A computational-basis one on
+    any one input propagates to at least one checked Z outcome, so that
+    component is rejected. Acceptance projects out the erroneous
+    component and leaves zero on the surviving wire. No guarantee on
+    arbitrary four-input garbage is claimed here, and these plaintext
+    guarantees assume that the circuit and checks are performed honestly.
+    Source: Technical Overview, basic 4-to-1 example.
+  }
+  \note<3>{
+    \footnotesize
+    Group inputs in fours and feed each surviving output into the next
+    level. A depth-L four-ary tree combines $4^L$ inputs into one output.
+    The displayed map is honest correctness on ideal zero inputs, not
+    unconditional soundness for arbitrary noisy inputs. For the error
+    analysis, every bad parent needs at least two bad children: a single
+    bad child is removed or the block rejects. Therefore a bad root
+    requires at least $2^L$ bad leaves. The paper combines this counting
+    rule with the preparation stage's joint bad-support bound.
+  }
+  \note<4>{
+    \footnotesize
+    State the extension without proof. The paper also gives 4-to-1
+    routines for EPR pairs and for Hadamard magic states. For EPR pairs,
+    apply the same C-dist pattern to each half and check the appropriate
+    stabilizer parities. Their correctness and one-bad-input properties
+    are proved in the paper. The recursive construction applies to those
+    routines as well. CCZ uses a separate distillation routine, so the
+    four-to-one picture here is not a claim about CCZ distillation.
+    Source: Distillation section, 4-to-1 circuits and measurement checks.
+  }
+\end{frame}
