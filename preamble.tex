@@ -9,6 +9,9 @@
 \usepackage{tabularx}
 \usepackage{tikz}
 \usepackage{qcircuit}
+% Classical gate from the paper; this qcircuit version provides only \gate.
+\providecommand{\cgate}[1]{*+<.6em>{#1} \POS ="i","i"+UR;"i"+UL
+  **\dir{-};"i"+DL **\dir{-};"i"+DR **\dir{-};"i"+UR **\dir{-},"i" \cw}
 \usepackage{pgfpages}
 \usetikzlibrary{arrows.meta,calc,decorations.pathreplacing,fit,positioning}
 

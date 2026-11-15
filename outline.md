@@ -186,6 +186,8 @@ Say we have to encrypt everything
 
 ## MBQC OTP...
 
+Current implementation: one "Need trap approx real => encrypt everything" bullet. First build wraps the plaintext real-copy circuit in OTP(...); the next replaces it with padded inputs, the masked HT^delta gate, the verifier's XOR-r outcome correction, and the encrypted output in standard X^{x'}T^{t'} form. Below the circuit, display delta and the final-pad formulas for x' and t', making their dependence on beta explicit. The formulas include the CZ key update; details are in speaker notes.
+
 * Draw the encrypted version of real copy.
   * `X^x T^t` on input
   * `delta = ...`
