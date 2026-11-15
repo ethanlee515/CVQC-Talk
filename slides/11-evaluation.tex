@@ -1,0 +1,62 @@
+% First the desired computation, then the authenticated route around the square.
+\begin{frame}{Background: Evaluation over QAS}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=2.8mm]},
+      state/.style={inner sep=5pt,font=\large,text=CVQCInk},
+      process/.style={draw=CVQCInk,fill=CVQCInk,rounded corners=3mm,
+        minimum width=1.7cm,minimum height=0.85cm,
+        text=white,font=\large},
+      flow/.style={->,very thick,draw=CVQCTeal},
+      label/.style={font=\large,text=CVQCInk}
+    ]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \node[state] (input) at (-3.6,1.8) {$\ket{\psi}$};
+    \node[state] (output) at (3.6,1.8) {$C\ket{\psi}$};
+    \draw[flow] (input.east) -- node[label,above=5pt] {$C$} (output.west);
+
+    \only<2>{
+      \node[process] (enc) at (-3.6,0) {$\operatorname{Enc}$};
+      \node[process] (dec) at (3.6,0) {$\operatorname{Dec}$};
+      \node[state] (cipherinput) at (-3.6,-1.8)
+        {$\operatorname{Enc}(\ket{\psi})$};
+      \node[state] (cipheroutput) at (3.6,-1.8)
+        {$\operatorname{Enc}(C\ket{\psi})$};
+      \node[state] (reject) at (5.8,0) {$\mathsf{rej}$};
+
+      \draw[flow] (input.south) -- (enc.north);
+      \draw[flow] (enc.south) -- (cipherinput.north);
+      \draw[flow] (cipherinput.east) --
+        node[label,below=6pt] {$\operatorname{Eval}(C)$} (cipheroutput.west);
+      \draw[flow] (cipheroutput.north) -- (dec.south);
+      \draw[flow] (dec.north) -- (output.south);
+      \draw[flow] (dec.east) -- (reject.west);
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    We want to apply a circuit C to the authenticated input. The top arrow
+    is the desired logical computation. The pure-state, unitary notation is
+    a cartoon: the authenticated computation also has to preserve correlations
+    with an external reference, and our eventual application has measurements.
+  }
+  \note<2>{
+    \footnotesize
+    The lower route performs the computation while the data stays
+    authenticated. For honest prescribed evaluation, decoding gives the same
+    logical result as the top arrow. Enc on the right uses the updated key;
+    we suppress keys throughout the picture. The verifier tracks those updates
+    without revealing the key to the prover. Dec includes verification and
+    can reject; the branch on the right recalls the security goal against
+    deviations: the intended result or rejection, with negligible total
+    accepted error. This is not an arbitrary QAS feature: we need a scheme
+    and gate procedures that support authenticated evaluation. Some gates
+    need interaction and auxiliary authenticated states. It is also distinct
+    from the classical-client QFHE used later in the remote state preparation
+    step. The next slide illustrates the particularly simple CNOT procedure
+    for the trap code. The manuscript's Non-CCZ Evaluation section describes
+    the operation and the verifier's key updates.
+  }
+\end{frame}

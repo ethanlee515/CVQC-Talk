@@ -1,0 +1,76 @@
+% Adapted from the newer reference talk's aligned-block CNOT picture.
+\begin{frame}{Background: Homomorphic CNOT}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=2.6mm]},
+      qubit/.style={rounded corners=1.5pt,minimum width=0.56cm,
+        minimum height=0.58cm,inner sep=0pt,thick},
+      data/.style={qubit,draw=CVQCTeal,fill=CVQCPale},
+      ztrap/.style={qubit,draw=CVQCGold,fill=CVQCGoldPale},
+      xtrap/.style={qubit,draw=CVQCInk,fill=CVQCFog},
+      hidden/.style={qubit,draw=CVQCMuted,fill=CVQCFog}
+    ]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \node[font=\large,text=CVQCInk] at (0.8,2.1) {Same permutation};
+    \node[anchor=east,font=\large,text=CVQCInk] at (-4.05,0.75)
+      {$\operatorname{Enc}(\ket{\psi})$};
+    \node[anchor=east,font=\large,text=CVQCInk] at (-4.05,-0.75)
+      {$\operatorname{Enc}(\ket{\phi})$};
+
+    % Four data positions and four of each trap type; physical counts schematic.
+    % The revealed colors are for the audience, not information given to the server.
+    \foreach \i/\kind in {0/ztrap,1/data,2/xtrap,3/ztrap,4/data,5/xtrap,
+        6/xtrap,7/ztrap,8/data,9/ztrap,10/data,11/xtrap} {
+      \pgfmathsetmacro{\x}{-3.6+0.8*\i}
+      \only<1>{
+        \node[hidden] at (\x,0.75) {};
+        \node[hidden] at (\x,-0.75) {};
+      }
+      \only<2>{
+        \node[\kind] at (\x,0.75) {};
+        \node[\kind] at (\x,-0.75) {};
+      }
+      \draw[thick,draw=CVQCInk] (\x,0.75) -- (\x,-0.75);
+      \fill[CVQCInk] (\x,0.75) circle (2pt);
+      \draw[thick,draw=CVQCInk,fill=white] (\x,-0.75) circle (0.14);
+      \draw[thick,draw=CVQCInk]
+        ({\x-0.14},-0.75) -- ({\x+0.14},-0.75)
+        (\x,-0.89) -- (\x,-0.61);
+    }
+
+    \draw[decorate,decoration={brace,mirror,amplitude=5pt},
+      thick,draw=CVQCMuted] (-3.9,-1.25) -- (5.5,-1.25);
+    \node[font=\large,text=CVQCInk] at (0.8,-1.95) {Transversal CNOT};
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    Take two authenticated logical qubits. The first row is the control and
+    the second is the target. Both blocks use the same hidden permutation,
+    with independent one-time pads. Apply a physical CNOT from each position
+    in the first ciphertext to the corresponding position in the second.
+    There are 3n physical CNOTs, where n is the underlying code block length;
+    the twelve drawn pairs are schematic. The prover can do this without
+    learning which positions contain encoded data or either type of trap.
+    The verifier updates its pad keys. If the old keys are
+    (x1,z1) and (x2,z2), the new keys are
+    (x1,z1 XOR z2) and (x1 XOR x2,z2).
+  }
+  \note<2>{
+    \footnotesize
+    Reveal the colors only to explain why the operation works. The prover
+    never learns them. Matching permutations align data with data, zero traps
+    with zero traps, and plus traps with plus traps. The CSS code implements
+    the logical CNOT transversally. CNOT preserves each pair of zero traps
+    and each pair of plus traps, so the traps remain valid under the updated
+    pad keys. The two logical output registers may be entangled; the input
+    labels on the left do not assert product-form outputs. This explains
+    honest correctness; security against deviations still uses authentication.
+    Other gates, especially the non-Clifford resource needed for our
+    computation, require additional procedures rather than just transversal
+    gates. Figure adapted from the newer reference talk's Background:
+    Homomorphic CNOT slide. Protocol and key update: the manuscript's
+    Non-CCZ Evaluation section.
+  }
+\end{frame}

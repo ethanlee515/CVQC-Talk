@@ -114,6 +114,8 @@ Current implementation: two slides. QAS is a single Enc -> Attack -> Dec diagram
 
 ## Background: Homomorphic Eval. over QAS
 
+Current implementation: two slides. First, the desired computation and then the authenticated route around a commutative diagram. Second, transversal CNOT on two trap-code blocks with the same permutation; a transition reveals the matched data and trap positions. Explain key updates and correctness in words, with details in speaker notes.
+
 * Homomorphic eval, maybe the typical commutative diagram. There might be one here to copy/paste: https://github.com/ethanlee515/Mending-Slides
 * Maybe CNOT example? Maybe just assume knowledge of QEC, say "transversal" and assume audience know what that means...
 
