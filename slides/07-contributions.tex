@@ -4,26 +4,21 @@
   \begin{tikzpicture}[
       >={Latex[length=3mm]},
       resultcard/.style={draw=CVQCInk,thick,rounded corners=4mm},
-      modellabel/.style={fill=white,inner xsep=6pt,inner ysep=2pt,
-        font=\bfseries,text=CVQCInk},
-      capability/.style={font=\large,text=CVQCInk},
-      guarantee/.style={font=\large\bfseries,text=CVQCTeal}
+      result/.style={font=\large\bfseries,text=CVQCInk}
     ]
     \path[use as bounding box] (-6.5,-3.1) rectangle (6.5,3.1);
 
-    \draw[resultcard] (-5.4,0.55) rectangle (5.4,2.10);
-    \node[modellabel] at (-4.25,2.10) {$\mathsf{QPIP}_1$};
-    \node[capability] at (0,1.55) {Single-qubit preparation};
-    \node[guarantee] at (0,0.95) {Statistical security};
+    \draw[resultcard] (-5.4,0.65) rectangle (5.4,1.75);
+    \node[result] at (0,1.20)
+      {\textcolor{CVQCTeal}{Statistically secure} $\mathsf{QPIP}_1$ protocol};
 
     \only<2>{
-      \draw[->,line width=1.5pt,draw=CVQCTeal] (0,0.40) -- (0,-0.80)
+      \draw[->,line width=1.5pt,draw=CVQCTeal] (0,0.50) -- (0,-0.50)
         node[midway,right=8pt,font=\small\bfseries,text=CVQCTeal] {compile};
 
-      \draw[resultcard] (-5.4,-2.50) rectangle (5.4,-0.95);
-      \node[modellabel] at (-4.25,-0.95) {$\mathsf{QPIP}_0$};
-      \node[capability] at (0,-1.50) {Fully classical verifier};
-      \node[guarantee] at (0,-2.10) {Computational security};
+      \draw[resultcard] (-5.4,-1.75) rectangle (5.4,-0.65);
+      \node[result] at (0,-1.20)
+        {\textcolor{CVQCTeal}{Computationally secure} $\mathsf{QPIP}_0$ protocol};
     }
   \end{tikzpicture}
 
