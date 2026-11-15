@@ -1,10 +1,9 @@
 % Smaller copies of the message diagram from slides/02-cvqc.tex.
-% Arguments: vertical position, verifier label, protocol label.
-\newcommand{\strategyprotocol}[3]{%
+% Arguments: vertical position, verifier label.
+\newcommand{\strategyprotocol}[2]{%
   \begin{scope}[shift={(0,#1)},scale=0.68,transform shape]
     \node[party] at (-4.15,0) {#2};
     \node[party] at (4.15,0) {Prover};
-    \node[font=\large,text=CVQCInk] at (0,1.60) {$#3$};
 
     \draw[communication] (-2.35, 1.10) -- ( 2.35, 1.10);
     \draw[communication] ( 2.35, 0.50) -- (-2.35, 0.50);
@@ -32,7 +31,7 @@
 
     \draw[protocolbox] (-5.4,0.4) rectangle (5.4,2.9);
     \node[modellabel] at (-4.25,2.9) {$\mathsf{QPIP}_1$};
-    \strategyprotocol{1.65}{Weak\\quantum\\verifier}{\pi}
+    \strategyprotocol{1.65}{Weak\\quantum\\verifier}
 
     \only<2>{
       \draw[->,line width=1.5pt,draw=CVQCTeal] (0,0.30) -- (0,-0.30)
@@ -40,7 +39,7 @@
 
       \draw[protocolbox] (-5.4,-2.9) rectangle (5.4,-0.4);
       \node[modellabel] at (-4.25,-0.4) {$\mathsf{QPIP}_0$};
-      \strategyprotocol{-1.65}{Classical\\verifier}{\pi_{\mathrm{cl}}}
+      \strategyprotocol{-1.65}{Classical\\verifier}
     }
   \end{tikzpicture}
 
@@ -57,9 +56,9 @@
     \footnotesize
     Next, compile the protocol to remove the verifier's quantum operations,
     giving a fully classical verifier interacting with the quantum prover:
-    the $\mathsf{QPIP}_0$ model. The bottom protocol is the compiled version of
-    $\pi$. This is the overall strategy; the next slides show two paradigms
-    for implementing this compilation. In our prepare-and-send setting, the
+    the $\mathsf{QPIP}_0$ model. The bottom protocol is the compiled version
+    of the one above. This is the overall strategy; the next slides show
+    two paradigms for implementing this compilation. In our prepare-and-send setting, the
     quantum preparation is replaced with remote state preparation.
   }
 \end{frame}

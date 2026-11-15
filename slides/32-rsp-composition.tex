@@ -34,7 +34,7 @@
       \node[output,text=CVQCCoral] at (5.1,0.88)
         {$\overline{\ket{+_{\theta_K}}}$};
     }
-    \only<3>{
+    \only<3->{
       \node[bank] at (-5.1,0.88)
         {$\bigl(\ket{+_{\theta_{1,j}}}\bigr)_{j=1}^{9}$};
       \node[bank,text=CVQCCoral] at (-2.5,0.88)
@@ -50,13 +50,13 @@
         \raggedright
         \begin{itemize}
           \setlength{\itemsep}{0.55em}
-          \item<1-> Few bad preparations $\longrightarrow$ distillation.
-          \item<2-> Control complex conjugation across calls.
+          \item<1-> Most outputs correct $\Rightarrow$ distillable.
+          \item<2-> Caveat: Complex-conjugation attack.
           \item<3-> Nine qubits per call; check eight neighbors.
         \end{itemize}
       \end{minipage}%
     };
-    \uncover<3->{
+    \uncover<4->{
       \node[font=\small,text=CVQCMuted,align=center,text width=12cm,
           inner sep=0pt] at (0,-2.75)
         {Full analysis, including factorizability: see the paper.};
@@ -95,7 +95,7 @@
     the MBQC inputs have the structure required by the proof. Source:
     HN extraction map and the paper's conjugation-consistency analysis.
   }
-  \note<3>{
+  \note<3->{
     \footnotesize
     Use the actual constant-size interface: nine qubits per call, one
     computation qubit and eight tag qubits. The j equals one through

@@ -36,7 +36,7 @@ Speaker note: security notion
 
 ## CVQC strategy
 
-Two parties, one "weak quantum verifier" one "prover", protocol `pi` between.
+Two parties, one "weak quantum verifier" one "prover", exchanging unlabelled messages. No `pi` or `pi_cl` labels.
 Box surrounding both parties labelled "QPIP1"
 
 Arrow from this box, say "compile"
@@ -73,6 +73,8 @@ Maybe do animation, reveal one row each transition
 ---
 
 Speaker note: Mention that the last row is concurrent work, submission 598 to STOC
+
+Keep the decision-problem amplification qualification in speaker notes, with no on-slide footnote or asterisks.
 
 ## Main contributions
 
@@ -306,7 +308,7 @@ Speaker notes: this is an accepted-output reduction, not an operator identity fo
 
 ## Distillation: One Bad Input
 
-Centered informal lemma, on acceptance:
+Centered informal lemma; state the acceptance qualification verbally and in the notes:
 
 `1x factorizable attack + 3x ciphertext-level attack`
 `mapsto ciphertext-level attack`.
@@ -325,11 +327,11 @@ Repeat the complete overview with the QPIP1 enclosure already visible, using the
 
 * Presentation choice: keep QFHE inside the RSP implementation; no separate QFHE introduction for now. Retain the classical-client and subexponential-security assumptions in the notes and paper.
 * Current implementation: restore the HN four-message diagram, adapted from the paper's `figures/compiled-test-messages.tex`. Its inclusion was removed by commit `017f09b` on November 2; the source was retained. First show the encrypted question/answer and private preparation description, then reveal the two clear test messages and check. Preparation ends after the first pair; testing uses all four messages.
-* Current implementation: a new slide lines up four `pi_RSP` boxes and an ellipsis, with downward arrows to phase-state targets. Three builds:
-  1. Single-qubit target outputs. Bullet: Few bad preparations -> distillation.
-  2. Some outputs become red complex conjugates. Bullet: Control complex conjugation across calls.
+* Current implementation: a new slide lines up four `pi_RSP` boxes and an ellipsis, with downward arrows to phase-state targets. Four builds:
+  1. Single-qubit target outputs. Bullet: Most outputs correct => distillable.
+  2. Some outputs become red complex conjugates. Bullet: Caveat: Complex-conjugation attack.
   3. Each output becomes a nine-qubit tuple. Bullet: Nine qubits per call; check eight neighbors.
-* Final build includes: Full analysis, including factorizability: see the paper.
+  4. Reveal: Full analysis, including factorizability: see the paper. Keep the nine-qubit outputs and earlier bullets visible.
 * Speaker notes: calls are sequential and adaptive despite the horizontal layout; the targets are schematic extracted states, not independent physical outputs. The proof controls joint defect terms and correlated conjugation flags. One computation qubit and eight tags per call support pairwise Bell checks on a degree-eight expander. A common global conjugation remains allowed.
 
 ## Future work
