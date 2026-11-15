@@ -148,6 +148,8 @@ Put box over everything except RSP, label it QPIP1
 
 ## Challenges
 
+Current implementation: keep the shaded overview flowchart on the left, highlight the MBQC output entering distillation, and point to it from the two challenge questions on the right. Recall the correlated all-bad-batch counterexample verbally; its explanation is in speaker notes.
+
 Don't know what is good visual here either...
 
 Maybe stay on the same slide, just arrow at the `ket{CCZ}` between MBQC and Distill?

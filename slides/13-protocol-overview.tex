@@ -1,7 +1,6 @@
-% Show the whole pipeline immediately; only the QPIP_1 enclosure is revealed.
-\begin{frame}{Protocol Overview}
-  \centering
-  \begin{tikzpicture}[
+% Shared with the Challenges slide; optional style highlights the MBQC output.
+\newcommand{\protocolflowchart}[1][]{%
+  \begin{scope}[
       >={Latex[length=1.5mm,width=1.1mm]},
       stage/.style={draw=CVQCInk,fill=CVQCFog,thick,rounded corners=2mm,
         minimum width=5.6cm,minimum height=0.45cm,inner sep=2pt,
@@ -9,25 +8,14 @@
       state/.style={inner xsep=2pt,inner ysep=1pt,
         font=\footnotesize,text=CVQCInk},
       flow/.style={->,line width=1pt,draw=CVQCTeal,
-        shorten <=0.8pt,shorten >=0.8pt},
-      protocolbox/.style={draw=none,fill=CVQCPale,rounded corners=4mm},
-      modellabel/.style={inner sep=0pt,
-        font=\small\bfseries,text=CVQCInk}
+        shorten <=0.8pt,shorten >=0.8pt}
     ]
-    \path[use as bounding box] (-6.6,-3.20) rectangle (6.6,3.05);
-
-    \only<2>{
-      \path[protocolbox] (-4.75,-3.15) rectangle (4.75,2.15);
-      \node[modellabel,anchor=north west] at (-4.45,1.95)
-        {$\mathsf{QPIP}_1$};
-    }
-
     \node[stage,fill=CVQCPale] (rsp) at (0,2.65)
       {Remote state preparation};
     \node[state] (inputs) at (0,1.85)
       {$\ket{+_{\theta}},\;\ket{0},\;\ket{1}$};
     \node[stage] (mbqc) at (0,1.05) {MBQC};
-    \node[state] (rawmagic) at (0,0.25)
+    \node[state,#1] (rawmagic) at (0,0.25)
       {$\operatorname{Enc}(\ket{\mathrm{CCZ}})$};
     \node[stage] (distill) at (0,-0.55) {Authenticated distillation};
     \node[state] (cleanmagic) at (0,-1.35)
@@ -43,6 +31,26 @@
     \draw[flow] (distill.south) -- (cleanmagic.north);
     \draw[flow] (cleanmagic.south) -- (eval.north);
     \draw[flow] (eval.south) -- (output.north);
+  \end{scope}%
+}
+
+% Show the whole pipeline immediately; only the QPIP_1 enclosure is revealed.
+\begin{frame}{Protocol Overview}
+  \centering
+  \begin{tikzpicture}[
+      protocolbox/.style={draw=none,fill=CVQCPale,rounded corners=4mm},
+      modellabel/.style={inner sep=0pt,
+        font=\small\bfseries,text=CVQCInk}
+    ]
+    \path[use as bounding box] (-6.6,-3.20) rectangle (6.6,3.05);
+
+    \only<2>{
+      \path[protocolbox] (-4.75,-3.15) rectangle (4.75,2.15);
+      \node[modellabel,anchor=north west] at (-4.45,1.95)
+        {$\mathsf{QPIP}_1$};
+    }
+
+    \protocolflowchart
   \end{tikzpicture}
 
   \note<1>{

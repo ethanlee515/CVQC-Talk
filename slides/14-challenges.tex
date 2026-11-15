@@ -1,0 +1,50 @@
+% Keep the overview as a map; focus on the batch passed to distillation.
+\begin{frame}{Challenges}
+  \centering
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}[>={Latex[length=2mm,width=1.4mm]}]
+    \path[use as bounding box] (-6.6,-3.20) rectangle (6.6,3.05);
+
+    \begin{scope}[shift={(-3.2,0)}]
+      \path[fill=CVQCPale,rounded corners=4mm]
+        (-3.4,-3.15) rectangle (3.4,2.15);
+      \node[anchor=north west,inner sep=0pt,
+        font=\small\bfseries,text=CVQCInk] at (-3.10,1.95)
+        {$\mathsf{QPIP}_1$};
+      \protocolflowchart[fill=CVQCGoldPale,rounded corners=1.5mm,
+        inner xsep=5pt]
+    \end{scope}
+
+    \node[anchor=west,inner sep=0pt,text=CVQCInk] at (0.80,0.25) {%
+      \begin{minipage}{5.7cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{1.0em}
+          \item What does MBQC guarantee?
+          \item What is distillable?
+        \end{itemize}
+      \end{minipage}%
+    };
+    \draw[->,very thick,draw=CVQCTeal,shorten >=2pt]
+      (0.50,0.25) -- (rawmagic.east);
+  \end{tikzpicture}
+
+  \note{
+    \footnotesize
+    The highlighted batch connects preparation to distillation. Ask what
+    MBQC and its trap-copy tests guarantee against a malicious prover,
+    and whether that joint guarantee suffices for distillation.
+    Recall the earlier example verbally. With probability
+    $p=1/\mathrm{poly}$, all copies may be maliciously bad together;
+    otherwise all are ideal. Each marginal has error at most p, but this
+    alone does not establish distillability. If that branch passes with
+    constant probability and gives a wrong output, its accepted bad weight
+    remains inverse-polynomial. We are not claiming every all-bad batch
+    passes: reliable rejection would eliminate the branch.
+    We instead need the required factorizable error structure and a joint
+    bound on how many copies are bad, except for negligible accepted weight.
+    Authentication addresses malicious execution; it does not certify
+    correctly prepared magic states. Next, explain the MBQC preparation
+    and its error structure. Keep the counterexample off the slide.
+  }
+\end{frame}
