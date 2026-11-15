@@ -1,61 +1,153 @@
-% Motivate error reduction before introducing the distillation picture.
-\begin{frame}{Error Reduction}
+% Background overview: input-quality counterexample, then untrusted execution.
+\begin{frame}{Background: Distillation}
   \centering
-  \begin{tikzpicture}[
-      >={Latex[length=2.8mm]},
-      questiontitle/.style={font=\Large\bfseries,text=CVQCInk,align=center},
-      resource/.style={font=\large,text=CVQCInk},
-      flow/.style={->,very thick,draw=CVQCTeal}
-    ]
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}[>={Latex[length=2.8mm]}]
     \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
 
-    % Keep the question fixed; the second overlay only adds the answer.
-    \node[questiontitle] at (0,2.25)
-      {How do we turn $1/\mathrm{poly}$ error\\into negligible error?};
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.4,2.50) {%
+      \begin{minipage}{7.1cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{0.8em}
+          \item<1-> Standard building block in quantum computing.
+          \item<2-> Reduces resource-state error:\\[0.2em]
+            $1/\mathrm{poly}\;\longrightarrow\;\text{negligible}$
+          \item<3-> Needs mostly good inputs per batch.
+            \uncover<4->{\\[0.3em]
+              {\small\color{CVQCCoral}All-bad batch with probability\\
+              $1/\mathrm{poly}$: too much.}}
+          \item<5-> Untrusted distiller?\\[0.2em]
+            \textbf{\textcolor{CVQCTeal}{Use authentication.}}
+        \end{itemize}
+      \end{minipage}%
+    };
 
-    \only<2>{
-      \node[font=\large\bfseries,text=CVQCTeal] at (0,1.30) {Answer: distillation};
-      \begin{scope}[yshift=-0.3cm]
-        \node[resource] at (-2.20,0.90) {$\ket{\mathrm{CCZ}}$};
-        \node[resource] at (-0.65,0.90) {$\ket{\mathrm{CCZ}}$};
-        \node[font=\large,text=CVQCMuted] at (0.80,0.90) {$\cdots$};
+    % The fourth build isolates an all-bad branch; the fifth changes to
+    % protected resources and highlights the untrusted operation itself.
+    \begin{scope}[shift={(3.85,1.55)},scale=0.75,transform shape,
+        resource/.style={font=\large,text=CVQCInk},
+        flow/.style={->,very thick,draw=CVQCTeal}]
+      \only<1-4>{
+        \node[resource] at (-2.20,0.90)
+          {\only<4>{\color{CVQCCoral}}$\ket{\mathrm{CCZ}}$};
+        \node[resource] at (-0.65,0.90)
+          {\only<4>{\color{CVQCCoral}}$\ket{\mathrm{CCZ}}$};
+        \node[font=\large,text=CVQCMuted] at (0.80,0.90)
+          {\only<4>{\color{CVQCCoral}}$\cdots$};
         \node[resource,text=CVQCCoral] at (2.20,0.90) {$\ket{\mathrm{CCZ}}$};
 
-        \draw[flow] (-2.20,0.60) -- (-2.20,0.15);
-        \draw[flow] (-0.65,0.60) -- (-0.65,0.15);
+        \alt<4>{
+          \draw[flow,draw=CVQCCoral] (-2.20,0.60) -- (-2.20,0.15);
+          \draw[flow,draw=CVQCCoral] (-0.65,0.60) -- (-0.65,0.15);
+        }{
+          \draw[flow] (-2.20,0.60) -- (-2.20,0.15);
+          \draw[flow] (-0.65,0.60) -- (-0.65,0.15);
+        }
         \draw[flow,draw=CVQCCoral] (2.20,0.60) -- (2.20,0.15);
+      }
+      \only<5>{
+        % Spread the labels slightly to make room for the encryption notation.
+        \node[resource,font=\small] at (-2.80,0.90)
+          {$\operatorname{Enc}(\ket{\mathrm{CCZ}})$};
+        \node[resource,font=\small] at (-0.65,0.90)
+          {$\operatorname{Enc}(\ket{\mathrm{CCZ}})$};
+        \node[font=\large,text=CVQCMuted] at (1.10,0.90) {$\cdots$};
+        \node[resource,font=\small] at (2.80,0.90)
+          {$\operatorname{Enc}(\textcolor{CVQCCoral}{\ket{\mathrm{CCZ}}})$};
 
-        % Wide top, narrow bottom: a schematic distillation funnel.
-        \path[draw=CVQCInk,fill=CVQCInk,very thick,rounded corners=3pt]
-          (-3.00,0.15) -- (3.00,0.15) -- (1.10,-1.20) -- (-1.10,-1.20) -- cycle;
-        \node[font=\large\bfseries,text=white] at (0,-0.50) {Distillation};
+        \draw[flow] (-2.80,0.60) -- (-2.20,0.15);
+        \draw[flow] (-0.65,0.60) -- (-0.65,0.15);
+        \draw[flow,draw=CVQCCoral] (2.80,0.60) -- (2.20,0.15);
+      }
 
-        \draw[flow] (0,-1.20) -- (0,-1.65);
+      \path[draw=CVQCInk,fill=CVQCInk,very thick,rounded corners=3pt]
+        (-3.00,0.15) -- (3.00,0.15) -- (1.10,-1.20) -- (-1.10,-1.20) -- cycle;
+      \node[font=\large\bfseries,text=white] at (0,-0.50)
+        {\only<5>{\color{CVQCCoral!55!white}}Distillation};
+
+      \draw[flow] (0,-1.20) -- (0,-1.65);
+      \only<1-3>{
         \node[resource,text=CVQCTeal] at (0,-1.95) {$\ket{\mathrm{CCZ}}$};
-      \end{scope}
+      }
+      \only<4>{
+        \node[resource,text=CVQCCoral] at (0,-1.95) {$\ket{\mathrm{CCZ}}$};
+      }
+      \only<5>{
+        \node[resource,font=\small,text=black] at (0,-1.95)
+          {$\operatorname{Enc}(\ket{\mathrm{CCZ}})\;\text{or}\;\mathsf{rej}$};
+      }
+    \end{scope}
+
+    \only<4>{
+      \node[font=\small,text=CVQCCoral] at (3.85,2.80)
+        {With probability $1/\mathrm{poly}$};
+      \node[font=\small,text=CVQCCoral] at (3.85,-0.50)
+        {Bad output may still be accepted.};
     }
   \end{tikzpicture}
 
   \note<1>{
     \footnotesize
-    The goal is to reduce inverse-polynomial verification error to negligible
-    error with polynomial resources. For decision problems, repetition and
-    majority vote can amplify a decision bit. There is no generic majority
-    vote for samples that preserves their target distribution. Our approach
-    reduces errors in the quantum resources before producing the final sample.
-    This motivates our construction; it is not a generic amplification theorem
-    for an arbitrary sampling-verification protocol.
+    Magic-state distillation is a standard building block for fault-tolerant
+    quantum computation: combine many imperfect resource states to obtain a
+    cleaner surviving resource. The diagram uses $\ket{\mathrm{CCZ}}$ as an
+    example; the symbols indicate the intended state, and red indicates a
+    faulty copy. For background, see
+    \href{https://arxiv.org/abs/quant-ph/0403025}{Bravyi--Kitaev (2005)} and
+    \href{https://arxiv.org/abs/1209.2426}{Bravyi--Haah (2012)}.
   }
   \note<2>{
     \footnotesize
-    Distillation combines many imperfect quantum resource states to obtain a
-    cleaner surviving resource, conditioned on successful checks. The picture
-    uses $\ket{\mathrm{CCZ}}$ as an example; the state symbols indicate the
-    intended resource, and red indicates a faulty copy. The inputs must have
-    sufficiently sparse errors of the kind covered by the distillation
-    analysis. This picture does not assume independent errors, and does not
-    promise to purify arbitrary garbage. For now, assume the distillation
-    procedure is executed honestly. The details of the error reduction come
-    later in the construction and analysis.
+    Distillation suppresses errors in quantum resources before we produce the
+    final sample. Under its input-quality assumptions and with an honest
+    implementation, recursive distillation can reduce inverse-polynomial
+    resource error to negligible error using polynomial resources. This is
+    the role of distillation in our construction, not a generic amplification
+    theorem for arbitrary sampling-verification protocols. Details of our
+    resource-error model and distillation analysis come later.
+  }
+  \note<3>{
+    \footnotesize
+    Input quality is an essential precondition. Distillation has a restricted
+    error regime: in our analysis, the errors must be sufficiently sparse and
+    have the required structure. An honestly executed distillation circuit
+    need not reject arbitrary garbage inputs. Avoid the unconditional claim
+    that any input produces either the desired state or rejection. The
+    earlier preparation and testing stages must establish a joint promise:
+    few bad copies in the batch, except for negligible accepted weight.
+    Bounding the error of each individual copy is not sufficient. This is
+    the issue to recall on the later Challenges slide.
+  }
+  \note<4>{
+    \footnotesize
+    Let $p=1/\mathrm{poly}$ and let $\Phi$ be the ideal resource state. Consider
+    a correlated batch
+    $\rho=(1-p)\Phi^{\otimes N}+p\sigma_{\mathrm{bad}}$, where the second branch
+    contains an arbitrary malicious batch. Every individual marginal can be
+    within distance $p$ of ideal, while the whole batch is bad together with
+    probability $p$. Distillation has no general guarantee on that branch.
+    If it passes the checks with constant probability and produces a wrong
+    output, its accepted bad weight remains $\Omega(p)$. The example is a
+    failure of the promise, not a claim that every all-bad input is accepted.
+    Reliable rejection of the branch would be sufficient; the marginal
+    error bound alone does not establish that. We need to bound the joint
+    bad-support tail, which the later MBQC and testing analysis supplies.
+  }
+  \note<5>{
+    \footnotesize
+    Standard distillation assumes the prescribed operations and checks are
+    performed correctly. In our setting the quantum prover performs them and
+    may deviate or lie about measurement outcomes. We therefore need quantum
+    authentication and verified operations on authenticated resources.
+    Authentication addresses malicious execution; the input-quality promise
+    still comes from the preparation and testing stages. The diagram now
+    uses $\operatorname{Enc}$ as schematic notation for protected resources;
+    the red plaintext in one input still represents a bad resource. The red
+    process label marks untrusted execution; the output states the desired
+    protected-state-or-reject guarantee.
+    We will need verified operations on authenticated states; encryption by
+    itself is not a verification guarantee. This motivates the next background
+    slide, where we can ask who we trust to run the distillation.
   }
 \end{frame}

@@ -82,6 +82,8 @@ Not sure how to do this as nice visuals, but...
 
 ## Background: Distillation
 
+Current slide: vertical funnel in the upper right, with five builds: standard building block; resource-state error from inverse-polynomial to negligible; mostly good inputs per batch; a correlated all-bad batch with inverse-polynomial probability can leave inverse-polynomial accepted error; untrusted distillation needs authentication. On the final build, wrap the resources in Enc and make the distillation label red. Keep the input-quality precondition distinct from honest execution.
+
 漏斗-shaped, trapezoid-shaped box maybe?
 Bunch of `\ket{CCZ}` goes in, one comes out
 
@@ -104,7 +106,7 @@ Question: For distillation of `ket{T}`, if input is all conjugated, is the outpu
 
 ## Background: Quantum Authentication
 
-* Save the question "Who do we trust to run the distillation?" for this later slide. The introductory distillation slide should just reveal the distillation figure as the answer to the error-reduction question.
+* Save the question "Who do we trust to run the distillation?" for this later slide, following the background slide's authentication bullet.
 * Maybe take from reference slides: `x -> Enc -> Atk -> Dec -> x` or some figure like that...
 * Trap code construction and intuition I guess? The reference slides are an old version, think the newest version (see git) has a decent figure
 
@@ -149,6 +151,8 @@ Challenges:
 * What is distillable?
 
 (Recall earlier, 1/poly all garbage = can be cheated)
+
+Recall the background counterexample: per-copy error p = 1/poly can come from a single correlated branch of mass p in which the whole batch is maliciously bad. Need a joint few-bad-copies guarantee, except for negligible accepted weight, rather than only accurate individual marginals.
 
 ## MBQC Construction
 
