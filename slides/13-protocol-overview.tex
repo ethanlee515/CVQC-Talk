@@ -1,0 +1,81 @@
+% Show the whole pipeline immediately; only the QPIP_1 enclosure is revealed.
+\begin{frame}{Protocol Overview}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=1.5mm,width=1.1mm]},
+      stage/.style={draw=CVQCInk,fill=CVQCFog,thick,rounded corners=2mm,
+        minimum width=5.6cm,minimum height=0.45cm,inner sep=2pt,
+        align=center,font=\footnotesize\bfseries,text=CVQCInk},
+      state/.style={inner xsep=2pt,inner ysep=1pt,
+        font=\footnotesize,text=CVQCInk},
+      flow/.style={->,line width=1pt,draw=CVQCTeal,
+        shorten <=0.8pt,shorten >=0.8pt},
+      protocolbox/.style={draw=none,fill=CVQCPale,rounded corners=4mm},
+      modellabel/.style={inner sep=0pt,
+        font=\small\bfseries,text=CVQCInk}
+    ]
+    \path[use as bounding box] (-6.6,-3.20) rectangle (6.6,3.05);
+
+    \only<2>{
+      \path[protocolbox] (-4.75,-3.15) rectangle (4.75,2.15);
+      \node[modellabel,anchor=north west] at (-4.45,1.95)
+        {$\mathsf{QPIP}_1$};
+    }
+
+    \node[stage,fill=CVQCPale] (rsp) at (0,2.65)
+      {Remote state preparation};
+    \node[state] (inputs) at (0,1.85)
+      {$\ket{+_{\theta}},\;\ket{0},\;\ket{1}$};
+    \node[stage] (mbqc) at (0,1.05) {MBQC};
+    \node[state] (rawmagic) at (0,0.25)
+      {$\operatorname{Enc}(\ket{\mathrm{CCZ}})$};
+    \node[stage] (distill) at (0,-0.55) {Authenticated distillation};
+    \node[state] (cleanmagic) at (0,-1.35)
+      {$\operatorname{Enc}(\ket{\mathrm{CCZ}})$};
+    \node[stage] (eval) at (0,-2.15) {Evaluation};
+    \node[state] (output) at (0,-2.90)
+      {$y\;\text{or}\;\mathsf{rej}$};
+
+    \draw[flow] (rsp.south) -- (inputs.north);
+    \draw[flow] (inputs.south) -- (mbqc.north);
+    \draw[flow] (mbqc.south) -- (rawmagic.north);
+    \draw[flow] (rawmagic.south) -- (distill.north);
+    \draw[flow] (distill.south) -- (cleanmagic.north);
+    \draw[flow] (cleanmagic.south) -- (eval.north);
+    \draw[flow] (eval.south) -- (output.north);
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    Read the complete pipeline from top to bottom. Remote state preparation
+    supplies single qubits held by the prover, with their descriptions known
+    to the classical verifier. These are equatorial states with theta a
+    multiple of pi/4, or computational-basis states. The parties use them
+    for MBQC preparation, including hidden real and trap copies, trap checks,
+    and conversion of the output pads to Pauli pads. Enc denotes trap-code
+    authentication. The first CCZ label denotes the intended magic states:
+    the surviving batch can still contain faults. Its joint error structure
+    is the central promise to establish, not a claim that every copy is
+    already correct. Authenticated distillation suppresses the remaining
+    errors, then authenticated evaluation uses the distilled magic states
+    to run the target sampling circuit. The final measurement and decoding
+    return y, or rejection if a check fails. CCZ states stand for the full
+    collection of required magic states; the picture suppresses the other
+    types, multiplicities, and auxiliary distillation trees. Source: the
+    manuscript's Classical Verifier Protocol section.
+  }
+  \note<2>{
+    \footnotesize
+    The box identifies our statistically secure QPIP1 protocol. A weak
+    quantum verifier prepares and sends the single-qubit inputs directly;
+    all later interaction is classical. The three stages inside are MBQC
+    preparation and testing, authenticated distillation, and authenticated
+    evaluation. The classical-verifier compilation replaces only that
+    single-qubit preparation with remote state preparation, the stage above
+    the box. The full compiled protocol is computationally secure; the box
+    does not include the RSP assumption. This enclosure is the slide's only
+    transition. Next, ask what guarantee MBQC establishes for the states
+    entering distillation, and which joint input-quality promise distillation
+    actually needs.
+  }
+\end{frame}

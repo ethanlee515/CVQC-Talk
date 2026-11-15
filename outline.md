@@ -121,6 +121,8 @@ Current implementation: two slides. First, the desired computation and then the 
 
 ## Our protocol overview
 
+Current implementation: the full top-to-bottom flowchart appears immediately. One transition adds a QPIP1 box around the single-qubit inputs, MBQC, authenticated distillation, evaluation, and output, leaving remote state preparation outside.
+
 Similar to the flowchart in the reference slides, top to bottom
 3 steps
 
