@@ -313,12 +313,18 @@ Centered informal lemma, on acceptance:
 
 The map uses a mapsto arrow, after the calculation and the explicit output-Pauli/pad swap. Speaker notes retain the joint invariant, potentially global outside attack, uniform live key, and subnormalization qualifications.
 
+Interpretation below the lemma block: Plaintext-level attacks are distilled away.
+
 Later: explain closure for several bad copies, `4x factorizable -> factorizable`.
+
+## Protocol Overview (reprise)
+
+Repeat the complete overview with the QPIP1 enclosure already visible, using the same flowchart as before. No stepwise reveal or extra slide text. Explain verbally that distillation gives the ciphertext-level attack form needed by authenticated evaluation, while the paper supplies the remaining QPIP1 details. Turn attention to the remote-preparation stage for the rest of the talk.
 
 ## QPIP0: RSP construction
 
-* Presentation TODO: Introduce **classical-client QFHE** before explaining the HN RSP: what the client does classically, what the quantum prover evaluates, and the subexponential-security assumption. The main-contributions slide should just say "compile"; defer the QFHE explanation until here.
-* 4-message thing, used to be a figure in the paper that was deleted, find in git history
+* Presentation choice: keep QFHE inside the RSP implementation; no separate QFHE introduction for now. Retain the classical-client and subexponential-security assumptions in the notes and paper.
+* Current implementation: restore the HN four-message diagram, adapted from the paper's `figures/compiled-test-messages.tex`. Its inclusion was removed by commit `017f09b` on November 2; the source was retained. First show the encrypted question/answer and private preparation description, then reveal the two clear test messages and check. Preparation ends after the first pair; testing uses all four messages.
 * Call that once for each `ket{+ theta}`, maybe just `pi_RSP pi_RSP ... pi_RSP` boxes, each with output `ket{+ theta}`
   Speaker note: say that most of the output copies would be good => distillable
 * Here replace some outputs with `ket{+ theta}` with overlines over them.

@@ -1,0 +1,35 @@
+% Repeat the complete overview with the QPIP_1 enclosure already visible.
+\begin{frame}{Protocol Overview}
+  \centering
+  \begin{tikzpicture}[
+      protocolbox/.style={draw=none,fill=CVQCPale,rounded corners=4mm},
+      modellabel/.style={inner sep=0pt,
+        font=\small\bfseries,text=CVQCInk}
+    ]
+    \path[use as bounding box] (-6.6,-3.20) rectangle (6.6,3.05);
+    \path[protocolbox] (-4.75,-3.15) rectangle (4.75,2.15);
+    \node[modellabel,anchor=north west] at (-4.45,1.95)
+      {$\mathsf{QPIP}_1$};
+    \protocolflowchart
+  \end{tikzpicture}
+
+  \note{
+    \footnotesize
+    Return to the complete overview, with the QPIP1 part already enclosed.
+    We have explained the central mechanism: authenticated distillation
+    removes the plaintext-level attacks, leaving ciphertext-level attacks
+    on the surviving encodings. Those are the form that authenticated
+    evaluation is designed to handle. The full paper combines this with
+    the preparation stage's joint bad-support bound, recursive counting,
+    the other magic-state routines, and verified evaluation to obtain
+    the negligible-error statistical QPIP1 guarantee. The local
+    one-bad-input lemma alone is not the entire QPIP1 proof.
+    For the rest of the talk, focus on the remote-preparation box above
+    the enclosure. It replaces the weak verifier's single-qubit messages
+    with classical interaction. We still need an input-quality and
+    factorizability guarantee strong enough to feed the same construction,
+    including the handling of complex conjugation. Leave the underlying
+    classical-client QFHE implementation in the paper; introduce the
+    HN message interface next.
+  }
+\end{frame}

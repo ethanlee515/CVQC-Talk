@@ -1,0 +1,89 @@
+% Adapted from CVQC-paper/figures/compiled-test-messages.tex, retained when
+% its inclusion was removed in paper commit 017f09b (2026-11-02).
+\begin{frame}{Remote State Preparation}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=2.3mm]},
+      party/.style={font=\large\bfseries,text=CVQCInk,inner sep=0pt},
+      lifeline/.style={densely dashed,draw=CVQCMuted!45,thick},
+      message/.style={->,very thick,draw=CVQCTeal},
+      message label/.style={above=3pt,fill=white,inner sep=2pt,
+        font=\normalsize,text=CVQCInk},
+      preparation/.style={rounded corners=2mm,fill=CVQCPale,
+        inner xsep=0.25cm,inner ysep=0.18cm,minimum width=3.6cm,
+        minimum height=0.80cm,align=center,font=\small,text=CVQCInk}
+    ]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \node[party] at (-4.3,2.65) {Verifier};
+    \node[party] at (4.3,2.65) {Prover};
+    \node[font=\small,text=CVQCMuted] at (0,2.65)
+      {\href{https://arxiv.org/abs/2609.38060}{Holler--Natarajan [HN26]}};
+    \draw[lifeline] (-4.3,2.30) -- (-4.3,-0.65);
+    \draw[lifeline] (4.3,2.30) -- (4.3,-0.65);
+
+    \draw[message] (-4.3,1.65) -- node[message label]
+      {Encrypted question $\widetilde a$} (4.3,1.65);
+    \draw[message] (4.3,0.75) -- node[message label]
+      {Encrypted answer $\alpha$} (-4.3,0.75);
+
+    \node[preparation] at (-4.3,-0.15)
+      {Record $(W,v)$ privately\\[-0.1em]
+       $v=\mathsf{Dec}(\alpha)$};
+    \node[preparation] at (4.3,-0.15)
+      {Keep quantum state};
+    \node[font=\small\bfseries,text=CVQCTeal] at (0,-0.15)
+      {Preparation ends here};
+
+    \only<2>{
+      \draw[lifeline] (-4.3,-0.65) -- (-4.3,-2.65);
+      \draw[lifeline] (4.3,-0.65) -- (4.3,-2.65);
+      \draw[draw=CVQCMuted!45,densely dotted,thick]
+        (-6.15,-0.85) -- (6.15,-0.85);
+      \node[fill=white,inner xsep=8pt,font=\small\bfseries,text=CVQCMuted]
+        at (0,-0.85) {Test only};
+      \draw[message] (-4.3,-1.70) -- node[message label]
+        {Test question $b$} (4.3,-1.70);
+      \draw[message] (4.3,-2.50) -- node[message label]
+        {Answer $\gamma$} (-4.3,-2.50);
+      \node[font=\small,text=CVQCInk,inner sep=0pt] at (-4.3,-2.95)
+        {$\mathsf{Check}(a,b,v,\gamma)$};
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    Show the common encrypted exchange first. A preparation request W
+    specifies the desired single-qubit bases, and the first question is
+    a equals Question of W. Generate fresh encryption keys and send the
+    encrypted question a-tilde together with the public evaluation key,
+    suppressed in this drawing. The prover returns the classical encrypted
+    answer alpha and retains its quantum system. The verifier decrypts
+    alpha to v and privately records W,v. Honest preparation leaves the
+    corresponding eigenstates on the prover's side. The diagram does not
+    assert that a malicious prover's memory already has this ideal form.
+    The first-response circuit is the same for preparation and testing.
+    The imported construction uses classical-client quantum fully
+    homomorphic encryption, with the subexponential quantum-security
+    assumption used in our paper. Keep those implementation details off
+    the slide. Actual calls prepare nine qubits, one computation qubit
+    and eight tags; defer that organization and the conjugation issue.
+  }
+  \note<2>{
+    \footnotesize
+    A test continues with two more classical messages: b in the clear
+    and the answer gamma. The verifier checks them together with a and
+    the decrypted first answer v, using the imported self-test's score
+    predicate. The verifier samples the test question pair privately;
+    a preparation instead embeds W in the first question. The prover
+    does not receive the clear second question before committing to
+    its encrypted first answer. Preparation ends after the first two
+    messages; only testing uses all four. This distinction is why the
+    lower half is marked Test only. Later slides will explain how many
+    preparations and tests yield inputs good enough for our protocol;
+    do not claim a negligible-error or composable preparation guarantee
+    directly from one invocation. Source: the paper's RSP subprotocol
+    interface and its former compiled-test-messages figure, removed
+    from the text on November 2 but retained as a figure source.
+  }
+\end{frame}
