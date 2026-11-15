@@ -1,0 +1,114 @@
+% Seven builds: expose the attacked input, commute, twirl, and propagate.
+\input{figures/distillation-analysis}
+\begin{frame}{Distillation Analysis: One Bad Input}
+  \centering
+  \only<1>{\distillationanalysisfigure{1}}
+  \only<2>{\distillationanalysisfigure{2}}
+  \only<3>{\distillationanalysisfigure{3}}
+  \only<4>{\distillationanalysisfigure{4}}
+  \only<5>{\distillationanalysisfigure{5}}
+  \only<6>{\distillationanalysisfigure{6}}
+  \only<7>{\distillationanalysisfigure{7}}
+
+  \note<1>{
+    \footnotesize
+    Draw the preceding input expression, choosing copy three as the
+    single plaintext-bad copy. Each input is the plaintext trap encoding
+    pTEnc-pi of zero, with its QEC data, traps, and hidden permutation
+    already included. Each slashed wire bundles $3\lambda$ physical
+    qubits. A-pt acts on copy three alone, then the outer Pauli pad
+    encrypts all four copies, then A-ct may act jointly on them and on
+    implicit prover memory. The three CNOTs are transversal. Copies
+    two, three, and four are measured in Z, X, and Z. The final
+    OTP-inverse box means the classical outcome unmasking using the
+    Clifford-updated measured-copy keys; it is not a quantum operation
+    after measurement. The first output remains encrypted. Trap,
+    syndrome, and logical checks are implicit after unmasking.
+  }
+  \note<2>{
+    \footnotesize
+    Move the ciphertext attack to after the prescribed Clifford U,
+    where U is C-dist applied at every physical coordinate. For an input
+    attack alone, replace A-ct by $U A_{\mathrm{ct}} U^\dagger$ and
+    keep the same label. A malicious implementation is treated in the
+    same honest-unitary-before-the-attack representation: include its
+    complete deviation, retained reports, and private workspace in the
+    new outside operation. The circuit and this operation are independent
+    of the verifier's keys and permutation. Source: Technical Overview,
+    4-to-1 reduction; twirled distillation adversary.
+  }
+  \note<3>{
+    \footnotesize
+    Push the Pauli pad through the transversal Clifford. Its keys change
+    bijectively: $U X^u Z^v = X^{u'}Z^{v'} U$, up to global phase.
+    Use u,v here to distinguish the secret pad coordinates from the
+    plaintext Pauli indices x,z introduced later. For each aligned
+    coordinate, the updated X keys are
+    $(u_1+u_3,u_2+u_1,u_3,u_4+u_3)$, and the Z keys are
+    $(v_1+v_2,v_2,v_3+v_1+v_2+v_4,v_4)$, with sums modulo two.
+    The label OTP now denotes these updated keys. Its measured-copy
+    coordinates agree with the outcome-unmasking box on the right.
+    This bijective change preserves independent uniform reference keys.
+  }
+  \note<4>{
+    \footnotesize
+    Move the classical outcome unmasking before the three measurements
+    as inverse quantum Pauli pads on those measured registers. Only
+    the outcome-flipping component is needed to implement the relabeling;
+    completing it to the full inverse adds phases that cancel in the
+    measured branch density operators. This gives OTP-dagger on copies
+    two, three, and four. The surviving first copy is not decrypted.
+    This is an analysis experiment, with the actual verifier still
+    classical. Retain public reports in prover memory and keep the live
+    key registers; discard only the consumed private coordinates and
+    outcomes specified in the paper's equivalence lemma.
+  }
+  \note<5>{
+    \footnotesize
+    Partially twirl the measured copies. Expand the outside operation
+    as $A_{\mathrm{ct}}=\sum_Q B_Q\otimes Q$, with Q a Pauli on copies
+    two, three, and four, and B-Q acting on the surviving ciphertext
+    and private memory. Average the consumed uniform pad coordinates.
+    The measured pads and their inverses cancel, and cross terms
+    between distinct Q labels vanish. The figure shows one resulting
+    subnormalized Kraus component, with
+    $Q=Q_2\otimes Q_3\otimes Q_4$. Its coefficient B-Q retains the
+    branch weight and is not necessarily unitary. The three separate
+    Q-two, Q-three, and Q-four gates show that this Pauli is a tensor
+    product, not an entangling operation. The surviving first-copy
+    pad remains live and is drawn explicitly before B-Q. Only the
+    measured-copy pads cancel. This is equality of
+    the full joint state after averaging, not a fixed-key operator
+    identity. Source: Equivalence of original and twirled distillation
+    adversaries.
+  }
+  \note<6>{
+    \footnotesize
+    Expand the local plaintext operator in the Pauli basis and first
+    follow one term $X^xZ^z$ on copy three. Here x,z index that attack,
+    not the secret one-time-pad keys. They are bit strings over the
+    physical positions in one block. This is a termwise calculation;
+    the plaintext attack is a coherent sum, not an independent
+    classical Pauli mixture produced by this step. Its coefficients,
+    which may depend on pi, must be recombined using the accepted-output
+    argument later in the paper. Keep the B-Q component and all
+    normalization factors carried by that component.
+  }
+  \note<7>{
+    \footnotesize
+    Propagate the third-copy Pauli through the three transversal CNOTs.
+    A control X propagates to its target, while a control Z stays
+    on the control. Thus $X_3^x$ becomes $X_1^xX_3^xX_4^x$ and
+    $Z_3^z$ stays $Z_3^z$, so the displayed post-Clifford attacks are
+    X-x on copies one and four, X-x Z-z on copy three, and identity
+    on copy two. This is an operator identity on every physical
+    coordinate. The Pauli Q remains after these propagated plaintext
+    factors, and B-Q remains outside the live surviving pad.
+    The keys and the plaintext-encoding stabilizer structure have
+    not been changed by this rewriting. Stop before imposing acceptance:
+    next, use the checked fourth copy to identify the surviving
+    X-type component in terms of its ciphertext Pauli Q-four.
+    Source: plaintext-component propagation and the one-bad-input
+    reduction, i equals three.
+  }
+\end{frame}

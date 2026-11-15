@@ -1,0 +1,50 @@
+% State the one-bad-input transition only after the calculation and reduction.
+\begin{frame}{Distillation: One Bad Input}
+  \centering
+  \setbeamertemplate{theorems}[normal font]
+  \setbeamercolor{block title}{fg=white,bg=CVQCInk}
+  \setbeamercolor{block body}{fg=CVQCInk,bg=CVQCFog}
+  \begin{tikzpicture}
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+    \node[inner sep=0pt] at (0,0.30) {%
+      \begin{minipage}{12.2cm}
+        \begin{lemma}[Informal]
+          \par\vspace*{0.65em}
+          \centering
+          On acceptance,
+          {\large
+          \[
+            \begin{gathered}
+              1\times\text{factorizable attack}
+                +3\times\text{ciphertext-level attack}\\[0.65em]
+              \longmapsto\quad\text{ciphertext-level attack}.
+            \end{gathered}
+          \]
+          }
+          \par\vspace*{0.35em}
+        \end{lemma}
+      \end{minipage}%
+    };
+  \end{tikzpicture}
+
+  \note{
+    \footnotesize
+    This is the one-bad-input transition within the paper's joint
+    factorizable invariant. Three copies have no plaintext-level
+    modification, and the fourth may have one arbitrary local
+    plaintext-level operator beneath its pad. A shared, potentially
+    global ciphertext-level operation may already correlate the copies
+    and the prover's memory; the counts do not assume independent
+    ciphertext attacks. For any choice of the bad copy, the accepted
+    output has no remaining plaintext-level attack. The ciphertext
+    operation outside its uniform live pad is independent of the secret
+    pad and permutation keys. The argument carries all branch weights
+    and respects the invariant's aggregate trace bounds; it does not
+    assert that a single block always accepts. At the local comparison
+    level, the honest reduction has the same normalized surviving state
+    whenever the real block accepts and can only increase acceptance
+    probability. The zero-bad case is included by taking the plaintext
+    operator to be identity. Source: one-bad-input reduction guarantee,
+    accepted one-bad instrument, and iterative invariant propagation.
+  }
+\end{frame}

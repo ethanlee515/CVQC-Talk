@@ -1,0 +1,44 @@
+% Accepted-output comparison, then explicit Pauli commutation through the pad.
+\begin{frame}{Distillation Analysis: The Reduction}
+  \centering
+  \only<1>{\distillationanalysisfigure{8}}
+  \only<2>{\distillationanalysisfigure{9}}
+
+  \note<1>{
+    \footnotesize
+    Replace the attacked computation by this comparison circuit: no
+    attack on the measured copies, and a single Pauli derived from
+    Q-four on the surviving copy, followed by its live pad and B-Q.
+    This is not an operator equality for arbitrary x,z. For fixed
+    twirled Paulis and bad copy three, the paper proves that every
+    accepted plaintext-Pauli term has the same normalized surviving
+    state. Acceptance constrains the relevant component modulo the
+    plaintext encoding's stabilizers; it does not imply pointwise
+    equality of X-x with the full Q-four. Accepted-component linearity
+    then handles the coherent plaintext operator. Retain the accepted
+    weight; the comparison's honest checks always pass.
+    Precisely, the output Pauli is the X-type component of Q-four.
+    The short Q-four label denotes this representative. If interpreted
+    as the full measured-copy Pauli instead, its complementary component
+    can be absorbed into a redefined outside B-Q, independently of the
+    pad and permutation. Source: one-bad-input output Pauli, i equals
+    three; one-bad-input reduction guarantee.
+  }
+  \note<2>{
+    \footnotesize
+    Now perform the simple algebraic step separately. Both Q-four and
+    the surviving OTP-one are Pauli operators, so they commute up to a
+    global phase. Move Q-four to the right of the pad. The phase cancels
+    in the density operator, including the subnormalized branch.
+    B-Q stays last, and B-Q composed with Q-four is a key-independent
+    ciphertext-level operation on the surviving ciphertext and private
+    memory. No attack is left beneath the pad. The measured-copy
+    inputs and operations are honest in this comparison circuit.
+    Restoring all Q indices and their carried weights gives the
+    ciphertext-level characterization; the full proof keeps the
+    accepted subnormalization and the joint invariant. This is the
+    promised removal of the plaintext-level attack, with a residual
+    outside attack allowed. The next slide states that conclusion
+    for any location of the single plaintext-bad input.
+  }
+\end{frame}

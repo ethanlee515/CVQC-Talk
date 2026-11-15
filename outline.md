@@ -283,18 +283,37 @@ Speaker notes: the pad strings concatenate the four blocks. Auxiliary registers,
 
 ## Distillation Analysis Intuitions
 
-Maybe more circuits
+Current implementation: one circuit slide with seven builds. Active gates are laid out afresh with even spacing on each build, so no empty columns are reserved.
 
-* One plaintext-attacked wire (maybe fixed as X3), `OTP`, (unfolded) `C_dist`, ct-level attack (3-wires), `OTP^dag`
-* Move OTP
-* Twirl, make ct-level attack Pauli
-* Propagate, X3 becomes X1 + X3 + X4
-* Conditioned on acc, Q4 = X4
-* => Final attack = Q4
+1. Inputs `pTEnc_pi(|0>)`, local `A_pt` on copy 3, then four-copy OTP and `A_ct`, the unfolded three-CNOT circuit, Z/X/Z measurements on copies 2/3/4, and classical `OTP^{-1}` outcome unmasking.
+2. Move `A_ct` after the Clifford, before measurement, silently updating the attack.
+3. Move OTP through the Clifford, with the updated keys implicit.
+4. Move the measured-copy unmasking before measurement as `OTP^dagger`.
+5. Partially twirl: replace the outside attack by `B_Q` on the survivor and three separate `Q_2`, `Q_3`, `Q_4` gates on the measured copies. Remove only the measured pads; keep `OTP_1` explicitly on the first wire, before `B_Q`.
+6. Follow a Pauli term `X^x Z^z` of the plaintext attack on copy 3.
+7. Propagate it through the Clifford: `X^x` on copies 1 and 4, `X^x Z^z` on copy 3, identity on copy 2.
 
-Key observation, final attack can be written in terms of just attacked wire + ct-level attacks
+Speaker notes distinguish the secret pad coordinates from the later plaintext-Pauli indices x,z. The twirled figure is one subnormalized Kraus component; B_Q retains its weight and private memory. The general plaintext attack is a coherent Pauli expansion, to be recombined after the accepted-output calculation.
 
-After deriving the one-bad-input calculation, state its conclusion: 3x ct-level + 1x factorizable => ct-level (on acceptance). Then explain closure for several bad copies: 4x factorizable => factorizable. Keep these conclusions after the calculations rather than announcing them on the construction or setting-the-stage slide.
+## Distillation Analysis: The Reduction
+
+Two builds of the comparison circuit:
+
+1. Remove all attacks on the measured copies. On the first wire, show `Q_4`, then the live `OTP_1`, then `B_Q`.
+2. Swap `Q_4` and `OTP_1`, using Pauli commutation up to phase. All remaining attacks are outside the pad.
+
+Speaker notes: this is an accepted-output reduction, not an operator identity for arbitrary plaintext-Pauli terms. The paper's output representative for bad copy 3 is the X-type component of `Q_4`. The short label follows that convention; interpreting it as the full Pauli is also possible after absorbing its complementary component into the outside `B_Q`. Accepted-component linearity handles the coherent plaintext operator and retains its accepted mass.
+
+## Distillation: One Bad Input
+
+Centered informal lemma, on acceptance:
+
+`1x factorizable attack + 3x ciphertext-level attack`
+`mapsto ciphertext-level attack`.
+
+The map uses a mapsto arrow, after the calculation and the explicit output-Pauli/pad swap. Speaker notes retain the joint invariant, potentially global outside attack, uniform live key, and subnormalization qualifications.
+
+Later: explain closure for several bad copies, `4x factorizable -> factorizable`.
 
 ## QPIP0: RSP construction
 

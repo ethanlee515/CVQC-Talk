@@ -1,0 +1,168 @@
+% Shared four-copy circuit. Stages 1--7 derive the attack; 8--9 reduce it.
+% Active columns use the same comfortable pitch, and each circuit is centered.
+\newcommand{\distillationanalysisfigure}[1]{%
+  \begin{tikzpicture}[
+      wire/.style={thick,draw=CVQCInk},
+      gate/.style={draw=CVQCInk,fill=white,thick,minimum width=1.0cm,
+        minimum height=0.65cm,inner sep=2pt,font=\small,text=CVQCInk},
+      pad/.style={gate,draw=CVQCTeal,fill=CVQCPale,minimum width=1.12cm},
+      attack/.style={gate,draw=CVQCCoral,fill=CVQCCoralPale,
+        text=CVQCCoral},
+      input/.style={anchor=east,inner sep=0pt,font=\small,text=CVQCInk}
+    ]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \ifnum#1<5
+      \def\distcolumns{7}
+    \else
+      \def\distcolumns{6}
+    \fi
+    \def\distpitch{1.55}
+    \pgfmathsetmacro{\distfirst}{(2-(\distcolumns-1)*\distpitch)/2}
+    \pgfmathsetmacro{\distlast}{\distfirst+(\distcolumns-1)*\distpitch}
+    \pgfmathsetmacro{\distend}{\distlast+0.85}
+    \pgfmathsetmacro{\distpt}{\distfirst}
+
+    % Each build lays out only its active gate columns.
+    \ifcase#1\relax
+    \or % A_pt, OTP, A_ct, CNOTs, measurement, unmasking.
+      \pgfmathsetmacro{\distpad}{\distfirst+\distpitch}
+      \pgfmathsetmacro{\distct}{\distfirst+2*\distpitch}
+      \pgfmathsetmacro{\distcnotone}{\distfirst+3*\distpitch}
+      \pgfmathsetmacro{\distcnottwo}{\distfirst+4*\distpitch}
+      \pgfmathsetmacro{\distmeter}{\distfirst+5*\distpitch}
+      \pgfmathsetmacro{\distinverse}{\distfirst+6*\distpitch}
+    \or % Move A_ct after the Clifford.
+      \pgfmathsetmacro{\distpad}{\distfirst+\distpitch}
+      \pgfmathsetmacro{\distcnotone}{\distfirst+2*\distpitch}
+      \pgfmathsetmacro{\distcnottwo}{\distfirst+3*\distpitch}
+      \pgfmathsetmacro{\distct}{\distfirst+4*\distpitch}
+      \pgfmathsetmacro{\distmeter}{\distfirst+5*\distpitch}
+      \pgfmathsetmacro{\distinverse}{\distfirst+6*\distpitch}
+    \or % Commute the pad through the Clifford.
+      \pgfmathsetmacro{\distcnotone}{\distfirst+\distpitch}
+      \pgfmathsetmacro{\distcnottwo}{\distfirst+2*\distpitch}
+      \pgfmathsetmacro{\distpad}{\distfirst+3*\distpitch}
+      \pgfmathsetmacro{\distct}{\distfirst+4*\distpitch}
+      \pgfmathsetmacro{\distmeter}{\distfirst+5*\distpitch}
+      \pgfmathsetmacro{\distinverse}{\distfirst+6*\distpitch}
+    \or % Move measured-copy unmasking before measurement.
+      \pgfmathsetmacro{\distcnotone}{\distfirst+\distpitch}
+      \pgfmathsetmacro{\distcnottwo}{\distfirst+2*\distpitch}
+      \pgfmathsetmacro{\distpad}{\distfirst+3*\distpitch}
+      \pgfmathsetmacro{\distct}{\distfirst+4*\distpitch}
+      \pgfmathsetmacro{\distinverse}{\distfirst+5*\distpitch}
+      \pgfmathsetmacro{\distmeter}{\distfirst+6*\distpitch}
+    \or % Partial twirl, retaining the survivor's live pad.
+      \pgfmathsetmacro{\distcnotone}{\distfirst+\distpitch}
+      \pgfmathsetmacro{\distcnottwo}{\distfirst+2*\distpitch}
+      \pgfmathsetmacro{\distpad}{\distfirst+3*\distpitch}
+      \pgfmathsetmacro{\distct}{\distfirst+4*\distpitch}
+      \pgfmathsetmacro{\distmeter}{\distfirst+5*\distpitch}
+    \or % Follow a Pauli term of A_pt.
+      \pgfmathsetmacro{\distcnotone}{\distfirst+\distpitch}
+      \pgfmathsetmacro{\distcnottwo}{\distfirst+2*\distpitch}
+      \pgfmathsetmacro{\distpad}{\distfirst+3*\distpitch}
+      \pgfmathsetmacro{\distct}{\distfirst+4*\distpitch}
+      \pgfmathsetmacro{\distmeter}{\distfirst+5*\distpitch}
+    \or % Propagate the plaintext Pauli.
+      \pgfmathsetmacro{\distcnotone}{\distfirst}
+      \pgfmathsetmacro{\distcnottwo}{\distfirst+\distpitch}
+      \pgfmathsetmacro{\distpropagated}{\distfirst+2*\distpitch}
+      \pgfmathsetmacro{\distpad}{\distfirst+3*\distpitch}
+      \pgfmathsetmacro{\distct}{\distfirst+4*\distpitch}
+      \pgfmathsetmacro{\distmeter}{\distfirst+5*\distpitch}
+    \or % Reduction: output Pauli is still beneath the live pad.
+      \pgfmathsetmacro{\distcnotone}{\distfirst}
+      \pgfmathsetmacro{\distcnottwo}{\distfirst+\distpitch}
+      \pgfmathsetmacro{\distoutput}{\distfirst+2*\distpitch}
+      \pgfmathsetmacro{\distpad}{\distfirst+3*\distpitch}
+      \pgfmathsetmacro{\distct}{\distfirst+4*\distpitch}
+      \pgfmathsetmacro{\distmeter}{\distfirst+5*\distpitch}
+    \or % Commute that Pauli through the pad to the ciphertext level.
+      \pgfmathsetmacro{\distcnotone}{\distfirst}
+      \pgfmathsetmacro{\distcnottwo}{\distfirst+\distpitch}
+      \pgfmathsetmacro{\distpad}{\distfirst+2*\distpitch}
+      \pgfmathsetmacro{\distoutput}{\distfirst+3*\distpitch}
+      \pgfmathsetmacro{\distct}{\distfirst+4*\distpitch}
+      \pgfmathsetmacro{\distmeter}{\distfirst+5*\distpitch}
+    \fi
+
+    \foreach \y in {1.8,0.6,-0.6,-1.8} {
+      \node[input] at ({\distfirst-1.05},\y)
+        {$\mathsf{pTEnc}_{\pi}(\ket{0})$};
+      \draw[wire] ({\distfirst-0.90},\y) -- ({\distmeter-0.30},\y);
+      \draw[wire] ({\distfirst-0.80},{\y-0.13})
+        -- ({\distfirst-0.70},{\y+0.13});
+    }
+    \draw[wire] ({\distmeter-0.30},1.8) -- (\distend,1.8);
+    \foreach \y in {0.6,-0.6,-1.8} {
+      \draw[wire,double,double distance=1.2pt]
+        ({\distmeter+0.30},\y) -- (\distend,\y);
+    }
+
+    % CNOTs 1 -> 2 and 3 -> 4, followed by 3 -> 1.
+    \draw[wire] (\distcnotone,1.8) -- (\distcnotone,0.6);
+    \draw[wire] (\distcnotone,-0.6) -- (\distcnotone,-1.8);
+    \draw[wire] (\distcnottwo,-0.6) -- (\distcnottwo,1.8);
+    \foreach \x/\y in {\distcnotone/1.8,\distcnotone/-0.6,\distcnottwo/-0.6} {
+      \fill[CVQCInk] (\x,\y) circle (0.055cm);
+    }
+    \foreach \x/\y in {\distcnotone/0.6,\distcnotone/-1.8,\distcnottwo/1.8} {
+      \draw[wire,fill=white] (\x,\y) circle (0.12cm);
+      \draw[wire] ({\x-0.12},\y) -- ({\x+0.12},\y);
+      \draw[wire] (\x,{\y-0.12}) -- (\x,{\y+0.12});
+    }
+
+    \begin{scope}[xshift=\distmeter cm]
+      \foreach \y in {0.6,-1.8} {
+        \draw[wire,fill=white] (-0.30,{\y-0.24}) rectangle (0.30,{\y+0.24});
+        \draw[wire] (-0.24,{\y-0.10})
+          .. controls (-0.10,{\y+0.09}) and (0.10,{\y+0.09}) ..
+          (0.24,{\y-0.10});
+        \draw[wire] (-0.01,{\y-0.12}) -- (0.18,{\y+0.18});
+      }
+      \draw[wire,fill=white] (-0.30,-1.01) rectangle (0.30,-0.19);
+      \draw[wire] (-0.24,-0.57)
+        .. controls (-0.10,-0.38) and (0.10,-0.38) .. (0.24,-0.57);
+      \draw[wire] (-0.01,-0.59) -- (0.18,-0.29);
+      \node[inner sep=0pt,font=\small,text=CVQCInk] at (0,-0.82) {$X$};
+    \end{scope}
+
+    \ifnum#1<6
+      \node[attack] at (\distpt,-0.6) {$A_{\mathrm{pt}}$};
+    \fi
+    \ifnum#1=6
+      \node[attack] at (\distpt,-0.6) {$X^x Z^z$};
+    \fi
+    \ifnum#1<5
+      \node[pad,minimum height=4.4cm] at (\distpad,0) {$\mathrm{OTP}$};
+      \node[attack,minimum height=4.4cm] at (\distct,0)
+        {$A_{\mathrm{ct}}$};
+      \ifnum#1<4
+        \node[pad,minimum height=3.2cm] at (\distinverse,-0.6)
+          {$\mathrm{OTP}^{-1}$};
+      \else
+        \node[pad,minimum height=3.2cm] at (\distinverse,-0.6)
+          {$\mathrm{OTP}^{\dagger}$};
+      \fi
+    \else
+      % Only the measured pads cancel. The surviving pad stays live.
+      \node[pad] at (\distpad,1.8) {$\mathrm{OTP}_1$};
+      \node[attack] at (\distct,1.8) {$B_Q$};
+      \ifnum#1<8
+        \foreach \j/\y in {2/0.6,3/-0.6,4/-1.8} {
+          \node[attack] at (\distct,\y) {$Q_{\j}$};
+        }
+      \else
+        \node[attack] at (\distoutput,1.8) {$Q_4$};
+      \fi
+    \fi
+    \ifnum#1=7
+      \node[attack] at (\distpropagated,1.8) {$X^x$};
+      \node[attack] at (\distpropagated,-0.6) {$X^x Z^z$};
+      \node[attack] at (\distpropagated,-1.8) {$X^x$};
+    \fi
+  \end{tikzpicture}%
+}
+
