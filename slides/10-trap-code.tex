@@ -1,0 +1,78 @@
+% Encode and add traps, then hide them. Explain decryption verbally.
+\begin{frame}{Background: The Trap Code}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=2.6mm]},
+      qubit/.style={rounded corners=1.5pt,minimum width=0.58cm,
+        minimum height=0.62cm,inner sep=1pt,font=\small,thick},
+      data/.style={qubit,draw=CVQCTeal,fill=CVQCPale,text=CVQCTeal},
+      ztrap/.style={qubit,draw=CVQCGold,fill=CVQCGoldPale,text=CVQCInk},
+      xtrap/.style={qubit,draw=CVQCInk,fill=CVQCFog,text=CVQCInk},
+      hidden/.style={qubit,draw=CVQCMuted,fill=CVQCFog,text=CVQCMuted},
+      flow/.style={->,very thick,draw=CVQCTeal}
+    ]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \node[font=\large,text=CVQCInk] at (-4.3,2.45)
+      {$\mathsf{QEnc}\ket{\psi}$};
+    \node[font=\large,text=CVQCInk] at (0,2.45)
+      {$\ket{0}^{\otimes n}$};
+    \node[font=\large,text=CVQCInk] at (4.3,2.45)
+      {$\ket{+}^{\otimes n}$};
+
+    % Cell counts are schematic; all three registers contain n physical qubits.
+    \foreach \offset in {-1.05,-0.35,0.35,1.05} {
+      \node[data] at ({-4.3+\offset},1.70) {$\bullet$};
+      \node[ztrap] at (\offset,1.70) {$\ket{0}$};
+      \node[xtrap] at ({4.3+\offset},1.70) {$\ket{+}$};
+    }
+    \node[font=\small,text=CVQCTeal] at (-4.3,1.10) {Encoded data};
+    \node[font=\small,text=CVQCGold!65!black] at (0,1.10) {$Z$-basis traps};
+    \node[font=\small,text=CVQCInk] at (4.3,1.10) {$X$-basis traps};
+
+    \only<2>{
+      \draw[draw=CVQCMuted!55,thick]
+        (-5.9,0.95) -- (-5.9,0.85) -- (5.9,0.85) -- (5.9,0.95);
+      \draw[flow] (0,0.85) -- (0,0.40);
+      \node[draw=CVQCInk,fill=CVQCFog,thick,rounded corners=3mm,
+        minimum width=9.5cm,minimum height=0.8cm,
+        inner sep=4pt,font=\small\bfseries,text=CVQCInk] at (0,0)
+        {One-time pad + permute};
+      \draw[flow] (0,-0.40) -- (0,-0.97);
+
+      \foreach \i in {0,...,11} {
+        \node[hidden] at ({-4.73+0.86*\i},-1.30) {?};
+      }
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    The trap code first encodes one unknown logical qubit using a CSS
+    error-correcting code. The teal register is one encoded state, not copies
+    of the input. Append n computational-basis traps and n Hadamard-basis
+    traps. Each of the three registers has n physical qubits; the small number
+    of drawn cells is only schematic. Here n is the code block length, called
+    lambda in the manuscript, and not the security parameter.
+  }
+  \note<2>{
+    \footnotesize
+    The symmetric key is a uniform permutation pi and independent uniform
+    pad bits x,z. The permutation hides the data and trap positions; the pad
+    hides the quantum state. The box names both hiding steps. In the paper's
+    order, the authenticated encoding is
+    \[
+      \mathsf{TEnc}_{\pi,x,z}(\ket{\psi})
+      =X^xZ^z\pi\bigl(\mathsf{QEnc}\ket{\psi}
+        \otimes\ket{0}^{\otimes n}\otimes\ket{+}^{\otimes n}\bigr).
+    \]
+    Decryption works backwards: remove the pad and permutation, check zero
+    traps in the Z basis and plus traps in the X basis, check the code, then
+    decode or reject. X flips a zero trap; Z flips a plus trap; Y has both
+    components. Code distance and hidden traps give negligible undetected
+    logical error with suitable parameters. Larger plaintexts are encoded
+    block by block, with a shared permutation and independent pads for the
+    homomorphic operations introduced next. Security analysis:
+    \href{https://arxiv.org/abs/1607.03075}{Broadbent--Wainewright (2016)}.
+  }
+\end{frame}

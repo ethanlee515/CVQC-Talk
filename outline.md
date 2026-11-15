@@ -106,6 +106,8 @@ Question: For distillation of `ket{T}`, if input is all conjugated, is the outpu
 
 ## Background: Quantum Authentication
 
+Current implementation: two slides. QAS is a single Enc -> Attack -> Dec diagram, returning the state or rejection. The trap code has two builds: encoded data plus two trap types, then "one-time pad + permute" and the hidden qubits. Explain the symmetric key, security guarantee, and decryption checks in words; keep these details in speaker notes.
+
 * Save the question "Who do we trust to run the distillation?" for this later slide, following the background slide's authentication bullet.
 * Maybe take from reference slides: `x -> Enc -> Atk -> Dec -> x` or some figure like that...
 * Trap code construction and intuition I guess? The reference slides are an old version, think the newest version (see git) has a decent figure

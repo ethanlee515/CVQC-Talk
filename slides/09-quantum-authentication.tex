@@ -1,0 +1,44 @@
+% One diagram; the key and security guarantee are explained in the notes.
+\begin{frame}{Background: Quantum Authentication}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=2.8mm]},
+      process/.style={draw=CVQCInk,fill=CVQCInk,rounded corners=3mm,
+        minimum width=1.9cm,minimum height=1.25cm,
+        text=white,font=\large,align=center},
+      attack/.style={process,draw=CVQCCoral,fill=CVQCCoral},
+      flow/.style={->,very thick,draw=CVQCTeal}
+    ]
+    \path[use as bounding box] (-6.6,-3.1) rectangle (6.6,3.1);
+
+    \node[anchor=east,inner sep=0pt,font=\large,text=CVQCInk]
+      (input) at (-5.7,0) {$\ket{\psi}$};
+    \node[process] (enc) at (-3.9,0) {$\operatorname{Enc}$};
+    \node[attack] (adversary) at (-0.8,0) {Attack};
+    \node[process] (dec) at (2.3,0) {$\operatorname{Dec}$};
+    \node[anchor=west,inner sep=0pt,font=\large,text=CVQCInk]
+      (output) at (4.4,0) {$\ket{\psi}\;\text{or}\;\mathsf{rej}$};
+
+    \draw[flow] (input.east) -- (enc.west);
+    \draw[flow] (enc.east) -- (adversary.west);
+    \draw[flow] (adversary.east) -- (dec.west);
+    \draw[flow] (dec.east) -- (output.west);
+  \end{tikzpicture}
+
+  \note{
+    \footnotesize
+    This is a symmetric-key quantum authentication scheme: encoding and
+    verified decryption use the same secret key. Enc means authenticated
+    encoding; Dec includes verification. Without tampering, decryption returns
+    the input. The attack can be any quantum operation with private memory.
+    The pure-state notation is schematic; security also preserves entanglement
+    with an external reference. Undetected changes have negligible total
+    weight, averaged over the key, rather than a guarantee conditioned on
+    arbitrarily rare acceptance. An attacker can always force rejection.
+    Authentication preserves the plaintext that was authenticated; it does not
+    certify that a prepared resource is a correct CCZ state. This is the generic
+    primitive; the protocol later explains how our verifier obtains and uses
+    authenticated resources. Next, show the trap code. Source:
+    \href{https://arxiv.org/abs/1607.03075}{Broadbent--Wainewright (2016)}.
+  }
+\end{frame}
