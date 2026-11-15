@@ -1,0 +1,55 @@
+% outline.md, lines 77--81: two results in the familiar compilation layout.
+\begin{frame}{Main Contributions}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=3mm]},
+      resultcard/.style={draw=CVQCInk,thick,rounded corners=4mm},
+      modellabel/.style={fill=white,inner xsep=6pt,inner ysep=2pt,
+        font=\bfseries,text=CVQCInk},
+      capability/.style={font=\large,text=CVQCInk},
+      guarantee/.style={font=\large\bfseries,text=CVQCTeal}
+    ]
+    \path[use as bounding box] (-6.5,-3.1) rectangle (6.5,3.1);
+
+    \draw[resultcard] (-5.4,0.55) rectangle (5.4,2.10);
+    \node[modellabel] at (-4.25,2.10) {$\mathsf{QPIP}_1$};
+    \node[capability] at (0,1.55) {Single-qubit preparation};
+    \node[guarantee] at (0,0.95) {Statistical security};
+
+    \only<2>{
+      \draw[->,line width=1.5pt,draw=CVQCTeal] (0,0.40) -- (0,-0.80)
+        node[midway,right=8pt,font=\small\bfseries,text=CVQCTeal] {compile};
+
+      \draw[resultcard] (-5.4,-2.50) rectangle (5.4,-0.95);
+      \node[modellabel] at (-4.25,-0.95) {$\mathsf{QPIP}_0$};
+      \node[capability] at (0,-1.50) {Fully classical verifier};
+      \node[guarantee] at (0,-2.10) {Computational security};
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    Our first contribution is a protocol for verifying arbitrary efficient
+    quantum sampling computations with negligible soundness error, using a
+    verifier that only prepares and sends single qubits from a fixed finite
+    set. The guarantee is statistical and holds even against an unbounded
+    prover, without computational assumptions. All subsequent interaction is
+    classical. This is a result in its own right, as well as the foundation of
+    the fully classical protocol.
+  }
+  \note<2>{
+    \footnotesize
+    For now, describe the compilation in words. Introduce classical-client
+    QFHE and its role later, with the remote preparation construction.
+    Our second contribution removes the verifier's quantum capability,
+    assuming subexponentially quantum-secure classical-client QFHE. We use
+    Holler--Natarajan's computational self-testing machinery for remote
+    preparation, together with our analysis of the prepared resources and
+    authenticated distillation. The resulting classical-verifier protocol
+    has negligible computational soundness error for sampling. Both results
+    concern the full sample-or-reject output distribution, compared with an
+    ideal experiment having the same acceptance probability.
+    Next, introduce distillation and quantum authentication before explaining
+    the construction.
+  }
+\end{frame}

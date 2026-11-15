@@ -1,0 +1,120 @@
+% Fixed columns keep the table stable as rows appear.
+% Arguments: vertical position, work, paradigm, task, soundness error.
+\newcommand{\surveyrow}[5]{%
+  \node[tablecell] at (-6.45,#1) {#2};
+  \node[tablecell] at (-2.75,#1) {#3};
+  \node[tablecell] at ( 1.05,#1) {#4};
+  \node[tablecell] at ( 3.40,#1) {#5};
+}
+
+% outline.md, lines 60--75. References link directly to the papers.
+\begin{frame}{Literature Survey}
+  \centering
+  \begin{tikzpicture}[
+      tablecell/.style={anchor=west,inner sep=0pt,font=\small,text=CVQCInk},
+      tablehead/.style={tablecell,font=\small\bfseries},
+      separator/.style={draw=CVQCMuted!25,line width=0.4pt}
+    ]
+    \path[use as bounding box] (-6.7,-3.0) rectangle (6.7,2.9);
+
+    \node[tablehead] at (-6.45,2.45) {Work};
+    \node[tablehead] at (-2.75,2.45) {Paradigm};
+    \node[tablehead] at ( 1.05,2.45) {Problem type};
+    \node[tablehead] at ( 3.40,2.45) {Soundness error};
+    \draw[draw=CVQCInk,line width=0.8pt] (-6.65,2.10) -- (6.65,2.10);
+
+    \surveyrow{1.65}%
+      {[\href{https://arxiv.org/abs/1904.06320}{GV19},
+        \href{https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ICALP.2023.67}{GMP23},
+        \href{https://arxiv.org/abs/2609.38060}{HN26}]}%
+      {Prepare-and-send}{Decision}{Negligible\textsuperscript{*}}
+
+    \only<2->{
+      \draw[separator] (-6.65,1.23) -- (6.65,1.23);
+      \surveyrow{0.80}%
+        {[\href{https://arxiv.org/abs/1804.01082}{Mah18},
+          \href{https://arxiv.org/abs/1912.00990}{CCY20}]}%
+        {Receive-and-measure}{Decision}{Negligible\textsuperscript{*}}
+    }
+
+    \only<3->{
+      \draw[separator] (-6.65,0.38) -- (6.65,0.38);
+      \surveyrow{-0.05}%
+        {[\href{https://arxiv.org/abs/2012.04848}{CLLW22}]}%
+        {Receive-and-measure}{Sampling}{Inverse-polynomial}
+    }
+
+    \only<4->{
+      \fill[CVQCPale,rounded corners=3pt] (-6.65,-1.28) rectangle (6.65,-0.52);
+      \begin{scope}[tablecell/.append style={font=\small\bfseries,text=CVQCTeal}]
+        \surveyrow{-0.90}{This work}{Prepare-and-send}{Sampling}{Negligible}
+      \end{scope}
+    }
+
+    \only<5>{
+      \surveyrow{-1.75}%
+        {[\href{https://arxiv.org/abs/2610.31775}{KKR26}]}%
+        {Receive-and-measure}{Sampling}{Negligible}
+    }
+
+    \node[anchor=west,inner sep=0pt,font=\scriptsize,text=CVQCMuted]
+      at (-6.45,-2.65) {\textsuperscript{*}For decision problems, after amplification.};
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    Representative results, grouped by the two paradigms rather than an
+    exhaustive chronology. GV19 is Alexandru Gheorghiu and Thomas Vidick,
+    Computationally-secure and composable remote state preparation (FOCS 2019).
+    GMP23 is Alexandru Gheorghiu, Tony Metger, and Alexander Poremba,
+    Quantum Cryptography with Classical Communication (ICALP 2023).
+    HN26 is Finn Holler and Anand Natarajan, Classical Verification of Quantum
+    Computation with Quasilinear Resources, from Compiled Nonlocal Games (2026).
+    They use a computational self-test and remote preparation to compile
+    Broadbent's protocol, achieving quasilinear total resources under
+    subexponential LWE hardness. Their stated BQP theorem has a constant gap.
+    All three use remote preparation to remove quantum messages from the verifier.
+    The negligible-error entry refers to decision verification after
+    amplification. The preparation primitives have their own approximation
+    guarantees; this row does not claim negligible-error remote preparation.
+  }
+  \note<2>{
+    \footnotesize
+    Mah18 is Urmila Mahadev, Classical Verification of Quantum Computations
+    (FOCS 2018). CCY20 is Nai-Hui Chia, Kai-Min Chung, and Takashi Yamakawa,
+    Classical Verification of Quantum Computations with Efficient Verifier
+    (TCC 2020). The latter proves negligible soundness for parallel repetition
+    of Mahadev's protocol. The table records the amplified decision guarantee,
+    not the soundness of a single run of the original protocol.
+  }
+  \note<3>{
+    \footnotesize
+    CLLW22 is Kai-Min Chung, Yi Lee, Han-Hsuan Lin, and Xiaodi Wu,
+    Constant-Round Blind Classical Verification of Quantum Sampling
+    (EUROCRYPT 2022). It extends the Mahadev approach to sampling, but with
+    inverse-polynomial soundness error. A majority vote that amplifies a
+    decision bit does not generically turn several imperfect samples into a
+    sample from the desired distribution. Soundness here concerns the whole
+    sample-or-reject output distribution.
+  }
+  \note<4>{
+    \footnotesize
+    Our work follows the prepare-and-send route and achieves negligible
+    soundness error for sampling. Emphasize the difference from the preceding
+    row: the problem type stays sampling, while the soundness error becomes
+    negligible. The next slide will separate our weak-quantum-verifier result
+    from the fully classical compilation and state their assumptions.
+  }
+  \note<5>{
+    \footnotesize
+    KKR26 is Yael Tauman Kalai, Dakshita Khurana, and Justin Raizes,
+    \href{https://arxiv.org/abs/2610.31775}{The Entire Quantum Computer on a
+    Classical Leash (2026)}. This is concurrent and independent work, identified
+    in the talk outline as STOC submission 598. Their framework builds on
+    committed history states and non-destructive testing, and obtains
+    negligible-error sampling verification under post-quantum LWE. The
+    receive-and-measure label describes that underlying route; their full
+    construction provides a more general classical--quantum two-party
+    computation functionality.
+  }
+\end{frame}

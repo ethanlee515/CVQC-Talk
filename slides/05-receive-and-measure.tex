@@ -1,0 +1,60 @@
+% Same geometry as prepare-and-send, with the quantum message reversed.
+% Arguments: vertical position, verifier label, arrow label.
+\newcommand{\receivemeasureprotocol}[3]{%
+  \begin{scope}[shift={(0,#1)},scale=0.68,transform shape]
+    \node[party] at (-4.15,0) {#2};
+    \node[party] at (4.15,0) {Prover};
+    \draw[communication] (2.35,0) --
+      node[above=7pt,align=center,font=\large,text=CVQCInk] {#3}
+      (-2.35,0);
+  \end{scope}%
+}
+
+% outline.md, lines 54--58.
+\begin{frame}{CVQC Strategy: Receive-and-Measure}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=3mm]},
+      party/.style={circle,draw=CVQCInk,fill=CVQCFog,very thick,
+        minimum size=2.5cm,text width=2.1cm,inner sep=0pt,
+        align=center,font=\large\bfseries,text=CVQCInk},
+      communication/.style={->,line width=1.5pt,draw=CVQCTeal},
+      protocolbox/.style={draw=CVQCInk,thick,rounded corners=4mm},
+      modellabel/.style={fill=white,inner xsep=6pt,inner ysep=2pt,
+        font=\bfseries,text=CVQCInk}
+    ]
+    \path[use as bounding box] (-6.5,-3.15) rectangle (6.5,3.15);
+
+    \draw[protocolbox] (-5.4,0.4) rectangle (5.4,2.9);
+    \node[modellabel] at (-4.25,2.9) {$\mathsf{QPIP}_1$};
+    \receivemeasureprotocol{1.65}{Weak\\quantum\\verifier}%
+      {$\ket{\psi_{\mathrm{hist}}}$}
+
+    \only<2>{
+      \draw[->,line width=1.5pt,draw=CVQCTeal] (0,0.30) -- (0,-0.30)
+        node[midway,right=8pt,font=\small\bfseries,text=CVQCTeal] {compile};
+
+      \draw[protocolbox] (-5.4,-2.9) rectangle (5.4,-0.4);
+      \node[modellabel] at (-4.25,-0.4) {$\mathsf{QPIP}_0$};
+      \receivemeasureprotocol{-1.65}{Classical\\verifier}{Commit-and-measure}
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    The other paradigm reverses the quantum communication. The prover supplies
+    a history state encoding the computation, and the weak quantum verifier
+    checks it using simple measurements. The picture suppresses the classical
+    interaction and the details of the history-state test.
+  }
+  \note<2>{
+    \footnotesize
+    Replace receiving and measuring the state with a classical
+    commit-and-measure protocol. The prover commits to a quantum state, and the
+    verifier uses classical interaction to obtain certified measurement
+    outcomes. The arrow represents this functionality, not a single message.
+    This is the route exemplified by Mahadev's measurement protocol.
+    Source: \href{https://arxiv.org/abs/1804.01082}{Urmila Mahadev,
+    Classical Verification of Quantum Computations (FOCS 2018)}.
+  }
+\end{frame}

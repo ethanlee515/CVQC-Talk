@@ -252,6 +252,7 @@ Key observation, final attack can be written in terms of just attacked wire + ct
 
 ## QPIP0: RSP construction
 
+* Presentation TODO: Introduce **classical-client QFHE** before explaining the HN RSP: what the client does classically, what the quantum prover evaluates, and the subexponential-security assumption. The main-contributions slide should just say "compile"; defer the QFHE explanation until here.
 * 4-message thing, used to be a figure in the paper that was deleted, find in git history
 * Call that once for each `ket{+ theta}`, maybe just `pi_RSP pi_RSP ... pi_RSP` boxes, each with output `ket{+ theta}`
   Speaker note: say that most of the output copies would be good => distillable
