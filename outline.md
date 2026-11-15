@@ -86,6 +86,8 @@ Not sure how to do this as nice visuals, but...
 
 Current slide: vertical funnel in the upper right, with five builds: standard building block; resource-state error from inverse-polynomial to negligible; mostly good inputs per batch; a correlated all-bad batch with inverse-polynomial probability can leave inverse-polynomial accepted error; untrusted distillation needs authentication. On the final build, wrap the resources in Enc and make the distillation label red. Keep the input-quality precondition distinct from honest execution.
 
+The all-bad build keeps only the left annotation: All-bad with prob. 1/poly: too much. The probability and bad-output annotations around the figure are omitted; explain them verbally.
+
 漏斗-shaped, trapezoid-shaped box maybe?
 Bunch of `\ket{CCZ}` goes in, one comes out
 
@@ -117,6 +119,8 @@ Current implementation: two slides. QAS is a single Enc -> Attack -> Dec diagram
 ## Background: Homomorphic Eval. over QAS
 
 Current implementation: two slides. First, the desired computation and then the authenticated route around a commutative diagram. Second, transversal CNOT on two trap-code blocks with the same permutation; a transition reveals the matched data and trap positions. Explain key updates and correctness in words, with details in speaker notes.
+
+The evaluation square uses |phi> -> |psi> on top, with |psi> = C|phi>, and |tilde(phi)> -> |tilde(psi)> below. No rejection arrow is drawn; explain verification and rejection verbally.
 
 * Homomorphic eval, maybe the typical commutative diagram. There might be one here to copy/paste: https://github.com/ethanlee515/Mending-Slides
 * Maybe CNOT example? Maybe just assume knowledge of QEC, say "transversal" and assume audience know what that means...
