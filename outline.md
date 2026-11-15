@@ -104,6 +104,7 @@ Question: For distillation of `ket{T}`, if input is all conjugated, is the outpu
 
 ## Background: Quantum Authentication
 
+* Save the question "Who do we trust to run the distillation?" for this later slide. The introductory distillation slide should just reveal the distillation figure as the answer to the error-reduction question.
 * Maybe take from reference slides: `x -> Enc -> Atk -> Dec -> x` or some figure like that...
 * Trap code construction and intuition I guess? The reference slides are an old version, think the newest version (see git) has a decent figure
 
