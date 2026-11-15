@@ -313,9 +313,9 @@ Centered informal lemma, on acceptance:
 
 The map uses a mapsto arrow, after the calculation and the explicit output-Pauli/pad swap. Speaker notes retain the joint invariant, potentially global outside attack, uniform live key, and subnormalization qualifications.
 
-Interpretation below the lemma block: Plaintext-level attacks are distilled away.
+One transition reveals the interpretation below the lemma block: Plaintext-level attacks are distilled away.
 
-Later: explain closure for several bad copies, `4x factorizable -> factorizable`.
+Optional backup: explain closure for several bad copies, `4x factorizable -> factorizable`.
 
 ## Protocol Overview (reprise)
 
@@ -325,17 +325,20 @@ Repeat the complete overview with the QPIP1 enclosure already visible, using the
 
 * Presentation choice: keep QFHE inside the RSP implementation; no separate QFHE introduction for now. Retain the classical-client and subexponential-security assumptions in the notes and paper.
 * Current implementation: restore the HN four-message diagram, adapted from the paper's `figures/compiled-test-messages.tex`. Its inclusion was removed by commit `017f09b` on November 2; the source was retained. First show the encrypted question/answer and private preparation description, then reveal the two clear test messages and check. Preparation ends after the first pair; testing uses all four messages.
-* Call that once for each `ket{+ theta}`, maybe just `pi_RSP pi_RSP ... pi_RSP` boxes, each with output `ket{+ theta}`
-  Speaker note: say that most of the output copies would be good => distillable
-* Here replace some outputs with `ket{+ theta}` with overlines over them.
-  Speaker note: describe complex conjugate attacks in words
-* Change each output to be `(ket(+ theta))_{i=1}^9`
-  Say check consistency in pairs, analysis says 8 neighbor checks are enough.
-* Caveat: Need factorizability too. Check our paper for the full analysis.
+* Current implementation: a new slide lines up four `pi_RSP` boxes and an ellipsis, with downward arrows to phase-state targets. Three builds:
+  1. Single-qubit target outputs. Bullet: Few bad preparations -> distillation.
+  2. Some outputs become red complex conjugates. Bullet: Control complex conjugation across calls.
+  3. Each output becomes a nine-qubit tuple. Bullet: Nine qubits per call; check eight neighbors.
+* Final build includes: Full analysis, including factorizability: see the paper.
+* Speaker notes: calls are sequential and adaptive despite the horizontal layout; the targets are schematic extracted states, not independent physical outputs. The proof controls joint defect terms and correlated conjugation flags. One computation qubit and eight tags per call support pairwise Bell checks on a degree-eight expander. A common global conjugation remains allowed.
 
 ## Future work
 
-* Weaken assumptions from FHE to TCF
-* Check MPQC literature? Pseudo-determism reqs and stuff...
+* Weaken assumptions from QFHE to TCFs.
+* Survey the MPQC literature and find applications for our protocol.
 
-## Thank you slide?
+Current implementation: a static slide with these two bullets.
+
+## Thank you
+
+Current implementation: the reference talk's closing layout, with a Thank You title and a large teal Questions? in the center. No progress bar on the closing slide.

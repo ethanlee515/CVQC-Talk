@@ -1,0 +1,116 @@
+% Successive retained preparations, then conjugation flags and nine-qubit calls.
+\begin{frame}{From Remote Preparations to MBQC Inputs}
+  \centering
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}[
+      >={Latex[length=2.5mm]},
+      protocol/.style={draw=CVQCInk,fill=CVQCPale,thick,
+        rounded corners=2mm,minimum width=1.7cm,minimum height=0.80cm,
+        inner sep=3pt,font=\large,text=CVQCInk},
+      output/.style={inner sep=0pt,font=\large,text=CVQCInk},
+      bank/.style={output,font=\footnotesize},
+      flow/.style={->,very thick,draw=CVQCTeal}
+    ]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \foreach \x in {-5.1,-2.5,0.1,5.1} {
+      \node[protocol] at (\x,2.10) {$\pi_{\mathrm{RSP}}$};
+      \draw[flow] (\x,1.70) -- (\x,1.22);
+    }
+    \node[font=\large,text=CVQCMuted] at (2.7,2.10) {$\cdots$};
+    \node[font=\large,text=CVQCMuted] at (2.7,0.88) {$\cdots$};
+
+    \only<1-2>{
+      \node[output] at (-5.1,0.88) {$\ket{+_{\theta_1}}$};
+      \node[output] at (0.1,0.88) {$\ket{+_{\theta_3}}$};
+    }
+    \only<1>{
+      \node[output] at (-2.5,0.88) {$\ket{+_{\theta_2}}$};
+      \node[output] at (5.1,0.88) {$\ket{+_{\theta_K}}$};
+    }
+    \only<2>{
+      \node[output,text=CVQCCoral] at (-2.5,0.88)
+        {$\overline{\ket{+_{\theta_2}}}$};
+      \node[output,text=CVQCCoral] at (5.1,0.88)
+        {$\overline{\ket{+_{\theta_K}}}$};
+    }
+    \only<3>{
+      \node[bank] at (-5.1,0.88)
+        {$\bigl(\ket{+_{\theta_{1,j}}}\bigr)_{j=1}^{9}$};
+      \node[bank,text=CVQCCoral] at (-2.5,0.88)
+        {$\bigl(\overline{\ket{+_{\theta_{2,j}}}}\bigr)_{j=1}^{9}$};
+      \node[bank] at (0.1,0.88)
+        {$\bigl(\ket{+_{\theta_{3,j}}}\bigr)_{j=1}^{9}$};
+      \node[bank,text=CVQCCoral] at (5.1,0.88)
+        {$\bigl(\overline{\ket{+_{\theta_{K,j}}}}\bigr)_{j=1}^{9}$};
+    }
+
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-5.8,-0.45) {%
+      \begin{minipage}{11.6cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{0.55em}
+          \item<1-> Few bad preparations $\longrightarrow$ distillation.
+          \item<2-> Control complex conjugation across calls.
+          \item<3-> Nine qubits per call; check eight neighbors.
+        \end{itemize}
+      \end{minipage}%
+    };
+    \uncover<3->{
+      \node[font=\small,text=CVQCMuted,align=center,text width=12cm,
+          inner sep=0pt] at (0,-2.75)
+        {Full analysis, including factorizability: see the paper.};
+    }
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    Each box represents one retained preparation call among the sequential
+    HN invocations, interleaved with tests. The horizontal arrangement
+    indexes calls; it does not assert parallel execution or independence.
+    Start with the ideal target descriptions, drawing one equatorial
+    qubit per call for intuition. Computational-basis dummy states are
+    also prepared but omitted here. In the analysis these targets live
+    in extracted coordinates with implicit prover memory and outside
+    operations; the physical output need not be a tensor product.
+    Testing bounds the contribution of many-error terms in the adaptive
+    preparation sequence. Few defective preparation factors then affect
+    few MBQC copies, allowing the later preparation and distillation
+    analysis to apply. This is a joint structural argument, not merely
+    a bound on individual-qubit marginals or a negligible-error
+    guarantee for each HN call. Source: Classical Remote State Preparation,
+    defect expansion, adaptive tail bound, and source composition.
+  }
+  \note<2>{
+    \footnotesize
+    A computational self-test identifies the requested state only up to
+    complex conjugation, represented by a flag in the extracted system.
+    Separate calls can carry separate flags. The mixed barred and
+    unbarred outputs illustrate a sector with inconsistent orientations;
+    they are not independently sampled classical error bits. The flags
+    may be coherent and correlated with all other memory. Red marks the
+    consistency problem rather than asserting that every conjugated
+    output is intrinsically invalid. A common global conjugation is
+    allowed; the task is to control disagreement across calls so that
+    the MBQC inputs have the structure required by the proof. Source:
+    HN extraction map and the paper's conjugation-consistency analysis.
+  }
+  \note<3>{
+    \footnotesize
+    Use the actual constant-size interface: nine qubits per call, one
+    computation qubit and eight tag qubits. The j equals one through
+    nine indexing is schematic; the paper indexes the computation qubit
+    by zero and the tags by one through eight. The phase-state labels
+    remain a shorthand; actual bases also include Z.
+    Assign the tags to a degree-eight expander, one at each end of
+    every edge. The prover reports Bell-basis measurements of tag pairs,
+    and the verifier checks compatible private labels. Eight incident
+    checks per call suffice in the full analysis to control a minority
+    of inconsistent orientations, alongside preparation defects; they
+    do not force every flag to zero. The full argument also carries
+    factorizability, key independence, branch weights, and computational
+    indistinguishability into MBQC and distillation. Refer to the paper
+    rather than proving these points here. Source: RSP protocol,
+    consistency graph, conjugation alignment, and source composition.
+  }
+\end{frame}

@@ -1,0 +1,30 @@
+\begin{frame}{Future Work}
+  \centering
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+    \node[inner sep=0pt,text=CVQCInk] at (0,0.40) {%
+      \begin{minipage}{11.8cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{1.4em}
+          \item Weaken assumptions from QFHE to TCFs.
+          \item Survey the MPQC literature and find applications
+            for our protocol.
+        \end{itemize}
+      \end{minipage}%
+    };
+  \end{tikzpicture}
+
+  \note{
+    \footnotesize
+    Two directions to close. First, weaken the cryptographic assumptions,
+    aiming to replace the classical-client QFHE route used in this talk
+    by one based on quantum-secure trapdoor claw-free functions.
+    Second, survey the multiparty quantum computation literature for
+    applications of the protocol and its preparation, factorization,
+    and authenticated-distillation techniques. Present this as an
+    exploration of possible applications, without promising an
+    immediate composable MPQC construction.
+  }
+\end{frame}
