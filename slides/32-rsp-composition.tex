@@ -1,14 +1,14 @@
-% One numbered slide, with four builds explaining the RSP challenges.
-\begin{frame}{RSP: Challenges and Our Analysis}
+% Challenge 1: state the goal and proof tasks; keep the expansion in the notes.
+\begin{frame}{RSP Challenge 1: Preparation Errors}
   \centering
   \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \setbeamercolor{itemize subitem}{fg=CVQCTeal}
   \begin{tikzpicture}[
       >={Latex[length=2.5mm]},
       protocol/.style={draw=CVQCInk,fill=CVQCPale,thick,
         rounded corners=2mm,minimum width=1.7cm,minimum height=0.80cm,
         inner sep=3pt,font=\large,text=CVQCInk},
       output/.style={inner sep=0pt,font=\large,text=CVQCInk},
-      bank/.style={output,font=\footnotesize},
       flow/.style={->,very thick,draw=CVQCTeal}
     ]
     \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
@@ -20,106 +20,28 @@
     \node[font=\large,text=CVQCMuted] at (2.7,2.10) {$\cdots$};
     \node[font=\large,text=CVQCMuted] at (2.7,0.88) {$\cdots$};
 
-    \only<1-3>{
-      \node[output] at (-5.1,0.88) {$\ket{+_{\theta_1}}$};
-      \node[output] at (0.1,0.88) {$\ket{+_{\theta_3}}$};
-    }
-    \only<1-2>{
-      \node[output] at (-2.5,0.88) {$\ket{+_{\theta_2}}$};
-      \node[output] at (5.1,0.88) {$\ket{+_{\theta_K}}$};
-    }
-    \only<3>{
-      \node[output,text=CVQCCoral] at (-2.5,0.88)
-        {$\overline{\ket{+_{\theta_2}}}$};
-      \node[output,text=CVQCCoral] at (5.1,0.88)
-        {$\overline{\ket{+_{\theta_K}}}$};
-    }
-    \only<4>{
-      \node[bank] at (-5.1,0.88)
-        {$\bigl(\ket{+_{\theta_{1,j}}}\bigr)_{j=1}^{9}$};
-      \node[bank,text=CVQCCoral] at (-2.5,0.88)
-        {$\bigl(\overline{\ket{+_{\theta_{2,j}}}}\bigr)_{j=1}^{9}$};
-      \node[bank] at (0.1,0.88)
-        {$\bigl(\ket{+_{\theta_{3,j}}}\bigr)_{j=1}^{9}$};
-      \node[bank,text=CVQCCoral] at (5.1,0.88)
-        {$\bigl(\overline{\ket{+_{\theta_{K,j}}}}\bigr)_{j=1}^{9}$};
-    }
+    \node[output] at (-5.1,0.88) {$\ket{+_{\theta_1}}$};
+    \node[output] at (-2.5,0.88) {$\ket{+_{\theta_2}}$};
+    \node[output] at (0.1,0.88) {$\ket{+_{\theta_3}}$};
+    \node[output] at (5.1,0.88) {$\ket{+_{\theta_K}}$};
 
-
-    \only<1>{
-      \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.1,0.30) {%
-        \begin{minipage}{12.2cm}
-          \raggedright
-          \textbf{Challenge 1: preparation errors}
-          
-          \smallskip
-          Direct approximation gives inverse-polynomial error.\\
-          The prover can also correlate errors across calls.
-          \[
-            \mathcal R_i
-            =\underbrace{\mathcal I_i}_{\text{ideal preparation}}
-             +\underbrace{\mathcal E_i}_{\text{error}},
-            \qquad \mathcal E_i=\mathcal R_i-\mathcal I_i.
-          \]
-          We expand the sequence, including the prover's memory.
-        \end{minipage}%
-      };
-    }
-
-    \only<2>{
-      \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.1,0.30) {%
-        \begin{minipage}{12.2cm}
-          \raggedright
-          \textbf{Our analysis: count error factors in each term}
-          \begin{itemize}
-            \setlength{\itemsep}{0.30em}
-            \item \textbf{Many errors:} hidden RSP tests make their
-              accepted contribution negligible.
-            \item \textbf{Few errors:} fewer than $d$ erroneous calls
-              affect fewer than $d$ MBQC copies.
-          \end{itemize}
-          Fourier expansion and iterative twirling give factorizable
-          attacks. Cut-and-choose and distillation then apply.
-        \end{minipage}%
-      };
-    }
-
-    \only<3>{
-      \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.1,0.30) {%
-        \begin{minipage}{12.2cm}
-          \raggedright
-          \textbf{Challenge 2: complex conjugation}
-          
-          \smallskip
-          The self-test allows either preparation:
-          \[
-            \ket{+_{\theta_i}}
-            \qquad\text{or}\qquad
-            \overline{\ket{+_{\theta_i}}}
-            =\ket{+_{-\theta_i}}.
-          \]
-          Different calls may use different choices.\\
-          We need to control disagreement across calls.
-        \end{minipage}%
-      };
-    }
-
-    \only<4>{
-      \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.1,0.30) {%
-        \begin{minipage}{12.2cm}
-          \raggedright
-          \textbf{Our checks: one input qubit and eight auxiliary qubits}
-          \begin{itemize}
-            \setlength{\itemsep}{0.30em}
-            \item Pair auxiliary qubits along an $8$-regular expander.
-            \item Check Bell-measurement outcomes using the verifier's
-              private state descriptions.
-            \item The tests bound the minority of inconsistent choices.
-          \end{itemize}
-          A common conjugation preserves the final classical probabilities.
-        \end{minipage}%
-      };
-    }
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.1,0.30) {%
+      \begin{minipage}{12.2cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{0.55em}
+          \item<1-> Each RSP output incurs $1/\mathrm{poly}$ error,
+            possibly coherent across copies.
+          \item<1-> \textbf{Goal:} distillable inputs---most outputs are good.
+          \item<2-> \textbf{Analysis needs to:}
+            \begin{itemize}
+              \setlength{\itemsep}{0.20em}
+              \item<2-> Upper-bound high-weight attack components.
+              \item<2-> Recover factorizability.
+            \end{itemize}
+        \end{itemize}
+      \end{minipage}%
+    };
   \end{tikzpicture}
 
   \note<1>{
@@ -127,6 +49,9 @@
     The row shows intended preparation states. It does not assert independent
     calls or a tensor-product output against a malicious prover. The invocations
     run sequentially, interleaved with hidden tests.
+    The first bullet is informal shorthand for the inverse-polynomial
+    approximation estimate, with the conjugation caveat on the next slide.
+    Coherent errors are not independently sampled faulty-qubit events.
     Directly replacing the real preparations by approximate ideal states would
     carry an inverse-polynomial error into the final result. Instead, write each
     real preparation map as its exact ideal counterpart plus a difference map.
@@ -139,7 +64,7 @@
   }
 
   \note<2>{
-    \footnotesize
+    \scriptsize
     Many-error terms: the first encrypted response precedes revelation of
     whether the call is a test or a preparation. Encryption hiding, the
     self-testing estimate, and a sequential concentration argument bound the
@@ -162,41 +87,4 @@
     Source: source summary and composition theorems in the paper.
   }
 
-  \note<3>{
-    \footnotesize
-    The extracted self-test identifies the requested state up to complex
-    conjugation, with one flag shared by all nine qubits of a call.
-    Separate calls can carry different flags, correlated or coherent with
-    the prover's memory. The barred outputs illustrate disagreement, not
-    independently sampled classical error bits or an intrinsically invalid
-    conjugated state. A single global choice is allowed.
-    For phase states, conjugation reverses the phase. The displayed identity
-    holds with the phase convention used on earlier slides.
-    The next build explains how the auxiliary qubits test agreement.
-    Source: HN extraction and the paper's conjugation-consistency analysis.
-  }
-
-  \note<4>{
-    \footnotesize
-    Each actual call supplies nine qubits: one computation input and
-    eight auxiliary qubits sharing its conjugation flag. The displayed
-    nine phase states are schematic; the full preparation set also
-    includes computational-basis states.
-    Assign calls to vertices of a degree-eight expander. Each edge uses
-    one auxiliary qubit at each endpoint. The prover reports a Bell-basis
-    measurement of this pair, and the verifier checks the outcome against
-    its private preparation descriptions. The graph is chosen so that a
-    large disagreeing set has many edges crossing to its complement.
-    Together with the RSP tests, the analysis bounds contributions with
-    too many inconsistent flags, accounting for erroneous preparations.
-    In the remaining expansion, fewer than t flags disagree with a
-    majority choice. A signed Pauli expansion handles that minority with
-    a controlled coefficient cost. It does not physically repair the
-    prepared qubits or force every flag to zero.
-    For a globally conjugated choice, conjugate the entire prover
-    strategy as well. The final classical probabilities are unchanged.
-    We then apply the same MBQC, distillation, and evaluation analysis.
-    Source: consistency graph, conjugation alignment, and composition
-    sections of the submitted paper.
-  }
 \end{frame}

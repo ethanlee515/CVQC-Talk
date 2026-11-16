@@ -1,0 +1,97 @@
+% Challenge 2: the conjugation caveat and the nine-qubit solution.
+\begin{frame}{RSP Challenge 2: Complex Conjugation}
+  \centering
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}[
+      >={Latex[length=2.5mm]},
+      protocol/.style={draw=CVQCInk,fill=CVQCPale,thick,
+        rounded corners=2mm,minimum width=1.7cm,minimum height=0.80cm,
+        inner sep=3pt,font=\large,text=CVQCInk},
+      output/.style={inner sep=0pt,font=\large,text=CVQCInk},
+      bank/.style={output,font=\footnotesize},
+      flow/.style={->,very thick,draw=CVQCTeal}
+    ]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \foreach \x in {-5.1,-2.5,0.1,5.1} {
+      \node[protocol] at (\x,2.10) {$\pi_{\mathrm{RSP}}$};
+      \draw[flow] (\x,1.70) -- (\x,1.22);
+    }
+    \node[font=\large,text=CVQCMuted] at (2.7,2.10) {$\cdots$};
+    \node[font=\large,text=CVQCMuted] at (2.7,0.88) {$\cdots$};
+
+    \only<1>{
+      \node[output] at (-5.1,0.88) {$\ket{+_{\theta_1}}$};
+      \node[output,text=CVQCCoral] at (-2.5,0.88)
+        {$\overline{\ket{+_{\theta_2}}}$};
+      \node[output] at (0.1,0.88) {$\ket{+_{\theta_3}}$};
+      \node[output,text=CVQCCoral] at (5.1,0.88)
+        {$\overline{\ket{+_{\theta_K}}}$};
+    }
+    \only<2>{
+      \node[bank] at (-5.1,0.88)
+        {$\bigl(\ket{+_{\theta_{1,j}}}\bigr)_{j=1}^{9}$};
+      \node[bank,text=CVQCCoral] at (-2.5,0.88)
+        {$\bigl(\overline{\ket{+_{\theta_{2,j}}}}\bigr)_{j=1}^{9}$};
+      \node[bank] at (0.1,0.88)
+        {$\bigl(\ket{+_{\theta_{3,j}}}\bigr)_{j=1}^{9}$};
+      \node[bank,text=CVQCCoral] at (5.1,0.88)
+        {$\bigl(\overline{\ket{+_{\theta_{K,j}}}}\bigr)_{j=1}^{9}$};
+    }
+
+
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-6.1,0.30) {%
+      \begin{minipage}{12.2cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{0.65em}
+          \item<1-> The $1/\mathrm{poly}$ guarantee is only up to
+            complex conjugation.
+          \item<1-> Complex-conjugation attacks are undetectable.
+          \item<2-> \textbf{Solution:} nine qubits per call;
+            check eight neighbors.
+        \end{itemize}
+      \end{minipage}%
+    };
+  \end{tikzpicture}
+
+  \note<1>{
+    \footnotesize
+    The extracted self-test identifies the requested state up to complex
+    conjugation, with one flag shared by all nine qubits of a call.
+    Separate calls can carry different flags, correlated or coherent with
+    the prover's memory. The barred outputs illustrate disagreement, not
+    independently sampled classical error bits or an intrinsically invalid
+    conjugated state. A single global choice is allowed.
+    For phase states, conjugation reverses the phase, with the convention
+    used on earlier slides. The self-test alone cannot resolve this
+    ambiguity; the checks on the next build control disagreement across
+    calls. They do not detect or forbid a common global conjugation.
+    The next build explains how the auxiliary qubits test agreement.
+    Source: HN extraction and the paper's conjugation-consistency analysis.
+  }
+
+  \note<2>{
+    \scriptsize
+    Each actual call supplies nine qubits: one computation input and
+    eight auxiliary qubits sharing its conjugation flag. The displayed
+    nine phase states are schematic; the full preparation set also
+    includes computational-basis states.
+    Assign calls to vertices of a degree-eight expander. Each edge uses
+    one auxiliary qubit at each endpoint. The prover reports a Bell-basis
+    measurement of this pair, and the verifier checks the outcome against
+    its private preparation descriptions. The graph is chosen so that a
+    large disagreeing set has many edges crossing to its complement.
+    Together with the RSP tests, the analysis bounds contributions with
+    too many inconsistent flags, accounting for erroneous preparations.
+    In the remaining expansion, fewer than t flags disagree with a
+    majority choice. A signed Pauli expansion handles that minority with
+    a controlled coefficient cost. It does not physically repair the
+    prepared qubits or force every flag to zero.
+    For a globally conjugated choice, conjugate the entire prover
+    strategy as well. The final classical probabilities are unchanged.
+    We then apply the same MBQC, distillation, and evaluation analysis.
+    Source: consistency graph, conjugation alignment, and composition
+    sections of the submitted paper.
+  }
+\end{frame}
