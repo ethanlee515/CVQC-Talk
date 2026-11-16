@@ -15,7 +15,17 @@
     \path[use as bounding box] (-6.5,-2.85) rectangle (6.5,3.1);
 
     \node[party] (verifier) at (-4.15,0) {Verifier};
-    \node[party] (prover) at (4.15,0) {Prover};
+    \node[party,fill=CVQCPale] (prover) at (4.15,0) {Prover};
+    % An atom marks the quantum prover, as in Hung's QCrypt 2020 talk, p. 10:
+    % https://2020.qcrypt.net/slides/QCrypt2020TalkSlides058Hung.pdf
+    \begin{scope}[shift={($(prover.north east)+(0.15,0.3)$)},
+        draw=CVQCTeal,line width=1.1pt]
+      \foreach \angle in {0,60,120} {
+        \draw[rotate=\angle] (0,0) ellipse[x radius=0.58cm,y radius=0.21cm];
+      }
+      \fill[CVQCGold] (0,0) circle[radius=0.075cm];
+      \fill[CVQCTeal] (0.58,0) circle[radius=0.045cm];
+    \end{scope}
 
     % Pale bubbles and angled tails follow Mending-Slides/diagrams/results.tex.
     % Each annotation belongs only to its own stage of the interaction.

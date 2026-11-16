@@ -10,10 +10,9 @@
         \raggedright
         \begin{itemize}
           \setlength{\itemsep}{0.65em}
-          \item<1-> Use traps to catch a cheating prover.
-          \item<2-> Our construction relies on the trap idea from
-            \href{https://doi.org/10.1103/PhysRevA.96.012303}{[FK17]},
-            but instead places the tests in separate copies.
+          \item<1-> Use traps to catch a cheating prover
+            \href{https://doi.org/10.1103/PhysRevA.96.012303}{[FK17]}.
+          \item<2-> We place the traps in separate MBQC runs.
         \end{itemize}
       \end{minipage}%
     };
@@ -40,8 +39,8 @@
   }
   \note<2>{
     \footnotesize
-    The second bullet is copied from the manuscript's Technical Overview,
-    subsection Trap Copy and Cut-and-Choose. FK17 is Fitzsimons--Kashefi,
+    The trap-copy approach is described in the manuscript's Technical
+    Overview, subsection Trap Copy and Cut-and-Choose. FK17 is Fitzsimons--Kashefi,
     Unconditionally Verifiable Blind Quantum Computation (2017). Our
     construction places the tests in separate MBQC copies, using the same
     public graph and schedule as real copies. The verifier secretly chooses

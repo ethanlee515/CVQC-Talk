@@ -27,7 +27,8 @@
 
     \draw[protocolbox] (-5.4,0.4) rectangle (5.4,2.9);
     \node[modellabel] at (-4.25,2.9) {$\mathsf{QPIP}_1$};
-    \preparesendprotocol{1.65}{Weak\\quantum\\verifier}{$\ket{+_{\theta}}$}
+    \preparesendprotocol{1.65}{Weak\\quantum\\verifier}%
+      {$\ket{+_{\theta}}=T^{\theta}\ket{+}$}
 
     \only<2>{
       \draw[->,line width=1.5pt,draw=CVQCTeal] (0,0.30) -- (0,-0.30)
@@ -43,8 +44,11 @@
     \footnotesize
     In the prepare-and-send paradigm, the weak quantum verifier prepares
     single-qubit states and sends them to the prover. For example,
-    $\ket{+_{\theta}}=(\ket{0}+e^{i\theta}\ket{1})/\sqrt{2}$, with the angle
-    chosen by the verifier. The picture focuses on these quantum messages;
+    $\ket{+_{\theta}}=T^{\theta}\ket{+}
+    =(\ket{0}+e^{i\pi\theta/4}\ket{1})/\sqrt{2}$, where
+    $T=\operatorname{diag}(1,e^{i\pi/4})$ and
+    $\theta\in\mathbb{Z}_8$ is chosen by the verifier, following the paper's
+    angle convention. The picture focuses on these quantum messages;
     the rest of the classical interaction is left implicit.
   }
   \note<2>{
