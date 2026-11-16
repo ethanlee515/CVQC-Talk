@@ -1,0 +1,52 @@
+% Return to the Challenges layout with the MBQC output guarantees.
+\begin{frame}{MBQC Guarantees}
+  \centering
+  \setbeamercolor{itemize item}{fg=CVQCTeal}
+  \begin{tikzpicture}[>={Latex[length=2mm,width=1.4mm]}]
+    \path[use as bounding box] (-6.6,-3.20) rectangle (6.6,3.05);
+
+    \begin{scope}[shift={(-3.2,0)}]
+      \path[fill=CVQCPale,rounded corners=4mm]
+        (-3.4,-3.15) rectangle (3.4,2.15);
+      \node[anchor=north west,inner sep=0pt,
+        font=\small\bfseries,text=CVQCInk] at (-3.10,1.95)
+        {$\mathsf{QPIP}_1$};
+      \protocolflowchart[fill=CVQCGoldPale,rounded corners=1.5mm,
+        inner xsep=5pt]
+    \end{scope}
+
+    \node[anchor=west,inner sep=0pt,text=CVQCInk] at (0.80,0.25) {%
+      \begin{minipage}{5.7cm}
+        \raggedright
+        \begin{itemize}
+          \setlength{\itemsep}{1.0em}
+          \item Most outputs are good.
+          \item The rest have factorizable attacks.
+        \end{itemize}
+      \end{minipage}%
+    };
+    \draw[->,very thick,draw=CVQCTeal,shorten >=2pt]
+      (0.50,0.25) -- (rawmagic.east);
+  \end{tikzpicture}
+
+  \note{
+    \footnotesize
+    Answer the earlier Challenges questions at the highlighted MBQC
+    output. Good means plaintext-good: no plaintext-level modification
+    beneath the prescribed pad. A ciphertext-level operation outside
+    the pad can still affect the whole batch and the prover's memory.
+    Up to negligible distance of the complete state, including its
+    acceptance flag, the accepting branch decomposes into components
+    with a bounded bad support. Most copies are ideal beneath their
+    pads, and the remaining plaintext modifications factor across
+    the bad copies, with one global outside operation. This is a joint,
+    componentwise statement, not a claim that the physical batch is
+    an independent product or that the verifier knows which copies
+    are good. It gives the error structure and joint support bound
+    needed for distillation. The conversion to Pauli pads preserves
+    this invariant. It does not yet promise correctly authenticated
+    physical codewords: the outside attack remains, which is the
+    challenge on the following slide. Source: MBQC output theorem
+    in Cut-and-Choose; MBQC output satisfies the distillation invariant.
+  }
+\end{frame}

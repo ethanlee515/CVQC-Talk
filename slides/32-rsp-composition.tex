@@ -45,12 +45,13 @@
         {$\bigl(\overline{\ket{+_{\theta_{K,j}}}}\bigr)_{j=1}^{9}$};
     }
 
-    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-5.8,-0.45) {%
+    \node[anchor=north west,inner sep=0pt,text=CVQCInk] at (-5.8,0.05) {%
       \begin{minipage}{11.6cm}
         \raggedright
         \begin{itemize}
           \setlength{\itemsep}{0.55em}
-          \item<1-> Most outputs correct $\Rightarrow$ distillable.
+          \item<1-> Most RSP outputs correct $\Rightarrow$
+            most MBQC outputs correct \mbox{$\Rightarrow$ distillable.}
           \item<2-> Caveat: Complex-conjugation attack.
           \item<3-> Nine qubits per call; check eight neighbors.
         \end{itemize}
@@ -76,7 +77,9 @@
     Testing bounds the contribution of many-error terms in the adaptive
     preparation sequence. Few defective preparation factors then affect
     few MBQC copies, allowing the later preparation and distillation
-    analysis to apply. This is a joint structural argument, not merely
+    analysis to apply. Here most means few defects relative to the
+    number of MBQC copies, not just a majority of the RSP qubits.
+    This is a joint structural argument, not merely
     a bound on individual-qubit marginals or a negligible-error
     guarantee for each HN call. Source: Classical Remote State Preparation,
     defect expansion, adaptive tail bound, and source composition.

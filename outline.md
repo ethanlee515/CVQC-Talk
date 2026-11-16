@@ -127,7 +127,7 @@ The evaluation square uses |phi> -> |psi> on top, with |psi> = C|phi>, and |tild
 
 ## Our protocol overview
 
-Current implementation: the full top-to-bottom flowchart appears immediately. One transition adds a QPIP1 box around the single-qubit inputs, MBQC, authenticated distillation, evaluation, and output, leaving remote state preparation outside.
+Current implementation: the full top-to-bottom flowchart appears immediately. One transition adds a QPIP1 box around the single-qubit inputs, Verified MBQC, authenticated distillation, evaluation, and output, leaving remote state preparation outside.
 
 Similar to the flowchart in the reference slides, top to bottom
 3 steps
@@ -170,9 +170,9 @@ Recall the background counterexample: per-copy error p = 1/poly can come from a 
 
 ## MBQC Construction
 
-Current implementation: "Measurement-Based Quantum Computation" keeps the verifier-to-prover preparation figure visible and reveals four bullets one at a time. "Plaintext MBQC" shows the paper's gate-teleportation circuit with outputs labelled m and X^m HT^c |psi>; explain its action and correction in words, with details in speaker notes.
+Current implementation: "Measurement-Based Quantum Computation" shows the paper's four-row, thirteen-column brickwork graph above four bullets, revealed one at a time. The graph preserves the paper's topology, shaded bricks, and final output column, adapted to the talk palette. The last bullet says Effective operations: HT^c and CZ. "Plaintext MBQC" shows the paper's gate-teleportation circuit with outputs labelled m and X^m HT^c |psi>; explain its action and correction in words, with details in speaker notes.
 
-Start with picture before, verifier sends `ket{+ theta}` to prover
+Start with the brickwork graph from the paper. Explain vertices as qubits, edges as CZ operations, and left-to-right adaptive measurements, with the final column retained as output.
 
 (somehow connect here?)
 
@@ -235,6 +235,15 @@ We call this *factorizable attack*
 * Comparison with isometry: This is statistical, but ct-level attack looks like an isometry.
 
 Current implementation: the final MBQC output colors B_Q and X^a red. The following "Factorizable Attacks" slide uses a centered Beamer definition box for A_ct OTP_k A_pt |psi>, with both attacks independent of the pad key. Two builds add the blindness point and an informal statistical comparison with an "up to isometry" guarantee, explicitly labelled by red A_ct. Speaker notes specialize OTP_k to X^x T^t and |psi> to |+>: with A_pt = I, the correct |+_theta> is followed by a key-independent outside operation, analogous to GV19's accepted-state representation. Individual components can decrease norm; the isometry interpretation concerns a dilation of the complete operation.
+
+## MBQC Guarantees
+
+Insert after Factorizable Attacks and before Distillation Challenges. Copy the Challenges layout: the full overview on the left, the MBQC output highlighted, and two bullets on the right:
+
+* Most outputs are good.
+* The rest have factorizable attacks.
+
+Speaker notes: good means plaintext-good. The accepting ideal components have a joint bound on the bad support; their plaintext-level attacks factor across the bad copies, while the outside ciphertext-level attack can act globally. The complete state is negligibly close to this form. The output need not be a physical product of correct encodings, and the verifier does not identify the good copies. This is the input promise for the next distillation analysis.
 
 ## Distillation Challenges
 
@@ -332,7 +341,7 @@ Repeat the complete overview with the QPIP1 enclosure already visible, using the
 * Presentation choice: keep QFHE inside the RSP implementation; no separate QFHE introduction for now. Retain the classical-client and subexponential-security assumptions in the notes and paper.
 * Current implementation: restore the HN four-message diagram, adapted from the paper's `figures/compiled-test-messages.tex`. Its inclusion was removed by commit `017f09b` on November 2; the source was retained. First show the encrypted question/answer and private preparation description, then reveal the two clear test messages and check. Preparation ends after the first pair; testing uses all four messages.
 * Current implementation: a new slide lines up four `pi_RSP` boxes and an ellipsis, with downward arrows to phase-state targets. Four builds:
-  1. Single-qubit target outputs. Bullet: Most outputs correct => distillable.
+  1. Single-qubit target outputs. Bullet: Most RSP outputs correct => most MBQC outputs correct => distillable.
   2. Some outputs become red complex conjugates. Bullet: Caveat: Complex-conjugation attack.
   3. Each output becomes a nine-qubit tuple. Bullet: Nine qubits per call; check eight neighbors.
   4. Reveal: Full analysis, including factorizability: see the paper. Keep the nine-qubit outputs and earlier bullets visible.

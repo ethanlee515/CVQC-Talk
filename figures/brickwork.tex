@@ -1,0 +1,41 @@
+% Topology copied from CVQC-paper/figures/brickwork_figure.tex:
+% four logical rows and thirteen columns. The caller sets coordinate units.
+\begin{scope}[
+    qubit/.style={circle,draw=CVQCInk,line width=0.5pt,fill=white,
+      inner sep=0pt,minimum size=3.2mm},
+    output qubit/.style={qubit,draw=CVQCTeal,fill=CVQCTeal},
+    edge/.style={draw=CVQCInk,line width=0.6pt},
+    brick/.style={rounded corners=3pt,fill=CVQCPale,
+      draw=CVQCMuted!35,line width=0.4pt},
+    graph label/.style={font=\footnotesize,text=CVQCMuted}
+  ]
+  % Each shaded brick spans two rows and five columns.
+  \foreach \xa/\xb/\r in {0.5/5.45/1,0.5/5.45/3,4.55/9.45/2,
+      8.55/13.5/1,8.55/13.5/3} {
+    \draw[brick] (\xa,{-\r+0.38}) rectangle (\xb,{-\r-1.38});
+  }
+
+  \foreach \r in {1,...,4} {
+    \draw[edge] (1,-\r) -- (13,-\r);
+  }
+  \foreach \x in {3,5,11,13} {
+    \foreach \r in {1,3} {
+      \draw[edge] (\x,-\r) -- (\x,{-\r-1});
+    }
+  }
+  \foreach \x in {7,9} {
+    \draw[edge] (\x,-2) -- (\x,-3);
+  }
+
+  \foreach \r in {1,...,4} {
+    \foreach \x in {1,...,12} {
+      \node[qubit] at (\x,-\r) {};
+    }
+    \node[output qubit] at (13,-\r) {};
+  }
+
+  \draw[draw=CVQCMuted,line width=0.5pt]
+    (0.5,-0.52) -- (0.5,-0.42) -- (5.45,-0.42) -- (5.45,-0.52);
+  \node[graph label,anchor=south] at (2.975,-0.42) {one brick};
+  \node[graph label,anchor=south] at (13,-0.5) {output};
+\end{scope}
