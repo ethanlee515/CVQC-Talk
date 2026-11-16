@@ -27,13 +27,16 @@
       \node[magic] at (-0.45,0.90)
         {$\mathsf{TEnc}(\ket{\mathrm{CCZ}})$};
       \node[font=\large,text=CVQCMuted] at (1.15,0.90) {$\cdots$};
-      \node[magic] at (2.65,0.90) {%
-        \alt<1>{%
-          $\mathsf{TEnc}(\textcolor{CVQCCoral}{\ket{\mathrm{CCZ}}})$%
-        }{%
-          $\textcolor{CVQCCoral}{\mathsf{TEnc}(\ket{\mathrm{CCZ}})}$%
-        }%
-      };
+      \node[magic] (oldmagic) at (2.65,0.90)
+        {$\mathsf{TEnc}(\textcolor{CVQCCoral}{\ket{\mathrm{CCZ}}})$};
+      \only<2->{
+        % Replace valid authentication of a noisy state with a bad codeword.
+        \draw[draw=CVQCCoral,line width=0.9pt,line cap=round]
+          (oldmagic.south west) -- (oldmagic.north east)
+          (oldmagic.north west) -- (oldmagic.south east);
+        \node[magic,text=CVQCCoral,above=0.25cm of oldmagic]
+          {$\mathsf{TEnc}(\ket{\mathrm{CCZ}})$};
+      }
 
       \draw[flow] (-2.65,0.60) -- (-2.20,0.15);
       \draw[flow] (-0.45,0.60) -- (-0.45,0.15);
@@ -73,9 +76,10 @@
     \footnotesize
     Our MBQC preparation gives the factorizable output characterization,
     including a ciphertext-level attack outside the pad. It does not simply
-    hand us an ideal QAS encoding of a noisy logical state. The red now
-    covers the whole TEnc expression to indicate that the authentication
-    codeword itself may have been altered. This does not claim that every
+    hand us an ideal QAS encoding of a noisy logical state. Cross out the
+    old label and place a fully red TEnc expression above it to indicate
+    that the authentication codeword itself may have been altered.
+    This does not claim that every
     ciphertext is malformed or that no correct copies remain. The
     preparation and testing analysis still establishes the required
     structure and bounds on bad copies. The question mark records the

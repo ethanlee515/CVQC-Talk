@@ -1,6 +1,6 @@
 % Adapted from CVQC-paper/figures/compiled-test-messages.tex, retained when
 % its inclusion was removed in paper commit 017f09b (2026-11-02).
-\begin{frame}{Remote State Preparation}
+\begin{frame}{Holler--Natarajan RSP \href{https://arxiv.org/abs/2609.38060}{[HN26]}}
   \centering
   \begin{tikzpicture}[
       >={Latex[length=2.3mm]},
@@ -17,37 +17,28 @@
 
     \node[party] at (-4.3,2.65) {Verifier};
     \node[party] at (4.3,2.65) {Prover};
-    \node[font=\small,text=CVQCMuted] at (0,2.65)
-      {\href{https://arxiv.org/abs/2609.38060}{Holler--Natarajan [HN26]}};
     \draw[lifeline] (-4.3,2.30) -- (-4.3,-0.65);
     \draw[lifeline] (4.3,2.30) -- (4.3,-0.65);
 
     \draw[message] (-4.3,1.65) -- node[message label]
-      {Encrypted question $\widetilde a$} (4.3,1.65);
+      {Encrypted question} (4.3,1.65);
     \draw[message] (4.3,0.75) -- node[message label]
-      {Encrypted answer $\alpha$} (-4.3,0.75);
+      {Encrypted answer} (-4.3,0.75);
 
     \node[preparation] at (-4.3,-0.15)
-      {Record $(W,v)$ privately\\[-0.1em]
-       $v=\mathsf{Dec}(\alpha)$};
+      {Compute state description};
     \node[preparation] at (4.3,-0.15)
       {Keep quantum state};
-    \node[font=\small\bfseries,text=CVQCTeal] at (0,-0.15)
-      {Preparation ends here};
 
     \only<2>{
       \draw[lifeline] (-4.3,-0.65) -- (-4.3,-2.65);
       \draw[lifeline] (4.3,-0.65) -- (4.3,-2.65);
-      \draw[draw=CVQCMuted!45,densely dotted,thick]
-        (-6.15,-0.85) -- (6.15,-0.85);
-      \node[fill=white,inner xsep=8pt,font=\small\bfseries,text=CVQCMuted]
-        at (0,-0.85) {Test only};
       \draw[message] (-4.3,-1.70) -- node[message label]
-        {Test question $b$} (4.3,-1.70);
+        {Test question} (4.3,-1.70);
       \draw[message] (4.3,-2.50) -- node[message label]
-        {Answer $\gamma$} (-4.3,-2.50);
+        {Answer} (-4.3,-2.50);
       \node[font=\small,text=CVQCInk,inner sep=0pt] at (-4.3,-2.95)
-        {$\mathsf{Check}(a,b,v,\gamma)$};
+        {Check};
     }
   \end{tikzpicture}
 
@@ -78,8 +69,10 @@
     a preparation instead embeds W in the first question. The prover
     does not receive the clear second question before committing to
     its encrypted first answer. Preparation ends after the first two
-    messages; only testing uses all four. This distinction is why the
-    lower half is marked Test only. Later slides will explain how many
+    messages; only testing uses all four. The test measurements consume
+    the prepared state, so it is not retained as an MBQC input on a test
+    call. Explain this distinction verbally as the second overlay appears.
+    Later slides will explain how many
     preparations and tests yield inputs good enough for our protocol;
     do not claim a negligible-error or composable preparation guarantee
     directly from one invocation. Source: the paper's RSP subprotocol

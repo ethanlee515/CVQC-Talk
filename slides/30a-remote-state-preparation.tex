@@ -1,0 +1,47 @@
+% Phase-state interface, inspired by the resource diagrams of Gheorghiu--Vidick:
+% https://arxiv.org/abs/1904.06320 (Figure 1). Omit the Z-basis branch here.
+\begin{frame}{Remote State Preparation}
+  \centering
+  \begin{tikzpicture}[
+      >={Latex[length=3mm]},
+      party/.style={font=\large\bfseries,text=CVQCInk,inner sep=0pt},
+      protocol/.style={draw=CVQCInk,fill=CVQCPale,very thick,
+        rounded corners=4mm,minimum width=5cm,minimum height=3.4cm,
+        font=\huge,text=CVQCInk},
+      flow/.style={->,very thick,draw=CVQCTeal},
+      label/.style={above=7pt,font=\large,text=CVQCInk}
+    ]
+    \path[use as bounding box] (-6.6,-3.15) rectangle (6.6,3.05);
+
+    \node[party] at (-4.6,2.45) {Verifier};
+    \node[party] at (4.6,2.45) {Prover};
+    \node[protocol] at (0,0.15) {$\pi_{\mathrm{RSP}}$};
+
+    \draw[flow] (-5.6,1.15) -- node[label] {$t$} (-2.5,1.15);
+    \draw[flow] (-2.5,-0.85) -- node[label] {$b$} (-5.6,-0.85);
+    \draw[flow] (2.5,-0.85) --
+      node[label] {$T^t Z^b\ket{+}$} (5.6,-0.85);
+  \end{tikzpicture}
+
+  \note{
+    \footnotesize
+    Introduce the target interface before its implementation. The verifier
+    chooses a phase label t; it receives a random bit b, while the prover
+    holds the qubit $T^tZ^b\ket{+}$. The verifier knows the full classical
+    description through t,b. The prover receives the qubit without these
+    private labels. Here $T=\operatorname{diag}(1,e^{i\pi/4})$ and
+    $t\in\mathbb{Z}_8$, following the paper's phase convention.
+    This picture shows only the equatorial states. The complete interface
+    also prepares computational-basis dummy states $\ket{0},\ket{1}$;
+    omit that branch from this introductory figure.
+    In the HN notation on the next slide, the requested basis W describes
+    the pair $T^t\ket{+},T^tZ\ket{+}$ and the outcome label v plays the role
+    of b. The actual construction prepares nine qubits per call, which
+    we will discuss later. This is an intended interface, not a claim that
+    one untested invocation has a composable or negligible-error guarantee
+    against a malicious prover. The tests and joint analysis supply the
+    guarantees needed by our protocol. The box layout is inspired by
+    Gheorghiu--Vidick, Computationally-Secure and Composable Remote State
+    Preparation (2019), Figure 1; the displayed interface is simplified.
+  }
+\end{frame}
