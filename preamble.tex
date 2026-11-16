@@ -58,6 +58,20 @@
 \setbeamertemplate{navigation symbols}{}
 \metroset{block=fill}
 
+% An atom marks a quantum party, as in Hung's QCrypt 2020 talk, p. 10:
+% https://2020.qcrypt.net/slides/QCrypt2020TalkSlides058Hung.pdf
+% Draw inside the party's scope so the marker follows its diagram scale.
+\newcommand{\quantumpartymark}[1]{%
+  \begin{scope}[shift={($(#1.north east)+(0.15,0.3)$)},
+      draw=CVQCTeal,line width=1.1pt]
+    \foreach \angle in {0,60,120} {
+      \draw[rotate=\angle] (0,0) ellipse[x radius=0.58cm,y radius=0.21cm];
+    }
+    \fill[CVQCGold] (0,0) circle[radius=0.075cm];
+    \fill[CVQCTeal] (0.58,0) circle[radius=0.045cm];
+  \end{scope}%
+}
+
 % Reusable callouts for later slides.
 \newcommand{\takeaway}[1]{%
   \begin{beamercolorbox}[wd=\textwidth,sep=0.85ex,rounded=true,center]{takeaway}

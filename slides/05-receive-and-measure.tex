@@ -1,11 +1,13 @@
 % Same geometry as prepare-and-send, with the quantum message reversed.
-% Arguments: vertical position, verifier label, arrow label.
-\newcommand{\receivemeasureprotocol}[3]{%
-  \begin{scope}[shift={(0,#1)},scale=0.68,transform shape]
-    \node[party] at (-4.15,0) {#2};
-    \node[party] at (4.15,0) {Prover};
+% Optional verifier decoration; arguments: vertical position, verifier/arrow labels.
+\newcommand{\receivemeasureprotocol}[4][]{%
+  \begin{scope}[shift={(0,#2)},scale=0.68,transform shape]
+    \node[party] (verifier) at (-4.15,0) {#3};
+    #1%
+    \node[party,fill=CVQCPale] (prover) at (4.15,0) {Prover};
+    \quantumpartymark{prover}
     \draw[communication] (2.35,0) --
-      node[above=7pt,align=center,font=\large,text=CVQCInk] {#3}
+      node[above=7pt,align=center,font=\large,text=CVQCInk] {#4}
       (-2.35,0);
   \end{scope}%
 }
@@ -27,7 +29,7 @@
 
     \draw[protocolbox] (-5.4,0.4) rectangle (5.4,2.9);
     \node[modellabel] at (-4.25,2.9) {$\mathsf{QPIP}_1$};
-    \receivemeasureprotocol{1.65}{Weak\\quantum\\verifier}%
+    \receivemeasureprotocol[\quantumpartymark{verifier}]{1.65}{Weak\\quantum\\verifier}%
       {$\ket{\psi_{\mathrm{hist}}}$}
 
     \only<2>{

@@ -30,14 +30,14 @@
         \raggedright
         \begin{itemize}
           \setlength{\itemsep}{0.55em}
-          \item<1-> Each RSP output incurs $1/\mathrm{poly}$ error,
-            possibly coherent across copies.
+          \item<1-> Each RSP output has marginal $1/\mathrm{poly}$ error.
+          \item<1-> Possible coherent attack across copies.
           \item<1-> \textbf{Goal:} distillable inputs---most outputs are good.
           \item<2-> \textbf{Analysis needs to:}
             \begin{itemize}
               \setlength{\itemsep}{0.20em}
-              \item<2-> Upper-bound high-weight attack components.
-              \item<2-> Recover factorizability.
+              \item<2-> Rule out attacks that affect too many RSP outputs.
+              \item<2-> Restore factorizability.
             \end{itemize}
         \end{itemize}
       \end{minipage}%
@@ -51,6 +51,8 @@
     run sequentially, interleaved with hidden tests.
     The first bullet is informal shorthand for the inverse-polynomial
     approximation estimate, with the conjugation caveat on the next slide.
+    Marginal refers to one output together with its private description
+    within the joint execution; it does not assert independent calls.
     Coherent errors are not independently sampled faulty-qubit events.
     Directly replacing the real preparations by approximate ideal states would
     carry an inverse-polynomial error into the final result. Instead, write each
